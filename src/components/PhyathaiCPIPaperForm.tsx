@@ -60,9 +60,9 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
         <div className="border border-slate-900 flex flex-col">
           {/* Header Table / Frame */}
           <div className="border-b border-slate-900 flex items-stretch min-h-[55px]">
-            {/* Logo Cell Left */}
-            <div className="p-2 border-r border-slate-900 bg-white flex items-center justify-center w-[190px] shrink-0">
-              <PhyathaiLogo size="sm" />
+            {/* Logo Cell Left Page 1 */}
+            <div className="p-1 border-r border-slate-900 bg-white flex items-center justify-center w-[130px] shrink-0 overflow-hidden min-h-[64px]">
+              <PhyathaiLogo className="h-[56px] w-auto max-w-full object-contain" />
             </div>
 
             {/* Title Cell Right */}
@@ -369,9 +369,9 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
         <div className="border border-slate-900 flex flex-col">
           {/* Header Table Page 2 */}
           <div className="border-b border-slate-900 flex items-stretch min-h-[55px]">
-            {/* Logo Cell Left */}
-            <div className="p-2 border-r border-slate-900 bg-white flex items-center justify-center w-[190px] shrink-0">
-              <PhyathaiLogo size="sm" />
+            {/* Logo Cell Left Page 2 */}
+            <div className="p-1 border-r border-slate-900 bg-white flex items-center justify-center w-[130px] shrink-0 overflow-hidden min-h-[64px]">
+              <PhyathaiLogo className="h-[56px] w-auto max-w-full object-contain" />
             </div>
 
             {/* Title Cell Right */}

@@ -30,6 +30,8 @@ export interface BenefitsReceived {
   revenueIncreaseAmount: string;
   other: boolean;
   otherDetail: string;
+  otherBenefit?: boolean;
+  otherBenefitDetail?: string;
 }
 
 export interface Obstacles {

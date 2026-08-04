@@ -10,6 +10,7 @@ import {
   Edit3,
 } from 'lucide-react';
 import { CPIFormData } from '../types';
+import { PhyathaiLogo } from './PhyathaiLogo';
 
 interface NavbarProps {
   form: CPIFormData;
@@ -41,8 +42,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Brand Logo & Doc Info */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2.5 cursor-pointer" onClick={onOpenHistoryDrawer}>
-              <div className="w-9 h-9 rounded-md bg-blue-600 text-white flex items-center justify-center font-extrabold text-lg shadow-sm border border-blue-500">
-                P
+              <div className="bg-white px-2 py-0.5 rounded shadow-sm border border-slate-700 flex items-center">
+                <PhyathaiLogo size="sm" />
               </div>
               <div className="hidden sm:block">
                 <h1 className="font-bold text-sm tracking-tight flex items-center gap-2">
