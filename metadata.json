@@ -1,0 +1,6 @@
+{
+  "name": "ระบบบันทึก CPI - โรงพยาบาลพญาไท",
+  "description": "ระบบบันทึกกิจกรรมพัฒนาผลสัมฤทธิ์ของงาน (CPI) ตามแบบฟอร์มโรงพยาบาลพญาไท พร้อม Auto-fill AI, เซ็นออนไลน์, Export PDF/Excel และส่งอีเมล",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
