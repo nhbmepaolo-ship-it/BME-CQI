@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
 import { GoogleGenAI, Type } from '@google/genai';
 import { createServer as createViteServer } from 'vite';
 
@@ -122,22 +123,64 @@ app.post('/api/gemini/autofill', async (req, res) => {
 // Endpoint for sending CPI Form by Email
 app.post('/api/send-email', async (req, res) => {
   try {
-    const { toEmail, docNo, projectTitle, department, proposerName, pdfDataUrl } = req.body;
+    const { toEmail, subject, message, docNo, projectTitle, department, proposerName } = req.body;
 
     if (!toEmail) {
       return res.status(400).json({ error: 'กรุณาระบุอีเมลผู้รับ (To Email)' });
     }
 
-    // Simulate sending email dispatch or returning summary email notification
-    console.log(`[Email Dispatch] Sending CPI form ${docNo} (${projectTitle}) to ${toEmail}`);
+    const smtpHost = process.env.SMTP_HOST;
+    const smtpPort = Number(process.env.SMTP_PORT || 587);
+    const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER;
+    const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
 
-    // Return success response with dispatch details
+    if (smtpHost && smtpUser && smtpPass) {
+      const transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465,
+        auth: {
+          user: smtpUser,
+          pass: smtpPass,
+        },
+      });
+
+      const mailOptions = {
+        from: `Phyathai CPI System <${smtpUser}>`,
+        to: toEmail,
+        subject: subject || `[นำส่งเอกสาร CPI] ${docNo || ''} - ${projectTitle || ''}`,
+        text: message || `นำส่งแบบฟอร์ม CPI ${docNo}`,
+        html: `
+          <div style="font-family: sans-serif; line-height: 1.6; color: #1e293b; padding: 16px;">
+            <h2 style="color: #0f172a;">โรงพยาบาลพญาไท - แบบบันทึกกิจกรรมพัฒนาผลสัมฤทธิ์ของงาน (CPI)</h2>
+            <p><strong>เลขที่เอกสาร:</strong> ${docNo || '-'}</p>
+            <p><strong>ชื่อโครงการ:</strong> ${projectTitle || '-'}</p>
+            <p><strong>ฝ่าย/แผนก:</strong> ${department || '-'}</p>
+            <p><strong>ผู้เสนอโครงการ:</strong> ${proposerName || '-'}</p>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
+            <p style="white-space: pre-wrap;">${(message || '').replace(/\n/g, '<br/>')}</p>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
+            <p style="font-size: 12px; color: #64748b;">เอกสารนี้ส่งจากระบบ Phyathai CPI Online Form (PTP-FM-QMS-001)</p>
+          </div>
+        `,
+      };
+
+      await transporter.sendMail(mailOptions);
+      console.log(`[SMTP Email Sent] Successfully sent email to ${toEmail}`);
+
+      return res.json({
+        success: true,
+        smtpUsed: true,
+        message: `ส่งอีเมลเอกสาร CPI เลขที่ ${docNo} ไปยัง ${toEmail} เรียบร้อยแล้ว`,
+      });
+    }
+
+    console.log(`[Email Request] CPI Form ${docNo} requested for ${toEmail}`);
+
     return res.json({
       success: true,
-      message: `ส่งอีเมลเอกสาร CPI เลขที่ ${docNo} ไปยัง ${toEmail} เรียบร้อยแล้ว`,
-      timestamp: new Date().toISOString(),
-      recipient: toEmail,
-      docNo,
+      smtpUsed: false,
+      message: `บันทึกคำขอนำส่งเอกสารไปยัง ${toEmail} เรียบร้อยแล้ว (สำหรับส่งทางอีเมลจริงไปยังกล่องจดหมายผู้รับ กรุณากดปุ่ม "เปิดใน Gmail / Outlook" ด้านล่าง เพื่อนำส่งจากโปรแกรมอีเมลของคุณได้ทันที)`,
     });
   } catch (err: any) {
     console.error('Send Email Error:', err);

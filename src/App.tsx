@@ -352,9 +352,9 @@ export default function App() {
 
         {/* View Switcher Content */}
         {viewMode === 'editor' ? (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 print:block print:w-full">
             {/* Form Editor */}
-            <div className="lg:col-span-8 space-y-6">
+            <div className="lg:col-span-8 space-y-6 print:hidden">
               <CPIFormEditor
                 form={activeForm}
                 onChange={handleFormChange}
@@ -364,9 +364,9 @@ export default function App() {
             </div>
 
             {/* Side Preview Card */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs sticky top-20 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+            <div className="lg:col-span-4 space-y-6 print:w-full print:max-w-none print:m-0 print:p-0">
+              <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs sticky top-20 space-y-4 print:p-0 print:border-none print:shadow-none print:static print:bg-transparent">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-200 print:hidden">
                   <h3 className="font-bold text-slate-900 text-sm">พรีวิวแบบฟอร์ม CPI A4</h3>
                   <button
                     type="button"
@@ -377,14 +377,14 @@ export default function App() {
                   </button>
                 </div>
 
-                <div className="bg-slate-100 p-2 rounded-xl border border-slate-200 overflow-hidden scale-[0.9] origin-top h-[500px] overflow-y-auto">
+                <div className="bg-slate-100 p-2 rounded-xl border border-slate-200 overflow-hidden scale-[0.9] origin-top h-[500px] overflow-y-auto print:bg-white print:p-0 print:border-none print:scale-100 print:h-auto print:overflow-visible print:max-h-none print:w-full">
                   <PhyathaiCPIPaperForm
                     form={activeForm}
                     onOpenSignatureModal={handleOpenSignatureModal}
                   />
                 </div>
 
-                <div className="pt-2 flex flex-col gap-2">
+                <div className="pt-2 flex flex-col gap-2 print:hidden">
                   <button
                     type="button"
                     onClick={() => setIsEmailOpen(true)}
