@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CPIFormData } from './types';
 import { createEmptyCPIForm, PRESET_CPI_TEMPLATES } from './data/presetTemplates';
+import { SUPERVISOR_APPROVER_OPTIONS } from './data/personnel';
 import { Navbar } from './components/Navbar';
 import { CPIFormEditor } from './components/CPIFormEditor';
 import { PhyathaiCPIPaperForm } from './components/PhyathaiCPIPaperForm';
@@ -134,9 +135,17 @@ export default function App() {
     if (role === 'proposer') {
       updated.proposerSignature = signatureDataUrl;
       updated.proposerName = name;
+      updated.projectOwnerNamePage2 = name;
+      if (signatureDataUrl && !updated.projectOwnerSignaturePage2) {
+        updated.projectOwnerSignaturePage2 = signatureDataUrl;
+      }
     } else if (role === 'deptHead') {
       updated.deptHeadSignature = signatureDataUrl;
       updated.deptHeadName = name;
+      const supervisor = SUPERVISOR_APPROVER_OPTIONS.find((s) => s.name === name);
+      if (supervisor && supervisor.position) {
+        updated.deptHeadPosition = supervisor.position;
+      }
     } else if (role === 'approver') {
       updated.approverSignature = signatureDataUrl;
       updated.approverName = name;
@@ -146,6 +155,10 @@ export default function App() {
     } else if (role === 'proposerPage2') {
       updated.projectOwnerSignaturePage2 = signatureDataUrl;
       updated.projectOwnerNamePage2 = name;
+      updated.proposerName = name;
+      if (signatureDataUrl && !updated.proposerSignature) {
+        updated.proposerSignature = signatureDataUrl;
+      }
     }
 
     handleFormChange(updated);

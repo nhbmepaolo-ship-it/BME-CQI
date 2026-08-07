@@ -308,12 +308,12 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
             </div>
 
             {/* Department Head Approval Box Right */}
-            <div className="p-2 flex flex-col justify-between h-32">
+            <div className="p-2 flex flex-col justify-between h-32 text-center">
               <div>
-                <span className="font-bold block">
+                <span className="font-bold block text-center">
                   ความเห็นของหัวหน้างาน ( กรณีไม่ได้เป็นผู้เสนอโครงการ )
                 </span>
-                <div className="flex items-center gap-4 mt-1 pl-1">
+                <div className="flex items-center justify-center gap-4 mt-1 pl-1">
                   <label className="flex items-center cursor-pointer">
                     {renderCheckbox(form.deptHeadOpinion === 'approve')}
                     <span>เห็นสมควรเปิดโครงการ</span>
@@ -339,12 +339,15 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
                 )}
               </div>
 
-              <div className="text-center">
-                <p className="font-medium">
+              <div className="text-center flex flex-col items-center">
+                <p className="font-medium text-center">
                   ( <span className="inline-block min-w-[140px] text-center">{form.deptHeadName || '..........................................................'}</span> )
                 </p>
-                <p className="text-[10px] mt-0.5 font-bold text-slate-800">
+                <p className="text-[10px] mt-0.5 font-bold text-slate-800 text-center">
                   {form.deptHeadPosition || 'หัวหน้าหน่วย / ผู้จัดการแผนก / ผู้จัดการส่วน'}
+                </p>
+                <p className="text-[11px] mt-0.5 text-center">
+                  วันที่ <span className="inline-block min-w-[90px] text-center">{form.deptHeadDate || form.proposerDate || '......./......./.......'}</span>
                 </p>
               </div>
             </div>
@@ -557,39 +560,34 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
             </div>
 
             {/* Proposer Signature Line Centered */}
-            <div className="p-2 flex justify-center">
-              <div className="flex items-start text-xs">
-                {/* Left prefix */}
-                <span className="whitespace-nowrap font-bold text-[11px] mt-1 mr-1">ลงชื่อ</span>
-
-                {/* Center column containing signature line, name, date */}
-                <div className="flex flex-col items-center w-[220px]">
-                  {/* Signature line / image */}
+            <div className="p-2 flex justify-center text-center">
+              <div className="flex flex-col items-center text-xs">
+                {/* Signature line / image */}
+                <div className="flex items-end justify-center gap-1.5 min-w-[320px]">
+                  <span className="whitespace-nowrap font-bold text-[11px] pb-1">ลงชื่อ</span>
                   <div
                     onClick={() => onOpenSignatureModal?.('proposerPage2')}
-                    className="w-full border-b border-dotted border-slate-700 min-h-[24px] flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
+                    className="flex-1 border-b border-dotted border-slate-700 min-h-[26px] flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
                     title="คลิกเพื่อเซ็นชื่อผู้เสนอโครงการ"
                   >
-                    {form.projectOwnerSignaturePage2 ? (
-                      <img src={form.projectOwnerSignaturePage2} alt="ลายเซ็น" className="h-8 object-contain" />
+                    {form.projectOwnerSignaturePage2 || form.proposerSignature ? (
+                      <img src={form.projectOwnerSignaturePage2 || form.proposerSignature} alt="ลายเซ็น" className="h-8 object-contain" />
                     ) : null}
                   </div>
-
-                  {/* Name line */}
-                  <div className="text-xs font-medium mt-1 text-center whitespace-nowrap">
-                    ( <span className="inline-block min-w-[140px] text-center">{form.projectOwnerNamePage2 || form.proposerName || '..........................................................'}</span> )
-                  </div>
-
-                  {/* Date line */}
-                  <div className="text-[11px] text-slate-800 mt-1 text-center whitespace-nowrap">
-                    วันที่ <span className="inline-block min-w-[90px] text-center">{form.projectOwnerDatePage2 || form.proposerDate || '......./......./.......'}</span>
-                  </div>
+                  <span className="whitespace-nowrap font-bold text-[11px] pb-1 text-slate-900">
+                    ผู้เสนอโครงการ / หัวหน้าโครงการ
+                  </span>
                 </div>
 
-                {/* Right suffix */}
-                <span className="whitespace-nowrap font-bold text-[11px] mt-1 ml-1 text-slate-900">
-                  ผู้เสนอโครงการ / หัวหน้าโครงการ
-                </span>
+                {/* Name line centered */}
+                <div className="text-xs font-medium mt-1 text-center whitespace-nowrap">
+                  ( <span className="inline-block min-w-[140px] text-center">{form.projectOwnerNamePage2 || form.proposerName || '..........................................................'}</span> )
+                </div>
+
+                {/* Date line centered */}
+                <div className="text-[11px] text-slate-800 mt-1 text-center whitespace-nowrap">
+                  วันที่ <span className="inline-block min-w-[90px] text-center">{form.projectOwnerDatePage2 || form.proposerDate || '......./......./.......'}</span>
+                </div>
               </div>
             </div>
 
@@ -641,39 +639,34 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
               </div>
 
               {/* Approver Signature Line Centered */}
-              <div className="p-2 flex justify-center">
-                <div className="flex items-start text-xs">
-                  {/* Left prefix */}
-                  <span className="whitespace-nowrap font-bold text-[11px] mt-1 mr-1">ลงชื่อ</span>
-
-                  {/* Center column containing signature line, name, date */}
-                  <div className="flex flex-col items-center w-[220px]">
-                    {/* Signature line / image */}
+              <div className="p-2 flex justify-center text-center">
+                <div className="flex flex-col items-center text-xs">
+                  {/* Signature line / image */}
+                  <div className="flex items-end justify-center gap-1.5 min-w-[320px]">
+                    <span className="whitespace-nowrap font-bold text-[11px] pb-1">ลงชื่อ</span>
                     <div
                       onClick={() => onOpenSignatureModal?.('approver')}
-                      className="w-full border-b border-dotted border-slate-700 min-h-[24px] flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
+                      className="flex-1 border-b border-dotted border-slate-700 min-h-[26px] flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
                       title="คลิกเพื่อเซ็นชื่อผู้อนุมัติปิดโครงการ"
                     >
                       {form.approverSignature ? (
                         <img src={form.approverSignature} alt="ลายเซ็น" className="h-8 object-contain" />
                       ) : null}
                     </div>
-
-                    {/* Name line */}
-                    <div className="text-xs font-medium mt-1 text-center whitespace-nowrap">
-                      ( <span className="inline-block min-w-[140px] text-center">{form.approverName || '..........................................................'}</span> )
-                    </div>
-
-                    {/* Date line */}
-                    <div className="text-[11px] text-slate-800 mt-1 text-center whitespace-nowrap">
-                      วันที่ <span className="inline-block min-w-[90px] text-center">{form.approverDate || '......./......./.......'}</span>
-                    </div>
+                    <span className="whitespace-nowrap font-bold text-[11px] pb-1 text-slate-900">
+                      ผู้อนุมัติปิดโครงการ
+                    </span>
                   </div>
 
-                  {/* Right suffix */}
-                  <span className="whitespace-nowrap font-bold text-[11px] mt-1 ml-1 text-slate-900">
-                    ผู้อนุมัติปิดโครงการ
-                  </span>
+                  {/* Name line centered */}
+                  <div className="text-xs font-medium mt-1 text-center whitespace-nowrap">
+                    ( <span className="inline-block min-w-[140px] text-center">{form.approverName || '..........................................................'}</span> )
+                  </div>
+
+                  {/* Date line centered */}
+                  <div className="text-[11px] text-slate-800 mt-1 text-center whitespace-nowrap">
+                    วันที่ <span className="inline-block min-w-[90px] text-center">{form.approverDate || '......./......./.......'}</span>
+                  </div>
                 </div>
               </div>
             </div>

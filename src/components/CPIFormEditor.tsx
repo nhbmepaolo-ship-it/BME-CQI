@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Sparkles, PenTool, CheckSquare, FileText, UserCheck, HelpCircle } from 'lucide-react';
+import { Sparkles, PenTool, CheckSquare, FileText, UserCheck, HelpCircle, User } from 'lucide-react';
 import { CPIFormData } from '../types';
+import { PROPOSER_OPTIONS, SUPERVISOR_APPROVER_OPTIONS } from '../data/personnel';
 
 interface CPIFormEditorProps {
   form: CPIFormData;
@@ -179,6 +180,72 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
                 placeholder="ระบุชื่อโครงการพัฒนาคุณภาพ..."
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-900 focus:ring-2 focus:ring-teal-500 focus:outline-none"
               />
+            </div>
+
+            {/* Proposer selection field */}
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <User className="w-4 h-4 text-teal-600" />
+                  ผู้เสนอโครงการ ( Project Proposer )
+                </label>
+                <span className="text-[11px] text-slate-500">เลือกจากรายชื่อหรือพิมพ์ระบุเอง (ซิ้งค์อัตโนมัติทั้งหน้า 1 และหน้า 2)</span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2">
+                <select
+                  value={PROPOSER_OPTIONS.includes(form.proposerName) ? form.proposerName : ''}
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      updateField('proposerName', e.target.value);
+                      updateField('projectOwnerNamePage2', e.target.value);
+                    }
+                  }}
+                  className="px-3 py-2 border border-slate-300 rounded-lg text-xs bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none min-w-[200px]"
+                >
+                  <option value="">-- เลือกรายชื่อผู้เสนอโครงการ --</option>
+                  {PROPOSER_OPTIONS.map((name) => (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  type="text"
+                  value={form.proposerName}
+                  onChange={(e) => {
+                    updateField('proposerName', e.target.value);
+                    updateField('projectOwnerNamePage2', e.target.value);
+                  }}
+                  placeholder="หรือพิมพ์ชื่อ-นามสกุล..."
+                  className="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                />
+              </div>
+
+              {/* Quick Select Chips */}
+              <div className="pt-1">
+                <span className="text-[11px] text-slate-500 block mb-1">เลือกด่วน :</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {PROPOSER_OPTIONS.map((name) => (
+                    <button
+                      type="button"
+                      key={name}
+                      onClick={() => {
+                        updateField('proposerName', name);
+                        updateField('projectOwnerNamePage2', name);
+                      }}
+                      className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+                        form.proposerName === name
+                          ? 'bg-teal-700 text-white shadow-xs scale-105'
+                          : 'bg-white border border-slate-200 text-slate-700 hover:bg-teal-50 hover:border-teal-300'
+                      }`}
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
@@ -716,12 +783,54 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
                   </button>
                 </div>
 
-                <div>
-                  <label className="block text-xs text-slate-600 mb-1">ชื่อ-นามสกุล :</label>
+                <div className="space-y-1.5">
+                  <label className="block text-xs text-slate-600">เลือก/ระบุชื่อผู้เสนอโครงการ :</label>
+                  <select
+                    value={PROPOSER_OPTIONS.includes(form.proposerName) ? form.proposerName : ''}
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        updateField('proposerName', e.target.value);
+                        updateField('projectOwnerNamePage2', e.target.value);
+                      }
+                    }}
+                    className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                  >
+                    <option value="">-- เลือกรายชื่อผู้เสนอโครงการ --</option>
+                    {PROPOSER_OPTIONS.map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="flex flex-wrap gap-1 py-1">
+                    {PROPOSER_OPTIONS.map((name) => (
+                      <button
+                        type="button"
+                        key={name}
+                        onClick={() => {
+                          updateField('proposerName', name);
+                          updateField('projectOwnerNamePage2', name);
+                        }}
+                        className={`px-2 py-0.5 rounded-full text-[11px] font-medium transition-all ${
+                          form.proposerName === name
+                            ? 'bg-teal-700 text-white'
+                            : 'bg-white border border-slate-200 text-slate-700 hover:bg-teal-50'
+                        }`}
+                      >
+                        {name}
+                      </button>
+                    ))}
+                  </div>
+
                   <input
                     type="text"
                     value={form.proposerName}
-                    onChange={(e) => updateField('proposerName', e.target.value)}
+                    onChange={(e) => {
+                      updateField('proposerName', e.target.value);
+                      updateField('projectOwnerNamePage2', e.target.value);
+                    }}
+                    placeholder="พิมพ์ชื่อ-นามสกุล..."
                     className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
                   />
                 </div>
@@ -772,24 +881,72 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
                   </label>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-xs text-slate-600 mb-1">ชื่อ-นามสกุล :</label>
-                    <input
-                      type="text"
-                      value={form.deptHeadName}
-                      onChange={(e) => updateField('deptHeadName', e.target.value)}
-                      className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
-                    />
+                <div className="space-y-1.5">
+                  <label className="block text-xs text-slate-600">เลือกรายชื่อหัวหน้างาน :</label>
+                  <select
+                    value={SUPERVISOR_APPROVER_OPTIONS.some(s => s.name === form.deptHeadName) ? form.deptHeadName : ''}
+                    onChange={(e) => {
+                      const found = SUPERVISOR_APPROVER_OPTIONS.find(s => s.name === e.target.value);
+                      if (found) {
+                        updateField('deptHeadName', found.name);
+                        if (found.position) {
+                          updateField('deptHeadPosition', found.position);
+                        }
+                      }
+                    }}
+                    className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                  >
+                    <option value="">-- เลือกรายชื่อหัวหน้างาน --</option>
+                    {SUPERVISOR_APPROVER_OPTIONS.map((item) => (
+                      <option key={item.name} value={item.name}>
+                        {item.name} {item.position ? `(${item.position})` : ''}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="flex flex-wrap gap-1 py-1">
+                    {SUPERVISOR_APPROVER_OPTIONS.map((item) => (
+                      <button
+                        type="button"
+                        key={item.name}
+                        onClick={() => {
+                          updateField('deptHeadName', item.name);
+                          if (item.position) {
+                            updateField('deptHeadPosition', item.position);
+                          }
+                        }}
+                        className={`px-2 py-0.5 rounded-full text-[11px] font-medium transition-all ${
+                          form.deptHeadName === item.name
+                            ? 'bg-teal-700 text-white'
+                            : 'bg-white border border-slate-200 text-slate-700 hover:bg-teal-50'
+                        }`}
+                      >
+                        {item.name}
+                      </button>
+                    ))}
                   </div>
-                  <div>
-                    <label className="block text-xs text-slate-600 mb-1">ตำแหน่ง :</label>
-                    <input
-                      type="text"
-                      value={form.deptHeadPosition}
-                      onChange={(e) => updateField('deptHeadPosition', e.target.value)}
-                      className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
-                    />
+
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <div>
+                      <label className="block text-[11px] text-slate-600 mb-0.5">ชื่อ-นามสกุล :</label>
+                      <input
+                        type="text"
+                        value={form.deptHeadName}
+                        onChange={(e) => updateField('deptHeadName', e.target.value)}
+                        placeholder="ชื่อ-นามสกุล..."
+                        className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-600 mb-0.5">ตำแหน่ง :</label>
+                      <input
+                        type="text"
+                        value={form.deptHeadPosition}
+                        onChange={(e) => updateField('deptHeadPosition', e.target.value)}
+                        placeholder="ตำแหน่ง..."
+                        className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -820,35 +977,73 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                  <div>
-                    <label className="block text-slate-600 mb-1">ชื่อผู้อนุมัติปิดโครงการ :</label>
-                    <input
-                      type="text"
-                      value={form.approverName}
-                      onChange={(e) => updateField('approverName', e.target.value)}
-                      className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
-                    />
+                <div className="space-y-2 text-xs">
+                  <label className="block text-slate-600">เลือกรายชื่อผู้อนุมัติปิดโครงการ :</label>
+                  <select
+                    value={SUPERVISOR_APPROVER_OPTIONS.some(s => s.name === form.approverName) ? form.approverName : ''}
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        updateField('approverName', e.target.value);
+                      }
+                    }}
+                    className="w-full md:w-1/2 px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                  >
+                    <option value="">-- เลือกรายชื่อผู้อนุมัติปิดโครงการ --</option>
+                    {SUPERVISOR_APPROVER_OPTIONS.map((item) => (
+                      <option key={item.name} value={item.name}>
+                        {item.name} {item.position ? `(${item.position})` : ''}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="flex flex-wrap gap-1">
+                    {SUPERVISOR_APPROVER_OPTIONS.map((item) => (
+                      <button
+                        type="button"
+                        key={item.name}
+                        onClick={() => updateField('approverName', item.name)}
+                        className={`px-2 py-0.5 rounded-full text-[11px] font-medium transition-all ${
+                          form.approverName === item.name
+                            ? 'bg-teal-700 text-white'
+                            : 'bg-white border border-slate-200 text-slate-700 hover:bg-teal-50'
+                        }`}
+                      >
+                        {item.name}
+                      </button>
+                    ))}
                   </div>
 
-                  <div className="flex items-center gap-3 pt-4">
-                    <label className="flex items-center gap-1.5 cursor-pointer">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                    <div>
+                      <label className="block text-slate-600 mb-1">ชื่อผู้อนุมัติปิดโครงการ :</label>
                       <input
-                        type="checkbox"
-                        checked={form.closureOpinion.closeApproved}
-                        onChange={(e) => updateNestedObj('closureOpinion', 'closeApproved', e.target.checked)}
+                        type="text"
+                        value={form.approverName}
+                        onChange={(e) => updateField('approverName', e.target.value)}
+                        placeholder="พิมพ์ชื่อ-นามสกุล..."
+                        className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
                       />
-                      <span className="font-semibold text-emerald-800">อนุมัติปิดโครงการได้</span>
-                    </label>
+                    </div>
 
-                    <label className="flex items-center gap-1.5 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={form.closureOpinion.reliableData}
-                        onChange={(e) => updateNestedObj('closureOpinion', 'reliableData', e.target.checked)}
-                      />
-                      <span>ข้อมูลเพียงพอและเชื่อถือได้</span>
-                    </label>
+                    <div className="flex items-center gap-3 pt-2 md:pt-4">
+                      <label className="flex items-center gap-1.5 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={form.closureOpinion.closeApproved}
+                          onChange={(e) => updateNestedObj('closureOpinion', 'closeApproved', e.target.checked)}
+                        />
+                        <span className="font-semibold text-emerald-800">อนุมัติปิดโครงการได้</span>
+                      </label>
+
+                      <label className="flex items-center gap-1.5 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={form.closureOpinion.reliableData}
+                          onChange={(e) => updateNestedObj('closureOpinion', 'reliableData', e.target.checked)}
+                        />
+                        <span>ข้อมูลเพียงพอและเชื่อถือได้</span>
+                      </label>
+                    </div>
                   </div>
                 </div>
 

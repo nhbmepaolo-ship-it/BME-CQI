@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { X, RotateCcw, Check, Upload, PenTool } from 'lucide-react';
+import { PROPOSER_OPTIONS, SUPERVISOR_APPROVER_OPTIONS } from '../data/personnel';
 
 interface SignatureModalProps {
   isOpen: boolean;
@@ -209,13 +210,62 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
               ชื่อ-นามสกุล ผู้เซ็นเอกสาร
             </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="กรอกชื่อ-นามสกุลจริง..."
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 text-sm"
-            />
+            {(() => {
+              const isProposerRole = role === 'proposer' || role === 'proposerPage2';
+              const nameList = isProposerRole
+                ? PROPOSER_OPTIONS
+                : SUPERVISOR_APPROVER_OPTIONS.map((s) => s.name);
+
+              return (
+                <div className="space-y-1.5">
+                  <select
+                    value={nameList.includes(name) ? name : ''}
+                    onChange={(e) => {
+                      if (e.target.value) setName(e.target.value);
+                    }}
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 text-xs bg-white"
+                  >
+                    <option value="">-- เลือกจากรายชื่อที่กำหนด --</option>
+                    {isProposerRole
+                      ? PROPOSER_OPTIONS.map((n) => (
+                          <option key={n} value={n}>
+                            {n}
+                          </option>
+                        ))
+                      : SUPERVISOR_APPROVER_OPTIONS.map((item) => (
+                          <option key={item.name} value={item.name}>
+                            {item.name} {item.position ? `(${item.position})` : ''}
+                          </option>
+                        ))}
+                  </select>
+
+                  <div className="flex flex-wrap gap-1">
+                    {nameList.map((n) => (
+                      <button
+                        type="button"
+                        key={n}
+                        onClick={() => setName(n)}
+                        className={`px-2 py-0.5 rounded-full text-[11px] font-medium transition-all ${
+                          name === n
+                            ? 'bg-teal-700 text-white shadow-xs'
+                            : 'bg-slate-100 border border-slate-200 text-slate-700 hover:bg-teal-50'
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="หรือกรอกชื่อ-นามสกุล..."
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 text-sm"
+                  />
+                </div>
+              );
+            })()}
           </div>
 
           <div>
