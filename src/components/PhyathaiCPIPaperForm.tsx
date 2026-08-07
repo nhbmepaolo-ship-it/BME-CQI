@@ -55,7 +55,7 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
   return (
     <div className="printable-paper flex flex-col items-center gap-8 print:gap-0 print:p-0 font-['Sarabun','TH_Sarabun_New',sans-serif] text-slate-950 leading-relaxed select-none">
       {/* ================= PAGE 1 ================= */}
-      <div className="a4-page bg-white w-[210mm] min-h-[297mm] p-[8mm] shadow-2xl rounded-none border border-slate-900 print:shadow-none print:border-none print:m-0 print:p-[6mm] print:w-[210mm] print:h-[295mm] relative flex flex-col justify-between box-border">
+      <div className="a4-page bg-white w-[210mm] min-h-[297mm] p-[8mm] shadow-2xl rounded-none border border-slate-900 print:shadow-none print:border-none print:m-0 print:p-[6mm] relative flex flex-col justify-between box-border">
         {/* Document Header Page 1 */}
         <div className="flex items-center gap-3 mb-2.5">
           {/* Logo Left Page 1 */}
@@ -364,7 +364,7 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
       </div>
 
       {/* ================= PAGE 2 ================= */}
-      <div className="a4-page bg-white w-[210mm] min-h-[297mm] p-[8mm] shadow-2xl rounded-none border border-slate-900 print:shadow-none print:border-none print:m-0 print:p-[6mm] print:w-[210mm] print:h-[295mm] relative flex flex-col justify-between box-border">
+      <div className="a4-page bg-white w-[210mm] min-h-[297mm] p-[8mm] shadow-2xl rounded-none border border-slate-900 print:shadow-none print:border-none print:m-0 print:p-[6mm] relative flex flex-col justify-between box-border">
         {/* Document Header Page 2 */}
         <div className="flex items-center gap-3 mb-2.5">
           {/* Logo Left Page 2 */}
