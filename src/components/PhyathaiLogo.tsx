@@ -10,10 +10,10 @@ export const PHYATHAI_LOGO_URL =
 
 export const PhyathaiLogo: React.FC<PhyathaiLogoProps> = ({
   className = '',
-  size = 'md',
+  size,
 }) => {
-  const heightClass =
-    size === 'sm'
+  const heightClass = size
+    ? size === 'sm'
       ? 'h-9 w-auto'
       : size === 'lg'
       ? 'h-16 w-auto'
@@ -21,14 +21,17 @@ export const PhyathaiLogo: React.FC<PhyathaiLogoProps> = ({
       ? 'h-24 w-auto'
       : size === 'full'
       ? 'w-full h-full'
-      : 'h-12 w-auto';
+      : 'h-12 w-auto'
+    : '';
 
   return (
     <img
       src={PHYATHAI_LOGO_URL}
-      alt="โรงพยาบาลพญาไท พหลโยธิน - Phyathai Phaholyothin Hospital"
+      alt="โรงพยาบาลพญาไท พหลโยธิน"
       referrerPolicy="no-referrer"
-      className={`${heightClass} object-contain select-none ${className}`}
+      className={`object-contain select-none ${heightClass} ${className}`}
     />
   );
 };
+
+

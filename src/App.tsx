@@ -54,8 +54,15 @@ export default function App() {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          setSavedForms(parsed);
-          setActiveForm(parsed[0]);
+          const sanitized = parsed.map((item: CPIFormData) => ({
+            ...item,
+            deptHeadName: 'ชาลี เมฆสุวรรณ',
+            deptHeadPosition: 'ผู้จัดการแผนกวิศวกรรมการแพทย์',
+            approverName: 'ชาลี เมฆสุวรรณ',
+          }));
+          setSavedForms(sanitized);
+          setActiveForm(sanitized[0]);
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(sanitized));
           return;
         }
       }
@@ -65,12 +72,23 @@ export default function App() {
 
     // Default to preset 0 if no local storage
     const defaultForm = { ...createEmptyCPIForm(), ...PRESET_CPI_TEMPLATES[0].data };
+    defaultForm.deptHeadName = 'ชาลี เมฆสุวรรณ';
+    defaultForm.deptHeadPosition = 'ผู้จัดการแผนกวิศวกรรมการแพทย์';
+    defaultForm.approverName = 'ชาลี เมฆสุวรรณ';
     setActiveForm(defaultForm as CPIFormData);
     setSavedForms([defaultForm as CPIFormData]);
   }, []);
 
   // Save current activeForm to savedForms and localStorage
   const handleFormChange = (updatedForm: CPIFormData) => {
+    // Ensure proposer name on page 2 always strictly matches proposer name on page 1
+    if (updatedForm.proposerName) {
+      updatedForm.projectOwnerNamePage2 = updatedForm.proposerName;
+    }
+    if (updatedForm.proposerSignature) {
+      updatedForm.projectOwnerSignaturePage2 = updatedForm.proposerSignature;
+    }
+
     setActiveForm(updatedForm);
 
     setSavedForms((prev) => {

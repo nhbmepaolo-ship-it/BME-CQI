@@ -56,26 +56,26 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
     <div className="flex flex-col items-center gap-8 print:gap-0 print:p-0 font-['Sarabun','TH_Sarabun_New',sans-serif] text-slate-950 leading-relaxed select-none">
       {/* ================= PAGE 1 ================= */}
       <div className="a4-page bg-white w-[210mm] min-h-[297mm] p-[10mm] shadow-2xl rounded-none border border-slate-900 print:shadow-none print:border-none print:m-0 print:p-[6mm] print:w-full print:min-h-0 relative flex flex-col justify-between box-border">
-        {/* Page 1 Outer Form Frame */}
-        <div className="border border-slate-900 flex flex-col">
-          {/* Header Table / Frame */}
-          <div className="border-b border-slate-900 flex items-stretch min-h-[55px]">
-            {/* Logo Cell Left Page 1 */}
-            <div className="p-1 border-r border-slate-900 bg-white flex items-center justify-center w-[130px] shrink-0 overflow-hidden min-h-[64px]">
-              <PhyathaiLogo className="h-[56px] w-auto max-w-full object-contain" />
-            </div>
-
-            {/* Title Cell Right */}
-            <div className="flex-1 p-2 flex flex-col items-center justify-center text-center">
-              <h1 className="text-base font-bold text-slate-950 leading-tight">
-                แบบบันทึกกิจกรรมพัฒนาผลสัมฤทธิ์ของงาน
-              </h1>
-              <h2 className="text-xs font-bold text-slate-900 mt-0.5">
-                (Continuous Performance Improvement Project : CPI)
-              </h2>
-            </div>
+        {/* Document Header Page 1 */}
+        <div className="flex items-center gap-3 mb-2.5">
+          {/* Logo Left Page 1 */}
+          <div className="w-[200px] shrink-0 flex items-center justify-start p-1 h-[76px]">
+            <PhyathaiLogo className="h-[76px] w-auto max-w-full object-contain" />
           </div>
 
+          {/* Title Box Right */}
+          <div className="flex-1 border border-slate-900 p-2.5 flex flex-col items-center justify-center text-center h-[76px]">
+            <h1 className="text-base font-bold text-slate-950 leading-tight">
+              แบบบันทึกกิจกรรมพัฒนาผลสัมฤทธิ์ของงาน
+            </h1>
+            <h2 className="text-xs font-bold text-slate-900 mt-0.5">
+              (Continuous Performance Improvement Project : CPI)
+            </h2>
+          </div>
+        </div>
+
+        {/* Page 1 Outer Form Frame */}
+        <div className="border border-slate-900 flex flex-col">
           {/* SECTION 1 */}
           <div>
             {/* Section 1 Header Banner */}
@@ -278,9 +278,9 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
           </div>
 
           {/* SIGNATURES PAGE 1 GRID */}
-          <div className="border-t border-slate-900 grid grid-cols-2 divide-x divide-slate-900 text-xs bg-white">
+          <div className="grid grid-cols-2 text-xs bg-white">
             {/* Proposer Box Left */}
-            <div className="p-2 flex flex-col justify-between h-32 text-center">
+            <div className="p-2 flex flex-col justify-between h-32 text-center items-center">
               <span className="font-bold">ผู้เสนอโครงการ</span>
 
               <div
@@ -297,18 +297,18 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
                 )}
               </div>
 
-              <div>
-                <p className="font-medium">
-                  ( <span className="inline-block min-w-[140px] text-center">{form.proposerName || '..........................................................'}</span> )
+              <div className="text-center w-full">
+                <p className="font-medium text-center">
+                  ( <span className="inline-block text-center">{form.proposerName || '..........................................................'}</span> )
                 </p>
-                <p className="text-[11px] mt-0.5">
+                <p className="text-[11px] mt-0.5 text-center">
                   วันที่ <span className="inline-block min-w-[90px] text-center">{form.proposerDate || '......./......./.......'}</span>
                 </p>
               </div>
             </div>
 
             {/* Department Head Approval Box Right */}
-            <div className="p-2 flex flex-col justify-between h-32 text-center">
+            <div className="p-2 flex flex-col justify-between h-32 text-center items-center">
               <div>
                 <span className="font-bold block text-center">
                   ความเห็นของหัวหน้างาน ( กรณีไม่ได้เป็นผู้เสนอโครงการ )
@@ -339,15 +339,12 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
                 )}
               </div>
 
-              <div className="text-center flex flex-col items-center">
+              <div className="text-center flex flex-col items-center w-full">
                 <p className="font-medium text-center">
-                  ( <span className="inline-block min-w-[140px] text-center">{form.deptHeadName || '..........................................................'}</span> )
+                  ( <span className="inline-block text-center">{form.deptHeadName || 'ชาลี เมฆสุวรรณ'}</span> )
                 </p>
                 <p className="text-[10px] mt-0.5 font-bold text-slate-800 text-center">
-                  {form.deptHeadPosition || 'หัวหน้าหน่วย / ผู้จัดการแผนก / ผู้จัดการส่วน'}
-                </p>
-                <p className="text-[11px] mt-0.5 text-center">
-                  วันที่ <span className="inline-block min-w-[90px] text-center">{form.deptHeadDate || form.proposerDate || '......./......./.......'}</span>
+                  {form.deptHeadPosition || 'ผู้จัดการแผนกวิศวกรรมการแพทย์'}
                 </p>
               </div>
             </div>
@@ -368,26 +365,26 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
 
       {/* ================= PAGE 2 ================= */}
       <div className="a4-page bg-white w-[210mm] min-h-[297mm] p-[10mm] shadow-2xl rounded-none border border-slate-900 print:shadow-none print:border-none print:m-0 print:p-[6mm] print:w-full print:min-h-0 relative flex flex-col justify-between box-border">
-        {/* Page 2 Outer Form Frame */}
-        <div className="border border-slate-900 flex flex-col">
-          {/* Header Table Page 2 */}
-          <div className="border-b border-slate-900 flex items-stretch min-h-[55px]">
-            {/* Logo Cell Left Page 2 */}
-            <div className="p-1 border-r border-slate-900 bg-white flex items-center justify-center w-[130px] shrink-0 overflow-hidden min-h-[64px]">
-              <PhyathaiLogo className="h-[56px] w-auto max-w-full object-contain" />
-            </div>
-
-            {/* Title Cell Right */}
-            <div className="flex-1 p-2 flex flex-col items-center justify-center text-center">
-              <h1 className="text-base font-bold text-slate-950 leading-tight">
-                แบบบันทึกกิจกรรมพัฒนาผลสัมฤทธิ์ของงาน
-              </h1>
-              <h2 className="text-xs font-bold text-slate-900 mt-0.5">
-                (Continuous Performance Improvement Project : CPI)
-              </h2>
-            </div>
+        {/* Document Header Page 2 */}
+        <div className="flex items-center gap-3 mb-2.5">
+          {/* Logo Left Page 2 */}
+          <div className="w-[200px] shrink-0 flex items-center justify-start p-1 h-[76px]">
+            <PhyathaiLogo className="h-[76px] w-auto max-w-full object-contain" />
           </div>
 
+          {/* Title Box Right */}
+          <div className="flex-1 border border-slate-900 p-2.5 flex flex-col items-center justify-center text-center h-[76px]">
+            <h1 className="text-base font-bold text-slate-950 leading-tight">
+              แบบบันทึกกิจกรรมพัฒนาผลสัมฤทธิ์ของงาน
+            </h1>
+            <h2 className="text-xs font-bold text-slate-900 mt-0.5">
+              (Continuous Performance Improvement Project : CPI)
+            </h2>
+          </div>
+        </div>
+
+        {/* Page 2 Outer Form Frame */}
+        <div className="border border-slate-900 flex flex-col">
           {/* SECTION 3 */}
           <div>
             {/* Section 3 Header Banner */}
@@ -561,33 +558,35 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
 
             {/* Proposer Signature Line Centered */}
             <div className="p-2 flex justify-center text-center">
-              <div className="flex flex-col items-center text-xs">
-                {/* Signature line / image */}
-                <div className="flex items-end justify-center gap-1.5 min-w-[320px]">
-                  <span className="whitespace-nowrap font-bold text-[11px] pb-1">ลงชื่อ</span>
+              <div className="flex items-start justify-center gap-2 text-xs">
+                <span className="whitespace-nowrap font-bold text-[11px] pt-1.5">ลงชื่อ</span>
+
+                <div className="flex flex-col items-center min-w-[220px]">
+                  {/* Signature Dotted Line / Image */}
                   <div
                     onClick={() => onOpenSignatureModal?.('proposerPage2')}
-                    className="flex-1 border-b border-dotted border-slate-700 min-h-[26px] flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
+                    className="w-full border-b border-dotted border-slate-700 min-h-[26px] flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
                     title="คลิกเพื่อเซ็นชื่อผู้เสนอโครงการ"
                   >
-                    {form.projectOwnerSignaturePage2 || form.proposerSignature ? (
-                      <img src={form.projectOwnerSignaturePage2 || form.proposerSignature} alt="ลายเซ็น" className="h-8 object-contain" />
+                    {form.proposerSignature || form.projectOwnerSignaturePage2 ? (
+                      <img src={form.proposerSignature || form.projectOwnerSignaturePage2} alt="ลายเซ็น" className="h-8 object-contain" />
                     ) : null}
                   </div>
-                  <span className="whitespace-nowrap font-bold text-[11px] pb-1 text-slate-900">
-                    ผู้เสนอโครงการ / หัวหน้าโครงการ
-                  </span>
+
+                  {/* Name line centered directly under signature line */}
+                  <div className="text-xs font-medium mt-1 text-center whitespace-nowrap">
+                    ( <span className="inline-block text-center">{form.proposerName || form.projectOwnerNamePage2 || '..........................................................'}</span> )
+                  </div>
+
+                  {/* Date line centered directly under signature line */}
+                  <div className="text-[11px] text-slate-800 mt-1 text-center whitespace-nowrap">
+                    วันที่ <span className="inline-block min-w-[90px] text-center">{form.projectOwnerDatePage2 || form.proposerDate || '......./......./.......'}</span>
+                  </div>
                 </div>
 
-                {/* Name line centered */}
-                <div className="text-xs font-medium mt-1 text-center whitespace-nowrap">
-                  ( <span className="inline-block min-w-[140px] text-center">{form.projectOwnerNamePage2 || form.proposerName || '..........................................................'}</span> )
-                </div>
-
-                {/* Date line centered */}
-                <div className="text-[11px] text-slate-800 mt-1 text-center whitespace-nowrap">
-                  วันที่ <span className="inline-block min-w-[90px] text-center">{form.projectOwnerDatePage2 || form.proposerDate || '......./......./.......'}</span>
-                </div>
+                <span className="whitespace-nowrap font-bold text-[11px] pt-1.5 text-slate-900">
+                  ผู้เสนอโครงการ / หัวหน้าโครงการ
+                </span>
               </div>
             </div>
 
@@ -640,33 +639,35 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
 
               {/* Approver Signature Line Centered */}
               <div className="p-2 flex justify-center text-center">
-                <div className="flex flex-col items-center text-xs">
-                  {/* Signature line / image */}
-                  <div className="flex items-end justify-center gap-1.5 min-w-[320px]">
-                    <span className="whitespace-nowrap font-bold text-[11px] pb-1">ลงชื่อ</span>
+                <div className="flex items-start justify-center gap-2 text-xs">
+                  <span className="whitespace-nowrap font-bold text-[11px] pt-1.5">ลงชื่อ</span>
+
+                  <div className="flex flex-col items-center min-w-[220px]">
+                    {/* Signature line / image */}
                     <div
                       onClick={() => onOpenSignatureModal?.('approver')}
-                      className="flex-1 border-b border-dotted border-slate-700 min-h-[26px] flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
+                      className="w-full border-b border-dotted border-slate-700 min-h-[26px] flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
                       title="คลิกเพื่อเซ็นชื่อผู้อนุมัติปิดโครงการ"
                     >
                       {form.approverSignature ? (
                         <img src={form.approverSignature} alt="ลายเซ็น" className="h-8 object-contain" />
                       ) : null}
                     </div>
-                    <span className="whitespace-nowrap font-bold text-[11px] pb-1 text-slate-900">
-                      ผู้อนุมัติปิดโครงการ
-                    </span>
+
+                    {/* Name line centered directly under signature line */}
+                    <div className="text-xs font-medium mt-1 text-center whitespace-nowrap">
+                      ( <span className="inline-block text-center">{form.approverName || 'ชาลี เมฆสุวรรณ'}</span> )
+                    </div>
+
+                    {/* Date line centered directly under signature line */}
+                    <div className="text-[11px] text-slate-800 mt-1 text-center whitespace-nowrap">
+                      วันที่ <span className="inline-block min-w-[90px] text-center">{form.approverDate || '......./......./.......'}</span>
+                    </div>
                   </div>
 
-                  {/* Name line centered */}
-                  <div className="text-xs font-medium mt-1 text-center whitespace-nowrap">
-                    ( <span className="inline-block min-w-[140px] text-center">{form.approverName || '..........................................................'}</span> )
-                  </div>
-
-                  {/* Date line centered */}
-                  <div className="text-[11px] text-slate-800 mt-1 text-center whitespace-nowrap">
-                    วันที่ <span className="inline-block min-w-[90px] text-center">{form.approverDate || '......./......./.......'}</span>
-                  </div>
+                  <span className="whitespace-nowrap font-bold text-[11px] pt-1.5 text-slate-900">
+                    ผู้อนุมัติปิดโครงการ
+                  </span>
                 </div>
               </div>
             </div>
