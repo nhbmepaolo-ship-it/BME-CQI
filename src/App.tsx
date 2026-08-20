@@ -8,6 +8,7 @@ import { PhyathaiCPIPaperForm } from './components/PhyathaiCPIPaperForm';
 import { SignatureModal } from './components/SignatureModal';
 import { AutoFillModal } from './components/AutoFillModal';
 import { EmailModal } from './components/EmailModal';
+import { PrintModal } from './components/PrintModal';
 import { HistoryDrawer } from './components/HistoryDrawer';
 import { exportToPDF, printDocument } from './utils/exporter';
 import { Sparkles, FileDown, Mail, PenTool, CheckCircle2, Printer } from 'lucide-react';
@@ -22,18 +23,15 @@ export default function App() {
   // Modals state
   const [isAutoFillOpen, setIsAutoFillOpen] = useState(false);
   const [isEmailOpen, setIsEmailOpen] = useState(false);
+  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
-  const handleExportPDF = async () => {
-    await exportToPDF(activeForm, 'all', (msg) => {
-      if (msg) showToast(msg);
-    });
+  const handleExportPDF = () => {
+    setIsPrintModalOpen(true);
   };
 
   const handlePrint = () => {
-    printDocument(activeForm, (msg) => {
-      if (msg) showToast(msg);
-    });
+    setIsPrintModalOpen(true);
   };
   
   const [signatureModalConfig, setSignatureModalConfig] = useState<{
@@ -458,6 +456,15 @@ export default function App() {
         isOpen={isEmailOpen}
         onClose={() => setIsEmailOpen(false)}
         form={activeForm}
+      />
+
+      <PrintModal
+        isOpen={isPrintModalOpen}
+        onClose={() => setIsPrintModalOpen(false)}
+        form={activeForm}
+        onStatusChange={(msg) => {
+          if (msg) showToast(msg);
+        }}
       />
 
       <HistoryDrawer

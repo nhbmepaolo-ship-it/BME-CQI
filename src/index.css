@@ -28,6 +28,10 @@ body {
 }
 
 @media print {
+  .print-hidden-page {
+    display: none !important;
+  }
+
   /* Hide all non-printable UI elements */
   header,
   nav,

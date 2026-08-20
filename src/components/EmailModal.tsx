@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Mail, X, Send, Loader2, CheckCircle2, ExternalLink, Inbox, Users, Link2, FileCheck2, Copy } from 'lucide-react';
 import { CPIFormData } from '../types';
 import { APPROVER_PRESETS, ApproverPreset } from '../data/personnel';
-import { generatePDFBase64 } from '../utils/exporter';
+import { PageExportOption, generatePDFBase64 } from '../utils/exporter';
 
 interface EmailModalProps {
   isOpen: boolean;
@@ -19,6 +19,7 @@ export const EmailModal: React.FC<EmailModalProps> = ({
   const [selectedApproverId, setSelectedApproverId] = useState<string>('');
   const [subject, setSubject] = useState(`[นำส่งเอกสาร CPI] ${form.docNo || 'โครงการพัฒนาคุณภาพ'} - ${form.projectTitle || 'โรงพยาบาลพญาไท'}`);
   const [attachPdf, setAttachPdf] = useState(true);
+  const [pageOption, setPageOption] = useState<PageExportOption>('all');
   const [isLoading, setIsLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -100,8 +101,8 @@ export const EmailModal: React.FC<EmailModalProps> = ({
       let pdfBase64: string | null = null;
 
       if (attachPdf) {
-        setResultMessage({ type: 'success', text: 'กำลังแปลงเอกสาร CPI เป็นไฟล์ PDF สำหรับแนบส่ง...' });
-        pdfBase64 = await generatePDFBase64(form);
+        setResultMessage({ type: 'success', text: 'กำลังแปลงเอกสาร CPI เป็นไฟล์ PDF ตามหน้าที่เลือกสำหรับแนบส่ง...' });
+        pdfBase64 = await generatePDFBase64(form, pageOption);
       }
 
       const response = await fetch('/api/send-email', {
@@ -262,24 +263,69 @@ export const EmailModal: React.FC<EmailModalProps> = ({
           </div>
 
           {/* PDF Attachment Option */}
-          <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <FileCheck2 className="w-4 h-4 text-teal-600 shrink-0" />
-              <div>
-                <span className="text-xs font-bold text-slate-800 block">
-                  แนบไฟล์เอกสาร CPI PDF (A4 100%)
-                </span>
-                <span className="text-[11px] text-slate-500">
-                  ระบบจะแปลงแบบฟอร์ม CPI เป็นไฟล์ PDF แนบไปพร้อมกับอีเมลเซิร์ฟเวอร์
-                </span>
+          <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FileCheck2 className="w-4 h-4 text-teal-600 shrink-0" />
+                <div>
+                  <span className="text-xs font-bold text-slate-800 block">
+                    แนบไฟล์เอกสาร CPI PDF (A4 100%)
+                  </span>
+                  <span className="text-[11px] text-slate-500">
+                    แปลงแบบฟอร์ม CPI เป็นไฟล์ PDF แนบส่งไปกับอีเมล
+                  </span>
+                </div>
               </div>
+              <input
+                type="checkbox"
+                checked={attachPdf}
+                onChange={(e) => setAttachPdf(e.target.checked)}
+                className="w-4 h-4 accent-teal-600 rounded cursor-pointer shrink-0"
+              />
             </div>
-            <input
-              type="checkbox"
-              checked={attachPdf}
-              onChange={(e) => setAttachPdf(e.target.checked)}
-              className="w-4 h-4 accent-teal-600 rounded cursor-pointer shrink-0"
-            />
+
+            {attachPdf && (
+              <div className="pt-2 border-t border-slate-200">
+                <label className="block text-[11px] font-bold text-slate-700 mb-1.5">
+                  เลือกหน้าเอกสารที่จะแนบส่งในไฟล์ PDF:
+                </label>
+                <div className="grid grid-cols-3 gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setPageOption('all')}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-semibold border transition-all ${
+                      pageOption === 'all'
+                        ? 'bg-teal-600 text-white border-teal-600 shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    ทุกหน้า (1 & 2)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPageOption('page1')}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-semibold border transition-all ${
+                      pageOption === 'page1'
+                        ? 'bg-teal-600 text-white border-teal-600 shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    เฉพาะหน้า 1
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPageOption('page2')}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-semibold border transition-all ${
+                      pageOption === 'page2'
+                        ? 'bg-teal-600 text-white border-teal-600 shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    เฉพาะหน้า 2
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Quick Mail App Launchers */}

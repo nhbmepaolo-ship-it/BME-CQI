@@ -295,83 +295,84 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
           </div>
 
           {/* SECTION 2 */}
-          <div className="border-t border-black">
-            {/* Section 2 Header Banner */}
-            <div className="section-header-banner bg-[#e5e7eb] text-black font-bold text-xs px-2 py-1 border-b border-black" style={{ backgroundColor: '#e5e7eb', color: '#000000' }}>
-              ส่วนที่ 2 รายละเอียดของโครงการ
+          <div className="border-t border-black flex-1 flex flex-col justify-between">
+            <div>
+              {/* Section 2 Header Banner */}
+              <div className="section-header-banner bg-[#e5e7eb] text-black font-bold text-xs px-2 py-1 border-b border-black" style={{ backgroundColor: '#e5e7eb', color: '#000000' }}>
+                ส่วนที่ 2 รายละเอียดของโครงการ
+              </div>
+
+              {/* Section 2 Grid Content */}
+              <div className="text-xs divide-y divide-black">
+                {/* Problem Statement */}
+                <div className="py-1 px-2">
+                  <p className="font-bold text-black">
+                    1. สถานการณ์ปัญหา/โอกาสพัฒนา :{' '}
+                    <span className="font-normal text-black text-[11px]">
+                      (ระบุปัญหา/โอกาสพัฒนาที่ต้องการแก้ไข มีผลกระทบต่องานหรือการดูแลผู้ป่วยอย่างไร มีสาเหตุสำคัญมาจากอะไร)
+                    </span>
+                  </p>
+                  <div className="mt-1">{renderMultiLine(form.problemStatement, 2)}</div>
+                </div>
+
+                {/* Goal */}
+                <div className="py-1 px-2 flex items-start">
+                  <span className="font-bold text-black whitespace-nowrap mr-2 pt-0.5">2. เป้าหมาย</span>
+                  <div className="flex-1 min-w-0">
+                    {renderLine(form.goal, 'w-full')}
+                  </div>
+                </div>
+
+                {/* KPI & Target */}
+                <div className="py-1 px-2">
+                  <p className="font-bold text-black">3. ตัวชี้วัด (KPI) และ target :</p>
+                  <div className="mt-1">{renderMultiLine(form.kpiAndTarget, 2)}</div>
+                </div>
+
+                {/* Action Plan Bullet */}
+                <div className="py-1 px-2">
+                  <p className="font-bold text-black">
+                    4. ขั้นตอนการปรับปรุง/เปลี่ยนแปลงกระบวนการ :{' '}
+                    <span className="font-normal text-black text-[11px]">
+                      (ระบุการปรับปรุงแก้ไขเป็นขั้นตอนในลักษณะของ bullet ให้ชัดเจนเพื่อให้ผู้อ่านเข้าใจว่าได้ทำอะไรไปบ้าง)
+                    </span>
+                  </p>
+                  <div className="mt-1">{renderMultiLine(form.improvementSteps, 2)}</div>
+                </div>
+
+                {/* Duration */}
+                <div className="py-1 px-2 flex items-start gap-4">
+                  <span className="font-bold whitespace-nowrap pt-0.5">5. ระยะเวลาดำเนินการ :</span>
+                  <div className="flex items-start gap-4 flex-1 flex-wrap">
+                    <span className="pt-0.5">
+                      วันที่เริ่มต้น : {renderLine(displayCE(form.startDate), 'min-w-[90px]')}
+                    </span>
+                    <span className="pt-0.5">
+                      วันที่สิ้นสุดโครงการ : {renderLine(displayCE(form.endDate), 'min-w-[90px]')}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Expected Benefits */}
+                <div className="py-1 px-2">
+                  <p className="font-bold">6. ประโยชน์ที่คาดว่าจะได้รับ</p>
+                  <div className="mt-1">{renderMultiLine(form.expectedBenefits, 1)}</div>
+                </div>
+
+                {/* Budget */}
+                <div className="py-1 px-2 flex items-start">
+                  <span className="font-bold whitespace-nowrap mr-2 pt-0.5">7. งบประมาณ (ถ้ามี) :</span>
+                  <div className="flex-1 min-w-0">
+                    {renderLine(form.budget, 'w-full')}
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Section 2 Grid Content */}
-            <div className="text-xs divide-y divide-black">
-              {/* Problem Statement */}
-              <div className="py-1 px-2">
-                <p className="font-bold text-black">
-                  1. สถานการณ์ปัญหา/โอกาสพัฒนา :{' '}
-                  <span className="font-normal text-black text-[11px]">
-                    (ระบุปัญหา/โอกาสพัฒนาที่ต้องการแก้ไข มีผลกระทบต่องานหรือการดูแลผู้ป่วยอย่างไร มีสาเหตุสำคัญมาจากอะไร)
-                  </span>
-                </p>
-                <div className="mt-1">{renderMultiLine(form.problemStatement, 2)}</div>
-              </div>
-
-              {/* Goal */}
-              <div className="py-1 px-2 flex items-start">
-                <span className="font-bold text-black whitespace-nowrap mr-2 pt-0.5">2. เป้าหมาย</span>
-                <div className="flex-1 min-w-0">
-                  {renderLine(form.goal, 'w-full')}
-                </div>
-              </div>
-
-              {/* KPI & Target */}
-              <div className="py-1 px-2">
-                <p className="font-bold text-black">3. ตัวชี้วัด (KPI) และ target :</p>
-                <div className="mt-1">{renderMultiLine(form.kpiAndTarget, 2)}</div>
-              </div>
-
-              {/* Action Plan Bullet */}
-              <div className="py-1 px-2">
-                <p className="font-bold text-black">
-                  4. ขั้นตอนการปรับปรุง/เปลี่ยนแปลงกระบวนการ :{' '}
-                  <span className="font-normal text-black text-[11px]">
-                    (ระบุการปรับปรุงแก้ไขเป็นขั้นตอนในลักษณะของ bullet ให้ชัดเจนเพื่อให้ผู้อ่านเข้าใจว่าได้ทำอะไรไปบ้าง)
-                  </span>
-                </p>
-                <div className="mt-1">{renderMultiLine(form.improvementSteps, 2)}</div>
-              </div>
-
-              {/* Duration */}
-              <div className="py-1 px-2 flex items-start gap-4">
-                <span className="font-bold whitespace-nowrap pt-0.5">5. ระยะเวลาดำเนินการ :</span>
-                <div className="flex items-start gap-4 flex-1 flex-wrap">
-                  <span className="pt-0.5">
-                    วันที่เริ่มต้น : {renderLine(displayCE(form.startDate), 'min-w-[90px]')}
-                  </span>
-                  <span className="pt-0.5">
-                    วันที่สิ้นสุดโครงการ : {renderLine(displayCE(form.endDate), 'min-w-[90px]')}
-                  </span>
-                </div>
-              </div>
-
-              {/* Expected Benefits */}
-              <div className="py-1 px-2">
-                <p className="font-bold">6. ประโยชน์ที่คาดว่าจะได้รับ</p>
-                <div className="mt-1">{renderMultiLine(form.expectedBenefits, 1)}</div>
-              </div>
-
-              {/* Budget */}
-              <div className="py-1 px-2 flex items-start">
-                <span className="font-bold whitespace-nowrap mr-2 pt-0.5">7. งบประมาณ (ถ้ามี) :</span>
-                <div className="flex-1 min-w-0">
-                  {renderLine(form.budget, 'w-full')}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* SIGNATURES PAGE 1 GRID */}
-          <div className="grid grid-cols-2 text-xs bg-white border-t border-black">
-            {/* Proposer Box Left */}
-            <div className="p-2 flex flex-col justify-between h-28 text-center items-center">
+            {/* SIGNATURES PAGE 1 GRID */}
+            <div className="grid grid-cols-2 text-xs bg-white border-t border-black mt-auto shrink-0">
+              {/* Proposer Box Left */}
+              <div className="p-2 flex flex-col justify-between h-28 text-center items-center">
               <span className="font-bold">ผู้เสนอโครงการ</span>
 
               <div
@@ -441,6 +442,7 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
             </div>
           </div>
         </div>
+      </div>
 
         {/* Page 1 Bottom Footer */}
         <div className="pt-1.5 text-[9px] text-black flex flex-col gap-0.5">

@@ -203,31 +203,48 @@ const sanitizeDocumentColors = (clonedDoc: Document) => {
 
 export const printDocument = async (
   form?: CPIFormData,
+  pageOption: PageExportOption = 'all',
   onStatusChange?: (msg: string | null) => void
 ) => {
   const isIframe = typeof window !== 'undefined' && window.self !== window.top;
 
   if (isIframe) {
     if (onStatusChange) {
-      onStatusChange('พรีวิวอยู่ใน iFrame ระบบกำลังสร้างและดาวน์โหลดไฟล์ PDF ให้ทันที...');
+      onStatusChange('พรีวิวอยู่ใน iFrame ระบบกำลังสร้างและดาวน์โหลดไฟล์ PDF ตามหน้าที่เลือก...');
     }
     if (form) {
-      await exportToPDF(form, 'all', onStatusChange);
+      await exportToPDF(form, pageOption, onStatusChange);
     } else {
       alert('ไม่สามารถเรียกคำสั่งพิมพ์ใน iFrame ได้ กรุณาเปิดแอปในแท็บใหม่ หรือกดปุ่ม "ดาวน์โหลด PDF"');
     }
     return;
   }
 
-  try {
-    if (typeof window !== 'undefined') {
+  // Handle browser window.print with selected page hiding
+  if (typeof document !== 'undefined') {
+    const pages = document.querySelectorAll('.a4-page');
+    pages.forEach((p, idx) => {
+      const el = p as HTMLElement;
+      if (pageOption === 'page1' && idx !== 0) {
+        el.classList.add('print-hidden-page');
+      } else if (pageOption === 'page2' && idx !== 1) {
+        el.classList.add('print-hidden-page');
+      }
+    });
+
+    try {
       window.print();
-    }
-  } catch (err) {
-    console.warn('window.print() failed:', err);
-    if (form) {
-      if (onStatusChange) onStatusChange('กำลังสร้างไฟล์ PDF ให้แทน...');
-      await exportToPDF(form, 'all', onStatusChange);
+    } catch (err) {
+      console.warn('window.print() failed:', err);
+      if (form) {
+        if (onStatusChange) onStatusChange('กำลังสร้างไฟล์ PDF ให้แทน...');
+        await exportToPDF(form, pageOption, onStatusChange);
+      }
+    } finally {
+      // Restore page visibility
+      pages.forEach((p) => {
+        (p as HTMLElement).classList.remove('print-hidden-page');
+      });
     }
   }
 };
@@ -354,7 +371,10 @@ export const exportToPDF = async (
   }
 };
 
-export const generatePDFBase64 = async (form: CPIFormData): Promise<string | null> => {
+export const generatePDFBase64 = async (
+  form: CPIFormData,
+  pageOption: PageExportOption = 'all'
+): Promise<string | null> => {
   if (typeof document === 'undefined') return null;
 
   if (document.fonts && document.fonts.ready) {
@@ -370,6 +390,16 @@ export const generatePDFBase64 = async (form: CPIFormData): Promise<string | nul
     return null;
   }
 
+  // Determine target page indices
+  let targetIndices: number[] = [];
+  if (pageOption === 'page1') {
+    targetIndices = [0];
+  } else if (pageOption === 'page2') {
+    targetIndices = pageElements.length > 1 ? [1] : [0];
+  } else {
+    targetIndices = Array.from({ length: pageElements.length }, (_, i) => i);
+  }
+
   try {
     const pdf = new jsPDF({
       orientation: 'portrait',
@@ -381,8 +411,9 @@ export const generatePDFBase64 = async (form: CPIFormData): Promise<string | nul
     const pdfWidth = 210;
     const pdfHeight = 297;
 
-    for (let i = 0; i < pageElements.length; i++) {
-      const pageEl = pageElements[i] as HTMLElement;
+    for (let i = 0; i < targetIndices.length; i++) {
+      const pageIndex = targetIndices[i];
+      const pageEl = pageElements[pageIndex] as HTMLElement;
       if (!pageEl) continue;
 
       const container = document.createElement('div');
