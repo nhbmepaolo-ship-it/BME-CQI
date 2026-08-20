@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Sparkles, PenTool, CheckSquare, FileText, UserCheck, HelpCircle, User } from 'lucide-react';
+import { Sparkles, PenTool, CheckSquare, FileText, UserCheck, HelpCircle, User, Calendar } from 'lucide-react';
 import { CPIFormData } from '../types';
 import { PROPOSER_OPTIONS, SUPERVISOR_APPROVER_OPTIONS } from '../data/personnel';
+import { convertYearToCurrentBE, getTodayThaiBE } from '../utils/dateUtils';
 
 interface CPIFormEditorProps {
   form: CPIFormData;
@@ -49,6 +50,22 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
       ? currentArr.filter((i) => i !== item)
       : [...currentArr, item];
     updateField(field, updated as any);
+  };
+
+  const handleSyncDatesToCurrentBE = () => {
+    const updateYear = (d?: string) => convertYearToCurrentBE(d, true);
+
+    onChange({
+      ...form,
+      docDate: updateYear(form.docDate),
+      startDate: updateYear(form.startDate),
+      endDate: updateYear(form.endDate),
+      proposerDate: updateYear(form.proposerDate),
+      deptHeadDate: updateYear(form.deptHeadDate),
+      projectOwnerDatePage2: updateYear(form.projectOwnerDatePage2),
+      approverDate: updateYear(form.approverDate),
+      updatedAt: new Date().toISOString(),
+    });
   };
 
   return (
@@ -759,13 +776,21 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
         {/* ================= TAB 4: SIGNATURES ================= */}
         {activeTab === 'signatures' && (
           <div className="space-y-6 animate-in fade-in duration-150">
-            <div className="p-4 bg-slate-900 text-white rounded-xl flex items-center justify-between">
+            <div className="p-4 bg-slate-900 text-white rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div>
-                <h4 className="font-semibold text-sm">การเซ็นออนไลน์ (Digital E-Signatures)</h4>
+                <h4 className="font-semibold text-sm">การเซ็นออนไลน์ & จัดการวันที่ลงนาม (E-Signatures & Dates)</h4>
                 <p className="text-xs text-slate-300">
-                  เซ็นชื่อออนไลน์สำหรับผู้เสนอโครงการ หัวหน้างาน และผู้อนุมัติปิดโครงการ
+                  เซ็นชื่อออนไลน์ และตรวจสอบวันที่ลงนามให้ตรงตาม พ.ศ. ปัจจุบัน
                 </p>
               </div>
+              <button
+                type="button"
+                onClick={handleSyncDatesToCurrentBE}
+                className="px-3.5 py-1.5 bg-teal-600 hover:bg-teal-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs shrink-0"
+              >
+                <Calendar className="w-3.5 h-3.5 text-teal-200" />
+                ปรับวันที่ทั้งหมดเป็น พ.ศ. ปัจจุบัน
+              </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -833,6 +858,17 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
                     placeholder="พิมพ์ชื่อ-นามสกุล..."
                     className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
                   />
+
+                  <div className="pt-1">
+                    <label className="block text-[11px] text-slate-600 mb-0.5">วันที่ลงนาม (ผู้เสนอโครงการ) :</label>
+                    <input
+                      type="text"
+                      value={form.proposerDate}
+                      onChange={(e) => updateField('proposerDate', e.target.value)}
+                      placeholder="เช่น 01/05/2569"
+                      className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
+                    />
+                  </div>
                 </div>
 
                 {form.proposerSignature ? (
@@ -948,6 +984,17 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
                       />
                     </div>
                   </div>
+
+                  <div className="pt-1">
+                    <label className="block text-[11px] text-slate-600 mb-0.5">วันที่ลงนาม (หัวหน้างาน) :</label>
+                    <input
+                      type="text"
+                      value={form.deptHeadDate}
+                      onChange={(e) => updateField('deptHeadDate', e.target.value)}
+                      placeholder="เช่น 03/05/2569"
+                      className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
+                    />
+                  </div>
                 </div>
 
                 {form.deptHeadSignature ? (
@@ -1043,6 +1090,29 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
                         />
                         <span>ข้อมูลเพียงพอและเชื่อถือได้</span>
                       </label>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-200/80">
+                    <div>
+                      <label className="block text-[11px] text-slate-600 mb-0.5">วันที่ผู้รับผิดชอบโครงการลงนาม (หน้า 2) :</label>
+                      <input
+                        type="text"
+                        value={form.projectOwnerDatePage2}
+                        onChange={(e) => updateField('projectOwnerDatePage2', e.target.value)}
+                        placeholder="เช่น 01/08/2569"
+                        className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-600 mb-0.5">วันที่ผู้อนุมัติปิดโครงการลงนาม (หน้า 2) :</label>
+                      <input
+                        type="text"
+                        value={form.approverDate}
+                        onChange={(e) => updateField('approverDate', e.target.value)}
+                        placeholder="เช่น 05/08/2569"
+                        className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs"
+                      />
                     </div>
                   </div>
                 </div>

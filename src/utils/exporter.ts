@@ -1,4 +1,6 @@
 import * as XLSX from 'xlsx';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import { CPIFormData } from '../types';
 
 export const exportToExcel = (form: CPIFormData) => {
@@ -95,6 +97,63 @@ export const exportToExcel = (form: CPIFormData) => {
   XLSX.writeFile(wb, fileName);
 };
 
-export const printOrSavePDF = () => {
-  window.print();
+export const exportToPDF = async (
+  form: CPIFormData,
+  onStatusChange?: (msg: string | null) => void
+) => {
+  if (onStatusChange) onStatusChange('กำลังเตรียมสร้างเอกสาร PDF...');
+
+  const pageElements = document.querySelectorAll('.a4-page');
+
+  if (!pageElements || pageElements.length === 0) {
+    if (onStatusChange) onStatusChange(null);
+    alert('ไม่พบหน้าพรีวิวเอกสาร A4 กรุณาสลับเป็นหน้าพรีวิวหรือรอให้หน้าพรีวิวแสดงผล');
+    return;
+  }
+
+  try {
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+      compress: true,
+    });
+
+    const pdfWidth = 210; // A4 width in mm
+    const pdfHeight = 297; // A4 height in mm
+
+    for (let i = 0; i < pageElements.length; i++) {
+      const pageEl = pageElements[i] as HTMLElement;
+
+      if (onStatusChange) {
+        onStatusChange(`กำลังส่งออก PDF หน้า ${i + 1} จาก ${pageElements.length}...`);
+      }
+
+      // Render canvas with crisp scale
+      const canvas = await html2canvas(pageEl, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+      });
+
+      const imgData = canvas.toDataURL('image/png', 1.0);
+
+      if (i > 0) {
+        pdf.addPage('a4', 'portrait');
+      }
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+    }
+
+    const filename = `CPI_Phyathai_${form.docNo || 'Document'}.pdf`;
+    pdf.save(filename);
+
+    if (onStatusChange) onStatusChange('ส่งออก PDF A4 แนวตั้งสำเร็จ');
+  } catch (err) {
+    console.error('Failed to export PDF:', err);
+    alert('เกิดข้อผิดพลาดในการส่งออก PDF');
+    if (onStatusChange) onStatusChange('การส่งออก PDF ล้มเหลว');
+  }
 };
+

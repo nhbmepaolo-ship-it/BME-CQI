@@ -9,8 +9,8 @@ import { SignatureModal } from './components/SignatureModal';
 import { AutoFillModal } from './components/AutoFillModal';
 import { EmailModal } from './components/EmailModal';
 import { HistoryDrawer } from './components/HistoryDrawer';
-import { exportToExcel, printOrSavePDF } from './utils/exporter';
-import { Sparkles, FileSpreadsheet, Printer, Mail, PenTool, CheckCircle2 } from 'lucide-react';
+import { exportToExcel, exportToPDF } from './utils/exporter';
+import { Sparkles, FileSpreadsheet, FileDown, Mail, PenTool, CheckCircle2 } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY = 'phyathai_cpi_saved_forms_v1';
 
@@ -275,7 +275,7 @@ export default function App() {
           exportToExcel(activeForm);
           showToast('Export Excel (.xlsx) สำเร็จ');
         }}
-        onExportPDF={printOrSavePDF}
+        onExportPDF={() => exportToPDF(activeForm, (msg) => msg && showToast(msg))}
       />
 
       {/* Main Container */}
@@ -341,11 +341,11 @@ export default function App() {
 
             <button
               type="button"
-              onClick={printOrSavePDF}
-              className="px-3.5 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+              onClick={() => exportToPDF(activeForm, (msg) => msg && showToast(msg))}
+              className="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white border border-sky-600 text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors"
             >
-              <Printer className="w-3.5 h-3.5 text-sky-600" />
-              พิมพ์/PDF
+              <FileDown className="w-3.5 h-3.5" />
+              ส่งออก PDF
             </button>
           </div>
         </div>

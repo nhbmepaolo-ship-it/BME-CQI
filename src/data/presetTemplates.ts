@@ -1,17 +1,13 @@
 import { CPIFormData } from '../types';
+import { getTodayThaiBE } from '../utils/dateUtils';
 
 export const createEmptyCPIForm = (): CPIFormData => {
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('th-TH', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
+  const todayBE = getTodayThaiBE();
   
   return {
     id: 'cpi_' + Date.now(),
-    docNo: `CPI-67-OPD-${Math.floor(100 + Math.random() * 900)}`,
-    docDate: dateStr,
+    docNo: `CPI-69-OPD-${Math.floor(100 + Math.random() * 900)}`,
+    docDate: todayBE,
     department: 'ฝ่ายการพยาบาล / แผนกผู้ป่วยนอก (OPD)',
     projectTitle: '',
     projectType: ['PIP'],
@@ -33,20 +29,20 @@ export const createEmptyCPIForm = (): CPIFormData => {
     goal: '',
     kpiAndTarget: '',
     improvementSteps: '',
-    startDate: dateStr,
-    endDate: dateStr,
+    startDate: todayBE,
+    endDate: todayBE,
     expectedBenefits: '',
     budget: 'ไม่มี (0 บาท)',
     
     proposerSignature: '',
     proposerName: '',
-    proposerDate: dateStr,
+    proposerDate: todayBE,
     
     deptHeadOpinion: null,
     deptHeadSignature: '',
     deptHeadName: 'ชาลี เมฆสุวรรณ',
     deptHeadPosition: 'ผู้จัดการแผนกวิศวกรรมการแพทย์',
-    deptHeadDate: '',
+    deptHeadDate: todayBE,
     
     resultsKPI: '',
     resultsOther: '',
@@ -80,7 +76,7 @@ export const createEmptyCPIForm = (): CPIFormData => {
     
     projectOwnerSignaturePage2: '',
     projectOwnerNamePage2: '',
-    projectOwnerDatePage2: '',
+    projectOwnerDatePage2: todayBE,
     
     closureOpinion: {
       closeApproved: true,
@@ -93,7 +89,7 @@ export const createEmptyCPIForm = (): CPIFormData => {
     },
     approverSignature: '',
     approverName: 'ชาลี เมฆสุวรรณ',
-    approverDate: '',
+    approverDate: todayBE,
     
     status: 'draft',
     createdAt: new Date().toISOString(),
@@ -106,7 +102,7 @@ export const PRESET_CPI_TEMPLATES: { name: string; dept: string; data: Partial<C
     name: 'ลดระยะเวลารอคอยรับยาของผู้ป่วยนอก (OPD Pharmacy Lead Time)',
     dept: 'ฝ่ายเภสัชกรรม / แผนกผู้ป่วยนอก',
     data: {
-      docNo: 'CPI-67-PHARM-008',
+      docNo: 'CPI-69-PHARM-008',
       department: 'ฝ่ายเภสัชกรรม / แผนกบริการผู้ป่วยนอก (OPD)',
       projectTitle: 'การลดระยะเวลารอคอยรับยาของผู้ป่วยนอกในชั่วโมงเร่งด่วน',
       projectType: ['PIP'],
@@ -119,7 +115,7 @@ export const PRESET_CPI_TEMPLATES: { name: string; dept: string; data: Partial<C
         internalAudit: false,
         internalAuditNo: '',
         complaint: true,
-        complaintNo: 'CP-67-042',
+        complaintNo: 'CP-69-042',
         kpiUnmet: true,
         other: false,
         otherDetail: '',
@@ -128,12 +124,12 @@ export const PRESET_CPI_TEMPLATES: { name: string; dept: string; data: Partial<C
       goal: 'ลดระยะเวลารอคอยรับยาของผู้ป่วยนอกเฉลี่ยจาก 42 นาที เหลือไม่เกิน 22 นาที และเพิ่มระดับความพึงพอใจของผู้รับบริการจาก 78% เป็นมากกว่า 92%',
       kpiAndTarget: '1. ระยะเวลารอคอยรับยาผู้ป่วยนอกเฉลี่ย (Target: ≤ 22 นาที)\n2. อัตราความพึงพอใจของผู้รับบริการต่อห้องยา OPD (Target: ≥ 92%)\n3. อัตราความถูกต้องในการจ่ายยา (Target: 100%)',
       improvementSteps: '• จัดทำระบบ Smart Queue แยกคิวผู้ป่วยตามความซับซ้อนของใบสั่งยา (ยาทั่วไป / ยาเรื้อรัง Refill / ยาเคมีบำบัด-ชีววัตถุ)\n• ปรับเปลี่ยนกระบวนการจัดยาโดยใช้ระบบ Pre-packing สำหรับรายการยารักษาโรคเรื้อรังที่พบบ่อย 15 รายการ\n• จัดทำโปรแกรมแจ้งเตือนคิวรับยาผ่านระบบ SMS/LINE Notification เมื่อยาจัดเสร็จพร้อมรับ\n• เพิ่มช่อง Fast Track สำหรับผู้ป่วยสูงอายุ (60 ปีขึ้นไป) และผู้พิการ\n• จัดทำบอร์ดแสดงสถานะคิวรับยา Real-time บนจอ TV หน้าห้องยา',
-      startDate: '01/05/2567',
-      endDate: '31/07/2567',
+      startDate: '01/05/2569',
+      endDate: '31/07/2569',
       expectedBenefits: '1. ผู้ป่วยได้รับยาเร็วขึ้น ลดความแออัดหน้าห้องยา OPD\n2. เจ้าหน้าที่ทำงานเป็นระบบ มีความถูกต้องในการจ่ายยาสูงขึ้น\n3. เพิ่มคะแนนความพึงพอใจผู้รับบริการของโรงพยาบาลพญาไท',
       budget: '15,000 บาท (สำหรับบอร์ดจอแสดงผลคิวและระบบซอฟต์แวร์ SMS แจ้งเตือน)',
       resultsKPI: '1. ระยะเวลารอคอยรับยาเฉลี่ยลดลงจาก 42 นาที เหลือ 18.5 นาที (ผ่านเกณฑ์เป้าหมาย ≤ 22 นาที)\n2. อัตราความพึงพอใจของผู้รับบริการเพิ่มขึ้นจาก 78% เป็น 94.8% (ผ่านเกณฑ์เป้าหมาย ≥ 92%)\n3. อัตราความถูกต้องในการจ่ายยาคงที่ 100%',
-      resultsOther: 'สามารถลดการร้องเรียนเรื่องการรอคอยยาหน้าห้องยา OPD ลงได้ 85% ในช่วงเดือนมิถุนายน - กรกฎาคม 2567',
+      resultsOther: 'สามารถลดการร้องเรียนเรื่องการรอคอยยาหน้าห้องยา OPD ลงได้ 85% ในช่วงเดือนมิถุนายน - กรกฎาคม 2569',
       benefitsReceived: {
         increaseSatisfaction: true,
         internalCommEfficiency: true,
@@ -160,22 +156,23 @@ export const PRESET_CPI_TEMPLATES: { name: string; dept: string; data: Partial<C
         other: 'ไม่มี',
       },
       recommendationsExpansion: 'ขยายผลการใช้งานระบบ Smart Queue และ Pre-packing ไปยังห้องยาผู้ป่วยนอกอาคาร B และห้องยาชำระเงินฝั่ง Premium Clinic',
+      docDate: '01/05/2569',
       proposerName: 'ภญ. ศิริพร วิเศษสุข',
-      proposerDate: '01/05/2567',
+      proposerDate: '01/05/2569',
       deptHeadName: 'ชาลี เมฆสุวรรณ',
       deptHeadPosition: 'ผู้จัดการแผนกวิศวกรรมการแพทย์',
-      deptHeadDate: '03/05/2567',
+      deptHeadDate: '03/05/2569',
       projectOwnerNamePage2: 'ภญ. ศิริพร วิเศษสุข',
-      projectOwnerDatePage2: '01/08/2567',
+      projectOwnerDatePage2: '01/08/2569',
       approverName: 'ชาลี เมฆสุวรรณ',
-      approverDate: '05/08/2567',
+      approverDate: '05/08/2569',
     },
   },
   {
     name: 'การป้องกันการเกิดแผลกดทับในผู้ป่วยกลุ่มเสี่ยง (Inpatient Pressure Injury Prevention)',
     dept: 'ฝ่ายการพยาบาล / วอร์ดผู้ป่วยใน (IPD)',
     data: {
-      docNo: 'CPI-67-NUR-015',
+      docNo: 'CPI-69-NUR-015',
       department: 'ฝ่ายการพยาบาล / หอผู้ป่วยอายุรกรรมชั้น 8 (IPD)',
       projectTitle: 'นวัตกรรมแผ่นพลิกตัวระบุเวลาและการเฝ้าระวังเพื่อลดอัตราแผลกดทับในผู้ป่วยกลุ่มเสี่ยงสูง',
       projectType: ['IA', 'PIP'],
@@ -186,7 +183,7 @@ export const PRESET_CPI_TEMPLATES: { name: string; dept: string; data: Partial<C
         riskReview: true,
         staffSuggestion: true,
         internalAudit: true,
-        internalAuditNo: 'HA-67-Q1',
+        internalAuditNo: 'HA-69-Q1',
         complaint: false,
         complaintNo: '',
         kpiUnmet: true,
@@ -197,8 +194,8 @@ export const PRESET_CPI_TEMPLATES: { name: string; dept: string; data: Partial<C
       goal: 'ลดอัตราการเกิดแผลกดทับรายใหม่ในหอผู้ป่วยอายุรกรรมชั้น 8 ให้เหลือ 0 รายในผู้ป่วยกลุ่มเสี่ยงสูง และไม่เกิน 1.0 รายต่อ 1,000 วันนอน',
       kpiAndTarget: '1. อัตราการเกิดแผลกดทับรายใหม่ (Target: ≤ 1.0 ราย/1,000 วันนอน)\n2. อัตราความสมบูรณ์ของการพลิกตัวตามกำหนดเวลาทุก 2 ชม. (Target: ≥ 95%)\n3. อัตราการประเมิน Braden scale ถูกต้องภายใน 2 ชั่วโมงแรกที่รับใหม่ (Target: 100%)',
       improvementSteps: '• พัฒนา "นาฬิกาเตือนพลิกตัว 2 สี" ติดไว้ที่ปลายเตียงผู้ป่วยกลุ่มเสี่ยง Braden Scale ≤ 14 คะแนน\n• จัดทำโปรแกรมคู่มือสอนการลงน้ำหนักท่าตะแคง 30 องศา และการใช้เบาะลมรองปุ่มกระดูกอย่างถูกวิธี\n• ใช้ระบบ Visual Control Sign แสดงสถานะท่าทางล่าสุด (ซ้าย-ตรง-ขวา)\n• จัดตั้ง Turn-over Champion ประจำกะ เพื่อเดินตรวจและให้สัญญาณพลิกตัวพร้อมกันทั้งหอผู้ป่วย',
-      startDate: '10/04/2567',
-      endDate: '10/07/2567',
+      startDate: '10/04/2569',
+      endDate: '10/07/2569',
       expectedBenefits: '1. ลดอัตราความเจ็บป่วยและภาวะแทรกซ้อนการเกิดแผลกดทับของผู้ป่วยนอนโรงพยาบาล\n2. ลดระยะเวลาการนอนโรงพยาบาลและค่าใช้จ่ายในการทำแผล\n3. เพิ่มมาตรฐานความปลอดภัยทางการพยาบาลตามแนวทาง HA/JCI',
       budget: '3,500 บาท (ค่าจัดทำสัญลักษณ์ Visual Control และป้ายนาฬิกาปลายเตียง)',
       resultsKPI: '1. อัตราการเกิดแผลกดทับรายใหม่ลดลงเหลือ 0.4 รายต่อ 1,000 วันนอน (บรรลุเป้าหมาย ≤ 1.0)\n2. อัตราความสมบูรณ์ของการพลิกตัวทุก 2 ชั่วโมง เพิ่มขึ้นเป็น 98.2%\n3. อัตราการประเมิน Braden Scale ครบถ้วนทันทีที่รับใหม่คิดเป็น 100%',
@@ -229,15 +226,17 @@ export const PRESET_CPI_TEMPLATES: { name: string; dept: string; data: Partial<C
         other: 'ไม่มี',
       },
       recommendationsExpansion: 'เสนอคณะกรรมการคุณภาพพยาบาล (Nursing Quality Committee) เพื่อขยายผลใช้ป้าย Visual Control นาฬิกาเตือนพลิกตัวไปยัง IPD ชั้น 9, 10 และ ICU',
+      docDate: '10/04/2569',
       proposerName: 'พว. ณัฐกานต์ วงศ์สุวรรณ',
-      proposerDate: '10/04/2567',
+      proposerDate: '10/04/2569',
       deptHeadName: 'ชาลี เมฆสุวรรณ',
       deptHeadPosition: 'ผู้จัดการแผนกวิศวกรรมการแพทย์',
-      deptHeadDate: '12/04/2567',
+      deptHeadDate: '12/04/2569',
       projectOwnerNamePage2: 'พว. ณัฐกานต์ วงศ์สุวรรณ',
-      projectOwnerDatePage2: '12/07/2567',
+      projectOwnerDatePage2: '12/07/2569',
       approverName: 'ชาลี เมฆสุวรรณ',
-      approverDate: '15/07/2567',
+      approverDate: '15/07/2569',
     },
   },
 ];
+

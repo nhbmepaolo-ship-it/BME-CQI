@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Sparkles,
   FileSpreadsheet,
-  Printer,
+  FileDown,
   Mail,
   PenTool,
   FolderOpen,
@@ -42,13 +42,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Brand Logo & Doc Info */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2.5 cursor-pointer" onClick={onOpenHistoryDrawer}>
-              <div className="bg-white px-2 py-0.5 rounded shadow-sm border border-slate-700 flex items-center">
+              <div className="bg-white px-2 py-0.5 rounded shadow-xs border border-slate-700 flex items-center">
                 <PhyathaiLogo size="sm" />
               </div>
               <div className="hidden sm:block">
                 <h1 className="font-bold text-sm tracking-tight flex items-center gap-2">
                   โรงพยาบาลพญาไท พหลโยธิน
-                  <span className="text-[10px] bg-slate-800 text-blue-400 px-2 py-0.5 rounded-sm font-mono border border-slate-700">
+                  <span className="text-[10px] bg-slate-800 text-blue-400 px-2 py-0.5 rounded-xs font-mono border border-slate-700">
                     PTP-FM-QMS-001
                   </span>
                 </h1>
@@ -70,9 +70,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setViewMode('editor')}
-              className={`px-3 py-1.5 rounded-sm text-xs font-semibold flex items-center gap-1.5 transition-all ${
+              className={`px-3 py-1.5 rounded-xs text-xs font-semibold flex items-center gap-1.5 transition-all ${
                 viewMode === 'editor'
-                  ? 'bg-blue-600 text-white shadow-sm'
+                  ? 'bg-blue-600 text-white shadow-xs'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -83,9 +83,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setViewMode('preview')}
-              className={`px-3 py-1.5 rounded-sm text-xs font-semibold flex items-center gap-1.5 transition-all ${
+              className={`px-3 py-1.5 rounded-xs text-xs font-semibold flex items-center gap-1.5 transition-all ${
                 viewMode === 'preview'
-                  ? 'bg-blue-600 text-white shadow-sm'
+                  ? 'bg-blue-600 text-white shadow-xs'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -100,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={onOpenAutoFillModal}
-              className="px-3 py-1.5 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+              className="px-3 py-1.5 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold text-xs flex items-center gap-1.5 shadow-xs transition-all"
               title="ป้อนค่าอัตโนมัติด้วย AI"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-100" />
@@ -129,15 +129,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="hidden sm:inline">Excel</span>
             </button>
 
-            {/* Export PDF / Print */}
+            {/* Export PDF */}
             <button
               type="button"
               onClick={onExportPDF}
-              className="px-2.5 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-sky-400 font-medium text-xs flex items-center gap-1.5 border border-slate-700 transition-all"
-              title="Export เป็น PDF หรือสั่งพิมพ์"
+              className="px-2.5 py-1.5 rounded-md bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs flex items-center gap-1.5 border border-sky-500 shadow-xs transition-all"
+              title="ส่งออกเอกสารเป็นไฟล์ PDF แนวตั้ง (A4)"
             >
-              <Printer className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">PDF</span>
+              <FileDown className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">ส่งออก PDF</span>
             </button>
 
             {/* Send Email */}
@@ -166,3 +166,4 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
+
