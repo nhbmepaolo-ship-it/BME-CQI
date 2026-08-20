@@ -39,6 +39,62 @@ const displayCE = (dateStr?: string | null): string => {
   return str;
 };
 
+// Helper to wrap Thai / English text into explicit lines so EVERY line gets a dotted underline
+const wrapTextToLines = (text: string, charsPerLine: number = 72): string[] => {
+  if (!text || !text.trim()) return [];
+
+  const rawParagraphs = text.split('\n');
+  const resultLines: string[] = [];
+
+  for (const para of rawParagraphs) {
+    if (!para.trim()) {
+      resultLines.push('');
+      continue;
+    }
+
+    let remaining = para.trim();
+    while (remaining.length > 0) {
+      if (remaining.length <= charsPerLine) {
+        resultLines.push(remaining);
+        break;
+      }
+
+      // Try to find a logical break point near charsPerLine
+      let breakIdx = charsPerLine;
+      const windowStart = Math.max(0, charsPerLine - 20);
+      const searchWindow = remaining.substring(windowStart, charsPerLine + 5);
+
+      // Search for spaces first
+      const lastSpace = searchWindow.lastIndexOf(' ');
+      if (lastSpace !== -1) {
+        breakIdx = windowStart + lastSpace;
+      } else {
+        // Search for Thai punctuation / symbols or English break points
+        const match = searchWindow.match(/[/,)\]}\-\s]/g);
+        if (match && match.length > 0) {
+          const lastSymbol = searchWindow.lastIndexOf(match[match.length - 1]);
+          if (lastSymbol !== -1) {
+            breakIdx = windowStart + lastSymbol + 1;
+          }
+        }
+      }
+
+      // Fallback: if breakIdx is too small or invalid, cut at charsPerLine
+      if (breakIdx <= 0 || breakIdx > remaining.length) {
+        breakIdx = charsPerLine;
+      }
+
+      const currentLine = remaining.substring(0, breakIdx).trim();
+      if (currentLine) {
+        resultLines.push(currentLine);
+      }
+      remaining = remaining.substring(breakIdx).trim();
+    }
+  }
+
+  return resultLines;
+};
+
 export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
   form,
   onOpenSignatureModal,
@@ -68,53 +124,64 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
   );
 
   // Helper for rendering single line fillable fields cleanly above dotted line
-  const renderLine = (value?: string, minWidthClass: string = 'min-w-[100px]') => {
+  const renderLine = (value?: string, minWidthClass: string = 'min-w-[100px]', charsPerLine: number = 65) => {
     const hasValue = Boolean(value && value.trim());
-    return (
-      <span
-        className={`inline-block border-b border-dotted border-black px-1 pb-[1px] ${minWidthClass}`}
-        style={{ verticalAlign: 'baseline' }}
-      >
-        <span className="font-semibold text-black text-xs whitespace-pre-wrap">
-          {hasValue ? value : '\u00A0'}
+    if (!hasValue) {
+      return (
+        <span
+          className={`inline-block border-b border-dotted border-black px-1 pb-[1px] ${minWidthClass}`}
+          style={{ verticalAlign: 'baseline' }}
+        >
+          <span className="font-semibold text-black text-xs whitespace-pre-wrap">{'\u00A0'}</span>
         </span>
-      </span>
+      );
+    }
+
+    const wrapped = wrapTextToLines(value!, charsPerLine);
+    if (wrapped.length <= 1) {
+      return (
+        <span
+          className={`inline-block border-b border-dotted border-black px-1 pb-[1px] ${minWidthClass}`}
+          style={{ verticalAlign: 'baseline' }}
+        >
+          <span className="font-semibold text-black text-xs whitespace-pre-wrap">{value}</span>
+        </span>
+      );
+    }
+
+    return (
+      <div className="flex flex-col py-0.5 space-y-0.5 w-full">
+        {wrapped.map((line, i) => (
+          <div
+            key={i}
+            className="border-b border-dotted border-black text-black font-semibold text-xs py-0.5 px-0.5 whitespace-pre-wrap min-h-[18px] leading-snug w-full"
+          >
+            {line || '\u00A0'}
+          </div>
+        ))}
+      </div>
     );
   };
 
   // Helper for rendering multi-line text areas cleanly above dotted lines
-  const renderMultiLine = (value?: string, minLines: number = 2) => {
+  const renderMultiLine = (value?: string, minLines: number = 2, charsPerLine: number = 72) => {
     const hasValue = Boolean(value && value.trim());
-    if (hasValue) {
-      const lines = value!.split('\n');
-      return (
-        <div className="flex flex-col py-0.5 space-y-0.5">
-          {lines.map((line, i) => (
+    const lines = hasValue ? wrapTextToLines(value!, charsPerLine) : [];
+    const totalLinesToRender = Math.max(minLines, lines.length);
+
+    return (
+      <div className="flex flex-col py-0.5 space-y-0.5 w-full">
+        {Array.from({ length: totalLinesToRender }).map((_, i) => {
+          const lineText = lines[i] || '';
+          return (
             <div
               key={i}
-              className="border-b border-dotted border-black text-black font-semibold text-xs py-0.5 px-0.5 whitespace-pre-wrap min-h-[18px] leading-snug"
+              className="border-b border-dotted border-black text-black font-semibold text-xs py-0.5 px-0.5 whitespace-pre-wrap min-h-[18px] leading-snug w-full"
             >
-              {line || '\u00A0'}
+              {lineText || '\u00A0'}
             </div>
-          ))}
-          {lines.length < minLines &&
-            Array.from({ length: minLines - lines.length }).map((_, i) => (
-              <div
-                key={`empty-${i}`}
-                className="border-b border-dotted border-black h-[18px]"
-              />
-            ))}
-        </div>
-      );
-    }
-    return (
-      <div className="flex flex-col py-0.5 space-y-0.5">
-        {Array.from({ length: minLines }).map((_, i) => (
-          <div
-            key={i}
-            className="border-b border-dotted border-black h-[18px]"
-          />
-        ))}
+          );
+        })}
       </div>
     );
   };
@@ -312,21 +379,21 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
                       (ระบุปัญหา/โอกาสพัฒนาที่ต้องการแก้ไข มีผลกระทบต่องานหรือการดูแลผู้ป่วยอย่างไร มีสาเหตุสำคัญมาจากอะไร)
                     </span>
                   </p>
-                  <div className="mt-1">{renderMultiLine(form.problemStatement, 2)}</div>
+                  <div className="mt-1">{renderMultiLine(form.problemStatement, 3, 72)}</div>
                 </div>
 
                 {/* Goal */}
                 <div className="py-1 px-2 flex items-start">
                   <span className="font-bold text-black whitespace-nowrap mr-2 pt-0.5">2. เป้าหมาย</span>
                   <div className="flex-1 min-w-0">
-                    {renderLine(form.goal, 'w-full')}
+                    {renderLine(form.goal, 'w-full', 72)}
                   </div>
                 </div>
 
                 {/* KPI & Target */}
                 <div className="py-1 px-2">
                   <p className="font-bold text-black">3. ตัวชี้วัด (KPI) และ target :</p>
-                  <div className="mt-1">{renderMultiLine(form.kpiAndTarget, 2)}</div>
+                  <div className="mt-1">{renderMultiLine(form.kpiAndTarget, 2, 72)}</div>
                 </div>
 
                 {/* Action Plan Bullet */}
@@ -337,7 +404,7 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
                       (ระบุการปรับปรุงแก้ไขเป็นขั้นตอนในลักษณะของ bullet ให้ชัดเจนเพื่อให้ผู้อ่านเข้าใจว่าได้ทำอะไรไปบ้าง)
                     </span>
                   </p>
-                  <div className="mt-1">{renderMultiLine(form.improvementSteps, 2)}</div>
+                  <div className="mt-1">{renderMultiLine(form.improvementSteps, 3, 72)}</div>
                 </div>
 
                 {/* Duration */}
@@ -356,14 +423,14 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
                 {/* Expected Benefits */}
                 <div className="py-1 px-2">
                   <p className="font-bold">6. ประโยชน์ที่คาดว่าจะได้รับ</p>
-                  <div className="mt-1">{renderMultiLine(form.expectedBenefits, 1)}</div>
+                  <div className="mt-1">{renderMultiLine(form.expectedBenefits, 2, 72)}</div>
                 </div>
 
                 {/* Budget */}
                 <div className="py-1 px-2 flex items-start">
                   <span className="font-bold whitespace-nowrap mr-2 pt-0.5">7. งบประมาณ (ถ้ามี) :</span>
                   <div className="flex-1 min-w-0">
-                    {renderLine(form.budget, 'w-full')}
+                    {renderLine(form.budget, 'w-full', 72)}
                   </div>
                 </div>
               </div>
