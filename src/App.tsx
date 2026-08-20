@@ -9,8 +9,8 @@ import { SignatureModal } from './components/SignatureModal';
 import { AutoFillModal } from './components/AutoFillModal';
 import { EmailModal } from './components/EmailModal';
 import { HistoryDrawer } from './components/HistoryDrawer';
-import { exportToExcel, exportToPDF } from './utils/exporter';
-import { Sparkles, FileSpreadsheet, FileDown, Mail, PenTool, CheckCircle2 } from 'lucide-react';
+import { exportToPDF, printDocument } from './utils/exporter';
+import { Sparkles, FileDown, Mail, PenTool, CheckCircle2, Printer } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY = 'phyathai_cpi_saved_forms_v1';
 
@@ -23,6 +23,18 @@ export default function App() {
   const [isAutoFillOpen, setIsAutoFillOpen] = useState(false);
   const [isEmailOpen, setIsEmailOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+
+  const handleExportPDF = async () => {
+    await exportToPDF(activeForm, 'all', (msg) => {
+      if (msg) showToast(msg);
+    });
+  };
+
+  const handlePrint = () => {
+    printDocument(activeForm, (msg) => {
+      if (msg) showToast(msg);
+    });
+  };
   
   const [signatureModalConfig, setSignatureModalConfig] = useState<{
     isOpen: boolean;
@@ -78,6 +90,23 @@ export default function App() {
     setActiveForm(defaultForm as CPIFormData);
     setSavedForms([defaultForm as CPIFormData]);
   }, []);
+
+  // Handle 1-Click Approval Link trigger from URL query parameters
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const action = urlParams.get('action');
+    const docNoParam = urlParams.get('docNo');
+
+    if (action === 'approve' || action === 'deptHead') {
+      const roleToOpen = action === 'deptHead' ? 'deptHead' : 'approver';
+      setTimeout(() => {
+        handleOpenSignatureModal(roleToOpen);
+        showToast(`เปิดหน้าต่างลงนามอนุมัติออนไลน์สำหรับเอกสาร ${docNoParam || activeForm.docNo}`);
+      }, 600);
+    }
+  }, []);
+
 
   // Save current activeForm to savedForms and localStorage
   const handleFormChange = (updatedForm: CPIFormData) => {
@@ -271,11 +300,8 @@ export default function App() {
         onOpenSignatureModal={handleOpenSignatureModal}
         onOpenEmailModal={() => setIsEmailOpen(true)}
         onOpenHistoryDrawer={() => setIsHistoryOpen(true)}
-        onExportExcel={() => {
-          exportToExcel(activeForm);
-          showToast('Export Excel (.xlsx) สำเร็จ');
-        }}
-        onExportPDF={() => exportToPDF(activeForm, (msg) => msg && showToast(msg))}
+        onExportPDF={handleExportPDF}
+        onPrint={handlePrint}
       />
 
       {/* Main Container */}
@@ -311,7 +337,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-end flex-wrap">
             <button
               type="button"
               onClick={() => setIsAutoFillOpen(true)}
@@ -332,20 +358,22 @@ export default function App() {
 
             <button
               type="button"
-              onClick={() => exportToExcel(activeForm)}
-              className="px-3.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+              onClick={handlePrint}
+              className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-600 text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors"
+              title="พิมพ์เอกสารหรือบันทึกเป็น PDF ผ่านระบบเบราว์เซอร์ (Vector 100% ตรงตามพรีวิว)"
             >
-              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
-              Excel
+              <Printer className="w-3.5 h-3.5" />
+              พิมพ์ / Save PDF (100%)
             </button>
 
             <button
               type="button"
-              onClick={() => exportToPDF(activeForm, (msg) => msg && showToast(msg))}
+              onClick={handleExportPDF}
               className="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white border border-sky-600 text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors"
+              title="ดาวน์โหลดไฟล์ .pdf"
             >
               <FileDown className="w-3.5 h-3.5" />
-              ส่งออก PDF
+              ดาวน์โหลด PDF
             </button>
           </div>
         </div>

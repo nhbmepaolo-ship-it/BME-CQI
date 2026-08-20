@@ -1,13 +1,13 @@
 import React from 'react';
 import {
   Sparkles,
-  FileSpreadsheet,
   FileDown,
   Mail,
   PenTool,
   FolderOpen,
   Eye,
   Edit3,
+  Printer,
 } from 'lucide-react';
 import { CPIFormData } from '../types';
 import { PhyathaiLogo } from './PhyathaiLogo';
@@ -20,8 +20,8 @@ interface NavbarProps {
   onOpenSignatureModal: (role: 'proposer' | 'deptHead' | 'approver' | 'proposerPage2') => void;
   onOpenEmailModal: () => void;
   onOpenHistoryDrawer: () => void;
-  onExportExcel: () => void;
   onExportPDF: () => void;
+  onPrint?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -32,8 +32,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSignatureModal,
   onOpenEmailModal,
   onOpenHistoryDrawer,
-  onExportExcel,
   onExportPDF,
+  onPrint,
 }) => {
   return (
     <header className="bg-slate-900 text-white sticky top-0 z-40 shadow-xl border-b border-slate-800 print:hidden">
@@ -118,26 +118,28 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="hidden xl:inline">เซ็นออนไลน์</span>
             </button>
 
-            {/* Export Excel */}
-            <button
-              type="button"
-              onClick={onExportExcel}
-              className="px-2.5 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-emerald-400 font-medium text-xs flex items-center gap-1.5 border border-slate-700 transition-all"
-              title="Export เป็นไฟล์ Excel (.xlsx)"
-            >
-              <FileSpreadsheet className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Excel</span>
-            </button>
+            {/* Print / Save Vector PDF */}
+            {onPrint && (
+              <button
+                type="button"
+                onClick={onPrint}
+                className="px-2.5 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs flex items-center gap-1.5 border border-emerald-500 shadow-xs transition-all"
+                title="พิมพ์เอกสารหรือบันทึกเป็น PDF ผ่านระบบเบราว์เซอร์ (Vector 100% ตรงตามพรีวิว)"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">พิมพ์ / Save PDF (100%)</span>
+              </button>
+            )}
 
             {/* Export PDF */}
             <button
               type="button"
               onClick={onExportPDF}
               className="px-2.5 py-1.5 rounded-md bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs flex items-center gap-1.5 border border-sky-500 shadow-xs transition-all"
-              title="ส่งออกเอกสารเป็นไฟล์ PDF แนวตั้ง (A4)"
+              title="ดาวน์โหลดเอกสารเป็นไฟล์ PDF (A4)"
             >
               <FileDown className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">ส่งออก PDF</span>
+              <span className="hidden sm:inline">ดาวน์โหลด PDF</span>
             </button>
 
             {/* Send Email */}

@@ -123,7 +123,7 @@ app.post('/api/gemini/autofill', async (req, res) => {
 // Endpoint for sending CPI Form by Email
 app.post('/api/send-email', async (req, res) => {
   try {
-    const { toEmail, subject, message, docNo, projectTitle, department, proposerName } = req.body;
+    const { toEmail, subject, message, docNo, projectTitle, department, proposerName, pdfBase64, approvalUrl } = req.body;
 
     if (!toEmail) {
       return res.status(400).json({ error: 'กรุณาระบุอีเมลผู้รับ (To Email)' });
@@ -145,33 +145,76 @@ app.post('/api/send-email', async (req, res) => {
         },
       });
 
-      const mailOptions = {
+      const attachments: any[] = [];
+      if (pdfBase64) {
+        attachments.push({
+          filename: `CPI_Phyathai_${docNo || 'Document'}.pdf`,
+          content: Buffer.from(pdfBase64, 'base64'),
+          contentType: 'application/pdf',
+        });
+      }
+
+      const mailOptions: any = {
         from: `Phyathai CPI System <${smtpUser}>`,
         to: toEmail,
         subject: subject || `[นำส่งเอกสาร CPI] ${docNo || ''} - ${projectTitle || ''}`,
         text: message || `นำส่งแบบฟอร์ม CPI ${docNo}`,
         html: `
-          <div style="font-family: sans-serif; line-height: 1.6; color: #1e293b; padding: 16px;">
-            <h2 style="color: #0f172a;">โรงพยาบาลพญาไท - แบบบันทึกกิจกรรมพัฒนาผลสัมฤทธิ์ของงาน (CPI)</h2>
-            <p><strong>เลขที่เอกสาร:</strong> ${docNo || '-'}</p>
-            <p><strong>ชื่อโครงการ:</strong> ${projectTitle || '-'}</p>
-            <p><strong>ฝ่าย/แผนก:</strong> ${department || '-'}</p>
-            <p><strong>ผู้เสนอโครงการ:</strong> ${proposerName || '-'}</p>
-            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
-            <p style="white-space: pre-wrap;">${(message || '').replace(/\n/g, '<br/>')}</p>
-            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;" />
-            <p style="font-size: 12px; color: #64748b;">เอกสารนี้ส่งจากระบบ Phyathai CPI Online Form (PTP-FM-QMS-001)</p>
+          <div style="font-family: 'Sarabun', sans-serif, system-ui; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background-color: #ffffff;">
+            <div style="background-color: #0f172a; color: #ffffff; padding: 20px; text-align: center;">
+              <h2 style="margin: 0; font-size: 18px; color: #2dd4bf;">โรงพยาบาลพญาไท - แบบฟอร์ม CPI</h2>
+              <p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8;">เอกสารนำส่งอนุมัติโครงการพัฒนาคุณภาพ (PTP-FM-QMS-001)</p>
+            </div>
+            
+            <div style="padding: 24px;">
+              <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                <p style="margin: 0 0 6px 0; font-size: 13px;"><strong>เลขที่เอกสาร:</strong> <span style="color: #0284c7;">${docNo || '-'}</span></p>
+                <p style="margin: 0 0 6px 0; font-size: 13px;"><strong>ชื่อโครงการ:</strong> ${projectTitle || '-'}</p>
+                <p style="margin: 0 0 6px 0; font-size: 13px;"><strong>ฝ่าย/แผนก:</strong> ${department || '-'}</p>
+                <p style="margin: 0; font-size: 13px;"><strong>ผู้เสนอโครงการ:</strong> ${proposerName || '-'}</p>
+              </div>
+
+              <div style="margin-bottom: 24px; white-space: pre-wrap; font-size: 14px; color: #334155; line-height: 1.7;">
+                ${(message || '').replace(/\n/g, '<br/>')}
+              </div>
+
+              ${
+                approvalUrl
+                  ? `
+                <div style="text-align: center; margin: 28px 0; padding: 20px; background-color: #f0fdf4; border: 1px dashed #22c55e; border-radius: 12px;">
+                  <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: bold; color: #15803d;">
+                    ✍️ ลิงก์สำหรับตรวจสอบและลงนามอนุมัติออนไลน์แบบคลิกเดียว (1-Click Approval)
+                  </p>
+                  <a href="${approvalUrl}" target="_blank" style="display: inline-block; background-color: #0d9488; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-weight: bold; font-size: 14px; shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    คลิกเพื่อเปิดเอกสารและลงนามอนุมัติ →
+                  </a>
+                </div>
+              `
+                  : ''
+              }
+
+              ${
+                pdfBase64
+                  ? `<p style="font-size: 12px; color: #166534; background-color: #f0fdf4; padding: 8px 12px; border-radius: 6px; border: 1px solid #bbf7d0;">📎 ไฟล์เอกสาร CPI PDF ต้นฉบับถูกแนบมาด้วยในอีเมลนี้เรียบร้อยแล้ว</p>`
+                  : ''
+              }
+            </div>
+
+            <div style="background-color: #f1f5f9; padding: 12px 20px; text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0;">
+              ระบบ Phyathai CPI Online Form (PTP-FM-QMS-001) | โรงพยาบาลพญาไท
+            </div>
           </div>
         `,
+        attachments,
       };
 
       await transporter.sendMail(mailOptions);
-      console.log(`[SMTP Email Sent] Successfully sent email to ${toEmail}`);
+      console.log(`[SMTP Email Sent] Successfully sent email to ${toEmail} with ${attachments.length} attachment(s)`);
 
       return res.json({
         success: true,
         smtpUsed: true,
-        message: `ส่งอีเมลเอกสาร CPI เลขที่ ${docNo} ไปยัง ${toEmail} เรียบร้อยแล้ว`,
+        message: `ส่งอีเมลนำส่งเอกสาร CPI (${docNo}) พร้อมแนบไฟล์ PDF ไปยัง ${toEmail} เรียบร้อยแล้ว`,
       });
     }
 
@@ -180,7 +223,7 @@ app.post('/api/send-email', async (req, res) => {
     return res.json({
       success: true,
       smtpUsed: false,
-      message: `บันทึกคำขอนำส่งเอกสารไปยัง ${toEmail} เรียบร้อยแล้ว (สำหรับส่งทางอีเมลจริงไปยังกล่องจดหมายผู้รับ กรุณากดปุ่ม "เปิดใน Gmail / Outlook" ด้านล่าง เพื่อนำส่งจากโปรแกรมอีเมลของคุณได้ทันที)`,
+      message: `บันทึกคำขอนำส่งเอกสารไปยัง ${toEmail} เรียบร้อยแล้ว (คุณสามารถเปิดส่งใน Gmail/Outlook หรือคัดลอก 1-Click Approval Link เพื่อนำส่งได้ทันที)`,
     });
   } catch (err: any) {
     console.error('Send Email Error:', err);

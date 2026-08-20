@@ -1,12 +1,12 @@
 import React from 'react';
 
+export const PHYATHAI_LOGO_URL =
+  'https://static.hdmall.co.th/184x184/webp/system/brands/logo/2240/original/phyathai-phaholyothin-hospital.jpg';
+
 interface PhyathaiLogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
-
-export const PHYATHAI_LOGO_URL =
-  'https://static.hdmall.co.th/184x184/webp/system/brands/logo/2240/original/phyathai-phaholyothin-hospital.jpg';
 
 export const PhyathaiLogo: React.FC<PhyathaiLogoProps> = ({
   className = '',
@@ -33,5 +33,7 @@ export const PhyathaiLogo: React.FC<PhyathaiLogoProps> = ({
     />
   );
 };
+
+
 
 

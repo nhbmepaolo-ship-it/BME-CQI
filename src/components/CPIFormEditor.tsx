@@ -780,7 +780,7 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
               <div>
                 <h4 className="font-semibold text-sm">การเซ็นออนไลน์ & จัดการวันที่ลงนาม (E-Signatures & Dates)</h4>
                 <p className="text-xs text-slate-300">
-                  เซ็นชื่อออนไลน์ และตรวจสอบวันที่ลงนามให้ตรงตาม พ.ศ. ปัจจุบัน
+                  เซ็นชื่อออนไลน์ และตรวจสอบวันที่ลงนามให้ตรงตาม ค.ศ. ปัจจุบัน
                 </p>
               </div>
               <button
@@ -789,7 +789,7 @@ export const CPIFormEditor: React.FC<CPIFormEditorProps> = ({
                 className="px-3.5 py-1.5 bg-teal-600 hover:bg-teal-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs shrink-0"
               >
                 <Calendar className="w-3.5 h-3.5 text-teal-200" />
-                ปรับวันที่ทั้งหมดเป็น พ.ศ. ปัจจุบัน
+                ปรับวันที่ทั้งหมดเป็น ค.ศ. ปัจจุบัน
               </button>
             </div>
 
