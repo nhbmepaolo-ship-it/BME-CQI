@@ -39,8 +39,12 @@ const displayCE = (dateStr?: string | null): string => {
   return str;
 };
 
+const getVisualLength = (str: string): number => {
+  return str.replace(/[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/g, '').length;
+};
+
 // Helper to wrap Thai / English text into explicit lines so EVERY line gets a dotted underline
-const wrapTextToLines = (text: string, charsPerLine: number = 72): string[] => {
+const wrapTextToLines = (text: string, charsPerLine: number = 95): string[] => {
   if (!text || !text.trim()) return [];
 
   const rawParagraphs = text.split('\n');
@@ -54,34 +58,44 @@ const wrapTextToLines = (text: string, charsPerLine: number = 72): string[] => {
 
     let remaining = para.trim();
     while (remaining.length > 0) {
-      if (remaining.length <= charsPerLine) {
+      if (getVisualLength(remaining) <= charsPerLine) {
         resultLines.push(remaining);
         break;
       }
 
-      // Try to find a logical break point near charsPerLine
-      let breakIdx = charsPerLine;
-      const windowStart = Math.max(0, charsPerLine - 20);
-      const searchWindow = remaining.substring(windowStart, charsPerLine + 5);
+      // Find break index based on visual length
+      let currentVisual = 0;
+      let breakIdx = remaining.length;
 
-      // Search for spaces first
-      const lastSpace = searchWindow.lastIndexOf(' ');
-      if (lastSpace !== -1) {
+      for (let i = 0; i < remaining.length; i++) {
+        const char = remaining[i];
+        if (!/[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/.test(char)) {
+          currentVisual++;
+        }
+        if (currentVisual >= charsPerLine) {
+          breakIdx = i + 1;
+          break;
+        }
+      }
+
+      // Look back for space or punctuation
+      const windowStart = Math.max(0, breakIdx - 20);
+      const searchSub = remaining.substring(windowStart, breakIdx);
+      const lastSpace = searchSub.lastIndexOf(' ');
+      if (lastSpace !== -1 && lastSpace > 0) {
         breakIdx = windowStart + lastSpace;
       } else {
-        // Search for Thai punctuation / symbols or English break points
-        const match = searchWindow.match(/[/,)\]}\-\s]/g);
+        const match = searchSub.match(/[/,)\]}\-\s]/g);
         if (match && match.length > 0) {
-          const lastSymbol = searchWindow.lastIndexOf(match[match.length - 1]);
-          if (lastSymbol !== -1) {
+          const lastSymbol = searchSub.lastIndexOf(match[match.length - 1]);
+          if (lastSymbol !== -1 && lastSymbol > 0) {
             breakIdx = windowStart + lastSymbol + 1;
           }
         }
       }
 
-      // Fallback: if breakIdx is too small or invalid, cut at charsPerLine
       if (breakIdx <= 0 || breakIdx > remaining.length) {
-        breakIdx = charsPerLine;
+        breakIdx = remaining.length;
       }
 
       const currentLine = remaining.substring(0, breakIdx).trim();
@@ -124,7 +138,7 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
   );
 
   // Helper for rendering single line fillable fields cleanly above dotted line
-  const renderLine = (value?: string, minWidthClass: string = 'min-w-[100px]', charsPerLine: number = 65) => {
+  const renderLine = (value?: string, minWidthClass: string = 'min-w-[100px]', charsPerLine: number = 90) => {
     const hasValue = Boolean(value && value.trim());
     if (!hasValue) {
       return (
@@ -150,11 +164,11 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
     }
 
     return (
-      <div className="flex flex-col py-0.5 space-y-0.5 w-full">
+      <div className="flex flex-col py-0 space-y-0 w-full">
         {wrapped.map((line, i) => (
           <div
             key={i}
-            className="border-b border-dotted border-black text-black font-semibold text-xs py-0.5 px-0.5 whitespace-pre-wrap min-h-[18px] leading-snug w-full"
+            className="border-b border-dotted border-black text-black font-semibold text-xs py-[1px] px-0.5 whitespace-pre-wrap min-h-[16px] leading-tight w-full"
           >
             {line || '\u00A0'}
           </div>
@@ -164,19 +178,19 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
   };
 
   // Helper for rendering multi-line text areas cleanly above dotted lines
-  const renderMultiLine = (value?: string, minLines: number = 2, charsPerLine: number = 72) => {
+  const renderMultiLine = (value?: string, minLines: number = 2, charsPerLine: number = 95) => {
     const hasValue = Boolean(value && value.trim());
     const lines = hasValue ? wrapTextToLines(value!, charsPerLine) : [];
     const totalLinesToRender = Math.max(minLines, lines.length);
 
     return (
-      <div className="flex flex-col py-0.5 space-y-0.5 w-full">
+      <div className="flex flex-col py-0 space-y-0 w-full">
         {Array.from({ length: totalLinesToRender }).map((_, i) => {
           const lineText = lines[i] || '';
           return (
             <div
               key={i}
-              className="border-b border-dotted border-black text-black font-semibold text-xs py-0.5 px-0.5 whitespace-pre-wrap min-h-[18px] leading-snug w-full"
+              className="border-b border-dotted border-black text-black font-semibold text-xs py-[1px] px-0.5 whitespace-pre-wrap min-h-[16px] leading-tight w-full"
             >
               {lineText || '\u00A0'}
             </div>
@@ -362,7 +376,7 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
           </div>
 
           {/* SECTION 2 */}
-          <div className="border-t border-black flex-1 flex flex-col justify-between">
+          <div className="border-t border-black flex-1 flex flex-col">
             <div>
               {/* Section 2 Header Banner */}
               <div className="section-header-banner bg-[#e5e7eb] text-black font-bold text-xs px-2 py-1 border-b border-black" style={{ backgroundColor: '#e5e7eb', color: '#000000' }}>
@@ -372,43 +386,43 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
               {/* Section 2 Grid Content */}
               <div className="text-xs divide-y divide-black">
                 {/* Problem Statement */}
-                <div className="py-1 px-2">
+                <div className="py-0.5 px-2">
                   <p className="font-bold text-black">
                     1. สถานการณ์ปัญหา/โอกาสพัฒนา :{' '}
                     <span className="font-normal text-black text-[11px]">
                       (ระบุปัญหา/โอกาสพัฒนาที่ต้องการแก้ไข มีผลกระทบต่องานหรือการดูแลผู้ป่วยอย่างไร มีสาเหตุสำคัญมาจากอะไร)
                     </span>
                   </p>
-                  <div className="mt-1">{renderMultiLine(form.problemStatement, 3, 72)}</div>
+                  <div className="mt-0.5">{renderMultiLine(form.problemStatement, 2, 95)}</div>
                 </div>
 
                 {/* Goal */}
-                <div className="py-1 px-2 flex items-start">
+                <div className="py-0.5 px-2 flex items-start">
                   <span className="font-bold text-black whitespace-nowrap mr-2 pt-0.5">2. เป้าหมาย</span>
                   <div className="flex-1 min-w-0">
-                    {renderLine(form.goal, 'w-full', 72)}
+                    {renderLine(form.goal, 'w-full', 95)}
                   </div>
                 </div>
 
                 {/* KPI & Target */}
-                <div className="py-1 px-2">
+                <div className="py-0.5 px-2">
                   <p className="font-bold text-black">3. ตัวชี้วัด (KPI) และ target :</p>
-                  <div className="mt-1">{renderMultiLine(form.kpiAndTarget, 2, 72)}</div>
+                  <div className="mt-0.5">{renderMultiLine(form.kpiAndTarget, 2, 95)}</div>
                 </div>
 
                 {/* Action Plan Bullet */}
-                <div className="py-1 px-2">
+                <div className="py-0.5 px-2">
                   <p className="font-bold text-black">
                     4. ขั้นตอนการปรับปรุง/เปลี่ยนแปลงกระบวนการ :{' '}
                     <span className="font-normal text-black text-[11px]">
                       (ระบุการปรับปรุงแก้ไขเป็นขั้นตอนในลักษณะของ bullet ให้ชัดเจนเพื่อให้ผู้อ่านเข้าใจว่าได้ทำอะไรไปบ้าง)
                     </span>
                   </p>
-                  <div className="mt-1">{renderMultiLine(form.improvementSteps, 3, 72)}</div>
+                  <div className="mt-0.5">{renderMultiLine(form.improvementSteps, 2, 95)}</div>
                 </div>
 
                 {/* Duration */}
-                <div className="py-1 px-2 flex items-start gap-4">
+                <div className="py-0.5 px-2 flex items-start gap-4">
                   <span className="font-bold whitespace-nowrap pt-0.5">5. ระยะเวลาดำเนินการ :</span>
                   <div className="flex items-start gap-4 flex-1 flex-wrap">
                     <span className="pt-0.5">
@@ -421,95 +435,95 @@ export const PhyathaiCPIPaperForm: React.FC<PhyathaiCPIPaperFormProps> = ({
                 </div>
 
                 {/* Expected Benefits */}
-                <div className="py-1 px-2">
+                <div className="py-0.5 px-2">
                   <p className="font-bold">6. ประโยชน์ที่คาดว่าจะได้รับ</p>
-                  <div className="mt-1">{renderMultiLine(form.expectedBenefits, 2, 72)}</div>
+                  <div className="mt-0.5">{renderMultiLine(form.expectedBenefits, 1, 95)}</div>
                 </div>
 
                 {/* Budget */}
-                <div className="py-1 px-2 flex items-start">
+                <div className="py-0.5 px-2 flex items-start">
                   <span className="font-bold whitespace-nowrap mr-2 pt-0.5">7. งบประมาณ (ถ้ามี) :</span>
                   <div className="flex-1 min-w-0">
-                    {renderLine(form.budget, 'w-full', 72)}
+                    {renderLine(form.budget, 'w-full', 95)}
                   </div>
                 </div>
               </div>
             </div>
 
             {/* SIGNATURES PAGE 1 GRID */}
-            <div className="grid grid-cols-2 text-xs bg-white border-t border-black mt-auto shrink-0">
+            <div className="grid grid-cols-2 text-xs bg-white border-t border-black shrink-0">
               {/* Proposer Box Left */}
-              <div className="p-2 flex flex-col justify-between h-28 text-center items-center">
-              <span className="font-bold">ผู้เสนอโครงการ</span>
+              <div className="p-1.5 flex flex-col justify-between h-22 text-center items-center">
+                <span className="font-bold">ผู้เสนอโครงการ</span>
 
-              <div
-                onClick={() => onOpenSignatureModal?.('proposer')}
-                className="my-auto flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
-                title="คลิกเพื่อเซ็นชื่อออนไลน์"
-              >
-                {form.proposerSignature ? (
-                  <img src={form.proposerSignature} alt="ลายเซ็นผู้เสนอโครงการ" className="h-8 object-contain" />
-                ) : (
-                  <div className="text-black text-xs">
-                    ลงชื่อ..........................................................
-                  </div>
-                )}
-              </div>
+                <div
+                  onClick={() => onOpenSignatureModal?.('proposer')}
+                  className="my-auto flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
+                  title="คลิกเพื่อเซ็นชื่อออนไลน์"
+                >
+                  {form.proposerSignature ? (
+                    <img src={form.proposerSignature} alt="ลายเซ็นผู้เสนอโครงการ" className="h-7 object-contain" />
+                  ) : (
+                    <div className="text-black text-xs">
+                      ลงชื่อ..........................................................
+                    </div>
+                  )}
+                </div>
 
-              <div className="text-center w-full">
-                <p className="font-medium text-center text-black">
-                  ( <span className="inline-block text-center text-black">{form.proposerName || '..........................................................'}</span> )
-                </p>
-                <p className="text-[11px] mt-0.5 text-center text-black">
-                  วันที่ <span className="inline-block min-w-[80px] text-center text-black">{displayCE(form.proposerDate) || '......./......./.......'}</span>
-                </p>
-              </div>
-            </div>
-
-            {/* Department Head Approval Box Right */}
-            <div className="p-2 flex flex-col justify-between h-28 text-center items-center border-l border-black">
-              <div>
-                <span className="font-bold block text-center text-black">
-                  ความเห็นของหัวหน้างาน ( กรณีไม่ได้เป็นผู้เสนอโครงการ )
-                </span>
-                <div className="flex items-center justify-center gap-4 mt-1">
-                  <label className="flex items-center cursor-pointer">
-                    {renderCheckbox(form.deptHeadOpinion === 'approve')}
-                    <span className="text-black">เห็นสมควรเปิดโครงการ</span>
-                  </label>
-                  <label className="flex items-center cursor-pointer">
-                    {renderCheckbox(form.deptHeadOpinion === 'disapprove')}
-                    <span className="text-black">ไม่เห็นด้วยกับการเปิดโครงการ</span>
-                  </label>
+                <div className="text-center w-full">
+                  <p className="font-medium text-center text-black leading-tight">
+                    ( <span className="inline-block text-center text-black">{form.proposerName || '..........................................................'}</span> )
+                  </p>
+                  <p className="text-[10px] mt-0.5 text-center text-black">
+                    วันที่ <span className="inline-block min-w-[70px] text-center text-black">{displayCE(form.proposerDate) || '......./......./.......'}</span>
+                  </p>
                 </div>
               </div>
 
-              <div
-                onClick={() => onOpenSignatureModal?.('deptHead')}
-                className="my-auto flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
-                title="คลิกเพื่อเซ็นชื่อหัวหน้างาน"
-              >
-                {form.deptHeadSignature ? (
-                  <img src={form.deptHeadSignature} alt="ลายเซ็นหัวหน้างาน" className="h-8 object-contain" />
-                ) : (
-                  <div className="text-black text-xs">
-                    ลงชื่อ..........................................................
+              {/* Department Head Approval Box Right */}
+              <div className="p-1.5 flex flex-col justify-between h-22 text-center items-center border-l border-black">
+                <div>
+                  <span className="font-bold block text-center text-black text-[11px]">
+                    ความเห็นของหัวหน้างาน ( กรณีไม่ได้เป็นผู้เสนอโครงการ )
+                  </span>
+                  <div className="flex items-center justify-center gap-3 mt-0.5">
+                    <label className="flex items-center cursor-pointer">
+                      {renderCheckbox(form.deptHeadOpinion === 'approve')}
+                      <span className="text-black text-[11px]">เห็นสมควรเปิดโครงการ</span>
+                    </label>
+                    <label className="flex items-center cursor-pointer">
+                      {renderCheckbox(form.deptHeadOpinion === 'disapprove')}
+                      <span className="text-black text-[11px]">ไม่เห็นด้วยกับการเปิดโครงการ</span>
+                    </label>
                   </div>
-                )}
-              </div>
+                </div>
 
-              <div className="text-center flex flex-col items-center w-full">
-                <p className="font-medium text-center text-black">
-                  ( <span className="inline-block text-center text-black">{form.deptHeadName || 'ชาลี เมฆสุวรรณ'}</span> )
-                </p>
-                <p className="text-[10px] font-bold text-black text-center">
-                  {form.deptHeadPosition || 'ผู้จัดการแผนกวิศวกรรมการแพทย์'}
-                </p>
+                <div
+                  onClick={() => onOpenSignatureModal?.('deptHead')}
+                  className="my-auto flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors py-0.5"
+                  title="คลิกเพื่อเซ็นชื่อหัวหน้างาน"
+                >
+                  {form.deptHeadSignature ? (
+                    <img src={form.deptHeadSignature} alt="ลายเซ็นหัวหน้างาน" className="h-7 object-contain" />
+                  ) : (
+                    <div className="text-black text-xs">
+                      ลงชื่อ..........................................................
+                    </div>
+                  )}
+                </div>
+
+                <div className="text-center flex flex-col items-center w-full">
+                  <p className="font-medium text-center text-black leading-tight text-[11px]">
+                    ( <span className="inline-block text-center text-black">{form.deptHeadName || 'ชาลี เมฆสุวรรณ'}</span> )
+                  </p>
+                  <p className="text-[9.5px] font-bold text-black text-center leading-tight">
+                    {form.deptHeadPosition || 'ผู้จัดการแผนกวิศวกรรมการแพทย์'}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
         {/* Page 1 Bottom Footer */}
         <div className="pt-1.5 text-[9px] text-black flex flex-col gap-0.5">
