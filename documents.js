@@ -1,33 +1,56 @@
 // ============================================================
-// documents.js - Document list, server API client, save/load
+// documents.js - Document list, Firebase Firestore client, save/load
 // ============================================================
 
-// ---------- API Client ----------
+// ---------- Firebase Database Client ----------
 const Api = {
   async listDocuments() {
-    const r = await fetch('/api/documents');
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const data = await r.json();
-    return Array.isArray(data) ? data : [];
-  },
-  async getDocument(id) {
-    const r = await fetch('/api/documents?id=' + encodeURIComponent(id));
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return await r.json();
-  },
-  async upsertDocument(doc) {
-    const r = await fetch('/api/documents', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(doc)
+    if (!window.db) throw new Error('Firebase Database ยังไม่ได้ถูกเริ่มต้น');
+    const snapshot = await window.db.collection('cpi_documents').get();
+    const docs = [];
+    snapshot.forEach(docSnap => {
+      docs.push({ id: docSnap.id, ...docSnap.data() });
     });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return await r.json();
+    // เรียงลำดับจากอัปเดตล่าสุดไปเก่าสุด
+    docs.sort((a, b) => {
+      const timeA = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+      const timeB = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+      return timeB - timeA;
+    });
+    return docs;
   },
+
+  async getDocument(id) {
+    if (!window.db) throw new Error('Firebase Database ยังไม่ได้ถูกเริ่มต้น');
+    const docSnap = await window.db.collection('cpi_documents').doc(id).get();
+    if (!docSnap.exists) throw new Error('ไม่พบเอกสารนี้ในระบบ');
+    return { id: docSnap.id, ...docSnap.data() };
+  },
+
+  async upsertDocument(doc) {
+    if (!window.db) throw new Error('Firebase Database ยังไม่ได้ถูกเริ่มต้น');
+    const nowIso = new Date().toISOString();
+    const payload = { ...doc, updatedAt: nowIso };
+    
+    // ตรวจสอบ docId ที่มีอยู่เดิม
+    let docId = doc.id || currentDocId;
+
+    if (docId) {
+      delete payload.id;
+      await window.db.collection('cpi_documents').doc(docId).set(payload, { merge: true });
+      return { id: docId, ...payload };
+    } else {
+      payload.createdAt = nowIso;
+      delete payload.id;
+      const ref = await window.db.collection('cpi_documents').add(payload);
+      return { id: ref.id, ...payload };
+    }
+  },
+
   async deleteDocument(id) {
-    const r = await fetch('/api/documents?id=' + encodeURIComponent(id), { method: 'DELETE' });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return await r.json();
+    if (!window.db) throw new Error('Firebase Database ยังไม่ได้ถูกเริ่มต้น');
+    await window.db.collection('cpi_documents').doc(id).delete();
+    return { success: true };
   }
 };
 
@@ -48,7 +71,7 @@ function updateSaveBadge() {
   if (!badge) return;
   if (currentDocId) {
     badge.className = 'save-badge saved';
-    badge.textContent = '🟢 เชื่อมกับเซิร์ฟเวอร์แล้ว';
+    badge.textContent = '🟢 บันทึกบนคลาวด์แล้ว';
   } else {
     badge.className = 'save-badge unsaved';
     badge.textContent = '⚪ ยังไม่บันทึก';
@@ -81,7 +104,7 @@ async function refreshDocumentList() {
   const errEl = document.getElementById('serverErrorState');
   if (!tbody) return;
 
-  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888; padding:24px;">⏳ กำลังโหลดข้อมูล...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888; padding:24px;">⏳ กำลังโหลดข้อมูลจากคลาวด์...</td></tr>';
   emptyEl.hidden = true;
   errEl.hidden = true;
 
@@ -112,8 +135,10 @@ async function refreshDocumentList() {
       tbody.appendChild(tr);
     });
   } catch (err) {
+    console.error("Firebase Error:", err);
     tbody.innerHTML = '';
     errEl.hidden = false;
+    errEl.innerHTML = '<div style="font-size: 2.4rem;">📡</div><p>ไม่สามารถเชื่อมต่อฐานข้อมูล Firebase ได้ (' + escapeHtml(err.message) + ')<br>กรุณาตรวจสอบสิทธิ์ในหน้า Firestore Rules</p>';
   }
 }
 
@@ -211,9 +236,10 @@ window.saveCurrentDocument = async function() {
       const now = new Date();
       badge.textContent = '🟢 บันทึกแล้ว ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
     }
-    showToast('💾 บันทึกลงเซิร์ฟเวอร์เรียบร้อย (ID: ' + res.id + ')');
+    showToast('💾 บันทึกขึ้นระบบคลาวด์เรียบร้อย (ID: ' + res.id + ')');
   } catch (e) {
-    showToast('❌ บันทึกไม่สำเร็จ — ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ (รัน start_server.ps1)');
+    console.error(e);
+    showToast('❌ บันทึกไม่สำเร็จ: ' + e.message);
   }
 };
 
