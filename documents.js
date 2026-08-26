@@ -2,11 +2,22 @@
 // documents.js - Document list, Firebase Firestore client, save/load
 // ============================================================
 
+// ---------- Firebase Helper ----------
+function getDb() {
+  if (window.db) return window.db;
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    window.db = firebase.firestore();
+    return window.db;
+  }
+  return null;
+}
+
 // ---------- Firebase Database Client ----------
 const Api = {
   async listDocuments() {
-    if (!window.db) throw new Error('Firebase Database ยังไม่ได้ถูกเริ่มต้น');
-    const snapshot = await window.db.collection('cpi_documents').get();
+    const db = getDb();
+    if (!db) throw new Error('กำลังรอเชื่อมต่อฐานข้อมูล Firebase...');
+    const snapshot = await db.collection('cpi_documents').get();
     const docs = [];
     snapshot.forEach(docSnap => {
       docs.push({ id: docSnap.id, ...docSnap.data() });
@@ -21,35 +32,37 @@ const Api = {
   },
 
   async getDocument(id) {
-    if (!window.db) throw new Error('Firebase Database ยังไม่ได้ถูกเริ่มต้น');
-    const docSnap = await window.db.collection('cpi_documents').doc(id).get();
+    const db = getDb();
+    if (!db) throw new Error('กำลังรอเชื่อมต่อฐานข้อมูล Firebase...');
+    const docSnap = await db.collection('cpi_documents').doc(id).get();
     if (!docSnap.exists) throw new Error('ไม่พบเอกสารนี้ในระบบ');
     return { id: docSnap.id, ...docSnap.data() };
   },
 
   async upsertDocument(doc) {
-    if (!window.db) throw new Error('Firebase Database ยังไม่ได้ถูกเริ่มต้น');
+    const db = getDb();
+    if (!db) throw new Error('กำลังรอเชื่อมต่อฐานข้อมูล Firebase...');
     const nowIso = new Date().toISOString();
     const payload = { ...doc, updatedAt: nowIso };
     
-    // ตรวจสอบ docId ที่มีอยู่เดิม
     let docId = doc.id || currentDocId;
 
     if (docId) {
       delete payload.id;
-      await window.db.collection('cpi_documents').doc(docId).set(payload, { merge: true });
+      await db.collection('cpi_documents').doc(docId).set(payload, { merge: true });
       return { id: docId, ...payload };
     } else {
       payload.createdAt = nowIso;
       delete payload.id;
-      const ref = await window.db.collection('cpi_documents').add(payload);
+      const ref = await db.collection('cpi_documents').add(payload);
       return { id: ref.id, ...payload };
     }
   },
 
   async deleteDocument(id) {
-    if (!window.db) throw new Error('Firebase Database ยังไม่ได้ถูกเริ่มต้น');
-    await window.db.collection('cpi_documents').doc(id).delete();
+    const db = getDb();
+    if (!db) throw new Error('กำลังรอเชื่อมต่อฐานข้อมูล Firebase...');
+    await db.collection('cpi_documents').doc(id).delete();
     return { success: true };
   }
 };
@@ -138,7 +151,7 @@ async function refreshDocumentList() {
     console.error("Firebase Error:", err);
     tbody.innerHTML = '';
     errEl.hidden = false;
-    errEl.innerHTML = '<div style="font-size: 2.4rem;">📡</div><p>ไม่สามารถเชื่อมต่อฐานข้อมูล Firebase ได้ (' + escapeHtml(err.message) + ')<br>กรุณาตรวจสอบสิทธิ์ในหน้า Firestore Rules</p>';
+    errEl.innerHTML = '<div style="font-size: 2.4rem;">📡</div><p>ไม่สามารถเชื่อมต่อฐานข้อมูล Firebase ได้ (' + escapeHtml(err.message) + ')<br>กรุณารีเฟรชหน้าใหม่อีกครั้ง</p>';
   }
 }
 
@@ -312,5 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   updateSaveBadge();
-  refreshDocumentList();
+  
+  // หน่วงเวลาเล็กน้อยเพื่อให้ Firebase เริ่มต้นทำงานเสร็จสมบูรณ์
+  setTimeout(() => {
+    refreshDocumentList();
+  }, 300);
 });
