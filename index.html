@@ -202,6 +202,11 @@
             </div>
 
             <div class="form-group">
+              <label>วันที่ผู้เสนอโครงการ (หน้า 1)</label>
+              <input type="date" id="proposerDate" class="form-control">
+            </div>
+
+            <div class="form-group">
               <label>ความเห็นของหัวหน้างาน (ผู้อนุมัติเปิดโครงการ)</label>
               <select id="approverOption" class="form-control">
                 <option value="approve">เห็นสมควรเปิดโครงการ</option>
@@ -210,8 +215,8 @@
             </div>
 
             <div class="form-group">
-              <label>หัวหน้างาน / ผู้อนุมัติเปิดโครงการ</label>
-              <input type="text" id="approverName" class="form-control" readonly>
+              <label>หัวหน้างาน / ผู้อนุมัติเปิดโครงการ (แก้ไขชื่อได้)</label>
+              <input type="text" id="approverName" class="form-control">
             </div>
           </div>
 
@@ -294,9 +299,20 @@
               <select id="p3_proposerName" class="form-control"></select>
             </div>
 
+            <div class="form-row">
+              <div class="form-group">
+                <label>วันที่ผู้เสนอโครงการ (รายงานผล)</label>
+                <input type="date" id="p3_proposerDate" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>วันที่ผู้อนุมัติปิดโครงการ</label>
+                <input type="date" id="p3_approverDate" class="form-control">
+              </div>
+            </div>
+
             <div class="form-group">
-              <label>ผู้อนุมัติปิดโครงการ</label>
-              <input type="text" id="p3_approverName" class="form-control" readonly>
+              <label>ผู้อนุมัติปิดโครงการ (แก้ไขชื่อได้)</label>
+              <input type="text" id="p3_approverName" class="form-control">
             </div>
           </div>
 
@@ -503,6 +519,11 @@
           <label>พิมพ์หัวข้อโครงการ หรือ คีย์เวิร์ดงานวิศวกรรมการแพทย์</label>
           <input type="text" id="aiTopicInput" class="form-control" placeholder="เช่น การพัฒนาระบบตรวจเช็คความพร้อมใช้งานถังแก๊สทางการแพทย์, สอบเทียบเครื่องช่วยหายใจ..." autofocus>
         </div>
+        <p class="hint-text" style="margin-bottom:0;">
+          🤖 AI จะวิเคราะห์คีย์เวิร์ดจากหัวข้อ แล้วป้อนค่าให้<strong>ครบทุกส่วน</strong>:
+          ประเภทโครงการ · ประเภทการพัฒนา · ที่มาโครงการ · ประโยชน์ที่คาดว่าจะได้รับ (ติ๊ก checkbox ตามบริบท) ·
+          ช่วงเวลาโครงการ · งบประมาณ · ผลลัพธ์ · ปัญหาอุปสรรคและแนวทางแก้ไข
+        </p>
 
         <div style="margin-top: 14px;">
           <label style="font-weight: 600; font-size: 0.88rem; color: #495057;">ตัวอย่างโครงการวิศวกรรมการแพทย์ที่พบบ่อย (คลิกเพื่อเลือก):</label>
@@ -539,31 +560,9 @@
   <!-- Toast Notification element -->
   <div class="toast-notification" id="toast"></div>
 
-  <!-- Vendor Libraries -->
   <script src="assets/vendor/chart.umd.min.js"></script>
   <script src="assets/vendor/jspdf.umd.min.js"></script>
   <script src="assets/vendor/html2canvas.min.js"></script>
-
-  <!-- Firebase SDKs & Config -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAoKbrZbEuA6fRRY-96P3kCnQYcng6iyIk",
-      authDomain: "bme-cqi-db.firebaseapp.com",
-      projectId: "bme-cqi-db",
-      storageBucket: "bme-cqi-db.firebasestorage.app",
-      messagingSenderId: "454726170602",
-      appId: "1:454726170602:web:2cee17cd3cd32dbf966493",
-      measurementId: "G-GW24YSR16M"
-    };
-
-    // เริ่มต้นเชื่อมต่อ Firebase Firestore
-    firebase.initializeApp(firebaseConfig);
-    window.db = firebase.firestore();
-  </script>
-
-  <!-- App Scripts -->
   <script src="app.js"></script>
   <script src="documents.js"></script>
   <script src="results.js"></script>
