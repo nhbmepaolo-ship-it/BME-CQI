@@ -24,102 +24,103 @@ const DEFAULT_DEPT = "แผนกวิศวกรรมการแพทย�
 
 // Form State Factories
 function makeSampleFormData() {
+  const currentYearBE = new Date().getFullYear() + 543;
   return {
-  // Page 1 Header & Part 1
-  projectNo: "BME-2569-001",
-  docDate: new Date().toISOString().split('T')[0],
-  department: DEFAULT_DEPT,
-  projectName: "โครงการลดระยะเวลาการเข้าซ่อมแซมและบำรุงรักษาเครื่องมือแพทย์วิกฤต (Mean Time to Repair: MTTR)",
-  
-  projType_IA: false,
-  projType_PIP: true,
-  projType_BIP: false,
-  
-  devType_Clinical: false,
-  devType_Service: true,
-  devType_Research: false,
-  
-  src_Vision: false,
-  src_Review: true,
-  src_InternalAudit: false,
-  src_InternalAuditDetail: "",
-  src_KpiDrop: true,
-  src_Survey: false,
-  src_StaffSuggest: false,
-  src_Complaint: false,
-  src_ComplaintNo: "",
-  src_Other: false,
-  src_OtherDetail: "",
+    // Page 1 Header & Part 1
+    projectNo: `BME-${currentYearBE}-001`,
+    docDate: new Date().toISOString().split('T')[0],
+    department: DEFAULT_DEPT,
+    projectName: "โครงการลดระยะเวลาการเข้าซ่อมแซมและบำรุงรักษาเครื่องมือแพทย์วิกฤต (Mean Time to Repair: MTTR)",
+    
+    projType_IA: false,
+    projType_PIP: true,
+    projType_BIP: false,
+    
+    devType_Clinical: false,
+    devType_Service: true,
+    devType_Research: false,
+    
+    src_Vision: false,
+    src_Review: true,
+    src_InternalAudit: false,
+    src_InternalAuditDetail: "",
+    src_KpiDrop: true,
+    src_Survey: false,
+    src_StaffSuggest: false,
+    src_Complaint: false,
+    src_ComplaintNo: "",
+    src_Other: false,
+    src_OtherDetail: "",
 
-  // Part 2 Details
-  problemStatement: "จากการเก็บข้อมูลสถิติการแจ้งซ่อมเครื่องมือแพทย์ในแผนกผู้ป่วยวิกฤต (ICU/CCU) พบว่าระยะเวลาตอบสนองและการเข้าซ่อมแซมเฉลี่ยอยู่ที่ 120 นาที ซึ่งเกินกว่าเกณฑ์มาตรฐานที่กำหนดไว้ไม่เกิน 60 นาที ส่งผลกระทบต่อความพร้อมในการใช้งานเครื่องมือแพทย์และการดูแลผู้ป่วย",
-  goal: "ลดระยะเวลาตอบสนองและการเข้าซ่อมแซมเครื่องมือแพทย์วิกฤตลงมากกว่า 50% (เหลือไม่เกิน 45 นาที) ภายในไตรมาสที่ 3",
-  kpiTarget: "อัตราเฉลี่ยเวลาตอบสนองการซ่อม (MTTR) <= 45 นาที และ อัตราความพึงพอใจของหอผู้ป่วยวิกฤต >= 92%",
-  improvementSteps: "1. จัดทำระบบแจ้งซ่อมเครื่องมือแพทย์ผ่านไลน์ด่วน (BME Urgent Alert)\n2. จัดเตรียมชุดสำรองอะไหล่เครื่องมือแพทย์วิกฤต (Rapid Response Spare Parts Kit) ไว้ประจำจุดเสี่ยง\n3. จัดระบบเข้าเวรพนักงานวิศวกรรมการแพทย์ประจำจุดวิกฤตตลอด 24 ชั่วโมง",
-  startDate: "2026-09-01",
-  endDate: "2026-12-31",
-  benefits: "1. เพิ่มความปลอดภัยและลดความเสี่ยงต่อการดูแลผู้ป่วยวิกฤต\n2. เครื่องมือแพทย์มีความพร้อมใช้งานสูงขึ้น (> 98% Availability)",
-  budget: "25,000",
-  
-  proposerName: PROPOSER_NAMES[0],
-  proposerDate: new Date().toISOString().split('T')[0],
-  proposerSignature: null,
+    // Part 2 Details
+    problemStatement: "จากการเก็บข้อมูลสถิติการแจ้งซ่อมเครื่องมือแพทย์ในแผนกผู้ป่วยวิกฤต (ICU/CCU) พบว่าระยะเวลาตอบสนองและการเข้าซ่อมแซมเฉลี่ยอยู่ที่ 120 นาที ซึ่งเกินกว่าเกณฑ์มาตรฐานที่กำหนดไว้ไม่เกิน 60 นาที ส่งผลกระทบต่อความพร้อมในการใช้งานเครื่องมือแพทย์และการดูแลผู้ป่วย",
+    goal: "ลดระยะเวลาตอบสนองและการเข้าซ่อมแซมเครื่องมือแพทย์วิกฤตลงมากกว่า 50% (เหลือไม่เกิน 45 นาที) ภายในไตรมาสที่ 3",
+    kpiTarget: "อัตราเฉลี่ยเวลาตอบสนองการซ่อม (MTTR) <= 45 นาที และ อัตราความพึงพอใจของหอผู้ป่วยวิกฤต >= 92%",
+    improvementSteps: "1. จัดทำระบบแจ้งซ่อมเครื่องมือแพทย์ผ่านไลน์ด่วน (BME Urgent Alert)\n2. จัดเตรียมชุดสำรองอะไหล่เครื่องมือแพทย์วิกฤต (Rapid Response Spare Parts Kit) ไว้ประจำจุดเสี่ยง\n3. จัดระบบเข้าเวรพนักงานวิศวกรรมการแพทย์ประจำจุดวิกฤตตลอด 24 ชั่วโมง",
+    startDate: "2026-09-01",
+    endDate: "2026-12-31",
+    benefits: "1. เพิ่มความปลอดภัยและลดความเสี่ยงต่อการดูแลผู้ป่วยวิกฤต\n2. เครื่องมือแพทย์มีความพร้อมใช้งานสูงขึ้น (> 98% Availability)",
+    budget: "25,000",
+    
+    proposerName: PROPOSER_NAMES[0],
+    proposerDate: new Date().toISOString().split('T')[0],
+    proposerSignature: null,
 
-  approverOption: "approve", // approve / reject
-  approverName: DEFAULT_APPROVER,
-  approverDate: new Date().toISOString().split('T')[0],
-  approverSignature: null,
+    approverOption: "approve", // approve / reject
+    approverName: DEFAULT_APPROVER,
+    approverDate: new Date().toISOString().split('T')[0],
+    approverSignature: null,
 
-  // Page 2 Part 3 (Report)
-  kpiResults: "ผลการดำเนินงานหลังปรับปรุงระบบ MTTR เฉลี่ยลดลงเหลือ 38 นาที (ดีกว่าเป้าหมายที่ตั้งไว้ 45 นาที) และคะแนนความพึงพอใจของหอผู้ป่วยวิกฤตเพิ่มขึ้นเป็น 95.5%",
-  otherResults: "ลดความสูญเสียเวลาของพยาบาลในการติดตามสถานะการซ่อมได้มากกว่า 150 ชั่วโมง/เดือน",
+    // Page 2 Part 3 (Report)
+    kpiResults: "ผลการดำเนินงานหลังปรับปรุงระบบ MTTR เฉลี่ยลดลงเหลือ 38 นาที (ดีกว่าเป้าหมายที่ตั้งไว้ 45 นาที) และคะแนนความพึงพอใจของหอผู้ป่วยวิกฤตเพิ่มขึ้นเป็น 95.5%",
+    otherResults: "ลดความสูญเสียเวลาของพยาบาลในการติดตามสถานะการซ่อมได้มากกว่า 150 ชั่วโมง/เดือน",
 
-  // Benefits checkboxes
-  b_sat_client: true,
-  b_knowledge: true,
-  b_complications: true,
-  b_safety: true,
-  b_income: false,
-  b_income_amt: "",
-  b_communication: true,
-  b_resource: true,
-  b_treatment: true,
-  b_val_added: true,
-  b_other: false,
-  b_other_detail: "",
-  b_err_reduction: true,
-  b_staff_sat: true,
-  b_speed: true,
-  b_cost_reduction: true,
-  b_cost_amt: "45,000",
+    // Benefits checkboxes
+    b_sat_client: true,
+    b_knowledge: true,
+    b_complications: true,
+    b_safety: true,
+    b_income: false,
+    b_income_amt: "",
+    b_communication: true,
+    b_resource: true,
+    b_treatment: true,
+    b_val_added: true,
+    b_other: false,
+    b_other_detail: "",
+    b_err_reduction: true,
+    b_staff_sat: true,
+    b_speed: true,
+    b_cost_reduction: true,
+    b_cost_amt: "45,000",
 
-  // Challenges & Solutions
-  c_data_collect: "ความต่อเนื่องในการบันทึกเวลาของเจ้าหน้าที่พยาบาลขณะเกิดเหตุฉุกเฉิน",
-  c_kpi_collect: "การสกัดข้อมูลเวลาจากระบบสารสนเทศในหอผู้ป่วย",
-  c_solution: "ปรับปรุงปุ่มกดแจ้งซ่อมแบบ Quick Button บนเครื่องและแท็บเล็ตประจำหอผู้ป่วย",
-  c_other: "-",
+    // Challenges & Solutions
+    c_data_collect: "ความต่อเนื่องในการบันทึกเวลาของเจ้าหน้าที่พยาบาลขณะเกิดเหตุฉุกเฉิน",
+    c_kpi_collect: "การสกัดข้อมูลเวลาจากระบบสารสนเทศในหอผู้ป่วย",
+    c_solution: "ปรับปรุงปุ่มกดแจ้งซ่อมแบบ Quick Button บนเครื่องและแท็บเล็ตประจำหอผู้ป่วย",
+    c_other: "-",
 
-  // Recommendations
-  recommendations: "ขยายผลการจัดทำชุดสำรองอะไหล่ด่วนไปยังแผนกห้องผ่าตัด (OR) และแผนกอุบัติเหตุฉุกเฉิน (ER)",
+    // Recommendations
+    recommendations: "ขยายผลการจัดทำชุดสำรองอะไหล่ด่วนไปยังแผนกห้องผ่าตัด (OR) และแผนกอุบัติเหตุฉุกเฉิน (ER)",
 
-  // Part 3 Signatures
-  p3_proposerName: PROPOSER_NAMES[0],
-  p3_proposerDate: new Date().toISOString().split('T')[0],
-  p3_proposerSignature: null,
+    // Part 3 Signatures
+    p3_proposerName: PROPOSER_NAMES[0],
+    p3_proposerDate: new Date().toISOString().split('T')[0],
+    p3_proposerSignature: null,
 
-  // Approver Close Project
-  close_approve: true,
-  close_target_met: true,
-  close_data_reliable: true,
-  close_more_study: false,
-  close_study_detail: "",
-  close_expand: true,
-  close_other: false,
-  close_other_detail: "",
+    // Approver Close Project
+    close_approve: true,
+    close_target_met: true,
+    close_data_reliable: true,
+    close_more_study: false,
+    close_study_detail: "",
+    close_expand: true,
+    close_other: false,
+    close_other_detail: "",
 
-  p3_approverName: DEFAULT_APPROVER,
-  p3_approverDate: new Date().toISOString().split('T')[0],
-  p3_approverSignature: null
+    p3_approverName: DEFAULT_APPROVER,
+    p3_approverDate: new Date().toISOString().split('T')[0],
+    p3_approverSignature: null
   };
 }
 
@@ -158,11 +159,15 @@ function saveDraftNow() {
     photos: (includePhotos && window.getPhotoState) ? window.getPhotoState() : [],
     savedAt: Date.now()
   });
+
   try {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(buildObj(true)));
   } catch (e) {
-    // Quota exceeded (large photos) — retry without photos
-    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(buildObj(false))); } catch (e2) { /* give up */ }
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(buildObj(false)));
+    } catch (e2) {
+      console.warn("LocalStorage quota full");
+    }
   }
 }
 
@@ -179,14 +184,14 @@ function restoreDraft() {
   } catch (e) { /* corrupt draft — ignore */ }
 }
 
-// Highlight selection WITHOUT rebuilding the overlay (keeps native resize grip alive)
+// Highlight selection WITHOUT rebuilding the overlay
 function updateSelectionHighlight() {
   document.querySelectorAll('.page-overlay .field-item, .page-overlay .check-item').forEach(el => {
     el.classList.toggle('selected', el.dataset.field === selectedFieldKey);
   });
 }
 
-// Detect press on the native CSS resize grip (bottom-right corner ~20px)
+// Detect press on the native CSS resize grip
 function isResizeHandleHit(e, div) {
   const rect = div.getBoundingClientRect();
   const x = (e.touches && e.touches.length) ? e.touches[0].clientX : e.clientX;
@@ -194,7 +199,7 @@ function isResizeHandleHit(e, div) {
   return (rect.right - x) < 20 && (rect.bottom - y) < 20;
 }
 
-// Persist manually resized box dimensions (width = % of page, height = px)
+// Persist manually resized box dimensions
 function watchElementResize(div, fieldKey, pageContainer) {
   if (typeof ResizeObserver === 'undefined') return;
   let lastW = null, lastH = null;
@@ -237,8 +242,9 @@ function showToast(msg) {
 
 // Position Nudge Functions
 function makeBlankFormData() {
+  const currentYearBE = new Date().getFullYear() + 543;
   return {
-    projectNo: "",
+    projectNo: `BME-${currentYearBE}-${String(Math.floor(Math.random() * 900) + 100)}`,
     docDate: new Date().toISOString().split('T')[0],
     department: DEFAULT_DEPT,
     projectName: "",
@@ -395,7 +401,7 @@ function updateAdjusterUI() {
   const scInput = document.getElementById('scaleHeightInput');
   if (fsInput) fsInput.value = offset.fontSize || 12.5;
   if (scInput) scInput.value = offset.scaleH || 1.0;
-};
+}
 
 window.resetAllOffsets = function() {
   fieldOffsets = {};
@@ -573,7 +579,7 @@ function initDropdowns() {
   if (document.getElementById('p3_approverName')) document.getElementById('p3_approverName').value = formData.p3_approverName;
 }
 
-// Apply a formData object into all DOM inputs (used when loading saved document)
+// Apply a formData object into all DOM inputs
 function applyFormDataToDOM(fd) {
   if (!fd) return;
   Object.keys(fd).forEach(key => {
@@ -589,7 +595,7 @@ function applyFormDataToDOM(fd) {
   renderOverlay();
 }
 
-// Collect the full current document payload for saving to server
+// Collect the full current document payload for saving
 window.collectDocPayload = function() {
   return {
     id: window.getCurrentDocId ? window.getCurrentDocId() : null,
@@ -901,7 +907,7 @@ function renderOverlay() {
   ov1.innerHTML = '';
   ov2.innerHTML = '';
 
-  // Helper to add text field item with custom line-height, black text, and interactive Drag & Drop
+  // Helper to add text field item
   function addText(overlay, pageContainer, fieldKey, text, baseLeftPct, baseTopPct, widthPct, fontSize = 12.5, baseLineHeight = 2.3) {
     if (!text) return;
     const offset = fieldOffsets[fieldKey] || { dx: 0, dy: 0, lineGap: 0, fontSize: 12.5, scaleH: 1.0 };
@@ -930,35 +936,11 @@ function renderOverlay() {
   }
 
   function enableResizeElement(div, fieldKey) {
-    // DON'T create resize handles - they show up in print
-    // Just make div resizable with CSS instead
     div.style.resize = 'both';
     div.style.overflow = 'auto';
   }
 
-  function onResize(e) {
-    if (!isResizing || !selectedFieldKey) return;
-    const dx = e.clientX - resizeStartX;
-    const dy = e.clientY - resizeStartY;
-    const container = document.querySelector('.page-container');
-    if (!container) return;
-    
-    const newW = Math.max(60, resizeStartWidth + dx);
-    const newH = Math.max(20, resizeStartHeight + dy);
-    const els = document.querySelectorAll('.field-item.selected, .check-item.selected');
-    els.forEach(el => {
-      el.style.width = newW + 'px';
-      el.style.height = newH + 'px';
-    });
-  }
-
-  function stopResize() {
-    isResizing = false;
-    document.removeEventListener('mousemove', onResize);
-    document.removeEventListener('mouseup', stopResize);
-  }
-
-  // Helper to add Checkbox mark (✓) in exact square center with interactive Drag & Drop
+  // Helper to add Checkbox mark (✓)
   function addCheck(overlay, pageContainer, fieldKey, isChecked, baseLeftPct, baseTopPct) {
     if (!isChecked) return;
     const offset = fieldOffsets[fieldKey] || { dx: 0, dy: 0 };
@@ -980,7 +962,7 @@ function renderOverlay() {
     overlay.appendChild(div);
   }
 
-  // Helper to add Signature Image with interactive Drag & Drop
+  // Helper to add Signature Image
   function addSig(overlay, pageContainer, fieldKey, sigUrl, baseLeftPct, baseTopPct) {
     if (!sigUrl) return;
     const offset = fieldOffsets[fieldKey] || { dx: 0, dy: 0 };
@@ -1005,7 +987,6 @@ function renderOverlay() {
   }
 
   // --- PAGE 1 RENDER ---
-  // Top Header Line 1
   addText(ov1, page1Container, 'projectNo', formData.projectNo, 14.5, 15.7, null, 12.5, 1);
   addText(ov1, page1Container, 'docDate', formatDate(formData.docDate), 40.5, 15.7, null, 12.5, 1);
   addText(ov1, page1Container, 'department', formData.department, 73.5, 15.7, null, 12.5, 1);
@@ -1045,7 +1026,7 @@ function renderOverlay() {
   addText(ov1, page1Container, 'startDate', formatDate(formData.startDate), 22.5, 73.3, null, 12, 1);
   addText(ov1, page1Container, 'endDate', formatDate(formData.endDate), 62.0, 73.3, null, 12, 1);
 
-  // Benefits (Section 6)
+  // Benefits
   addText(ov1, page1Container, 'benefits', formData.benefits, 22.0, 75.8, 72, 11.8, 2.3);
 
   // Budget
@@ -1063,7 +1044,6 @@ function renderOverlay() {
   addText(ov1, page1Container, 'approverName', formData.approverName, 58.0, 89.5, null, 12, 1);
 
   // --- PAGE 2 RENDER ---
-  // Header Line Page 2
   addText(ov2, page2Container, 'p2_department', formData.department, 20.0, 17.4, null, 12.5, 1);
   addText(ov2, page2Container, 'p2_docDate', formatDate(formData.docDate), 58.0, 17.4, null, 12.5, 1);
   addText(ov2, page2Container, 'p2_projectNo', formData.projectNo, 83.5, 17.4, null, 12.5, 1);
@@ -1125,7 +1105,6 @@ function renderOverlay() {
   addText(ov2, page2Container, 'p3_approverName', formData.p3_approverName, 42.0, 89.2, null, 12, 1);
   addText(ov2, page2Container, 'p3_approverDate', formatDate(formData.p3_approverDate), 44.0, 91.3, null, 12, 1);
 
-  // Autosave current draft (debounced) so data & positions survive reloads
   window.scheduleDraftSave();
 }
 
@@ -1140,27 +1119,23 @@ function formatDate(dateStr) {
   return `${day}/${month}/${year}`;
 }
 
-// Print event handlers to hide/remove selection handles
+// Print event handlers
 window.addEventListener('beforeprint', function() {
-  // Tag body with the active view so print CSS knows what to output
   const activeView = document.querySelector('.view.active');
   document.body.classList.toggle('printing-form', !!(activeView && activeView.id === 'view-form'));
   document.body.classList.toggle('printing-results', !!(activeView && activeView.id === 'view-results'));
   document.body.classList.toggle('printing-list', !!(activeView && activeView.id === 'view-list'));
 
-  // Remove all resize handles before printing
   document.querySelectorAll('.field-item > div, .check-item > div').forEach(handle => {
     if (handle.style.cursor === 'nwse-resize' || handle.style.backgroundColor === '#0056b3') {
       handle.remove();
     }
   });
-  // Deselect all fields
   selectedFieldKey = null;
   renderOverlay();
 });
 
 window.addEventListener('afterprint', function() {
-  // Restore renders after printing
   setTimeout(() => {
     renderOverlay();
   }, 100);
