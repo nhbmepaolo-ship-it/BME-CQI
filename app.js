@@ -24,103 +24,102 @@ const DEFAULT_DEPT = "แผนกวิศวกรรมการแพทย�
 
 // Form State Factories
 function makeSampleFormData() {
-  const currentYearBE = new Date().getFullYear() + 543;
   return {
-    // Page 1 Header & Part 1
-    projectNo: `BME-${currentYearBE}-001`,
-    docDate: new Date().toISOString().split('T')[0],
-    department: DEFAULT_DEPT,
-    projectName: "โครงการลดระยะเวลาการเข้าซ่อมแซมและบำรุงรักษาเครื่องมือแพทย์วิกฤต (Mean Time to Repair: MTTR)",
-    
-    projType_IA: false,
-    projType_PIP: true,
-    projType_BIP: false,
-    
-    devType_Clinical: false,
-    devType_Service: true,
-    devType_Research: false,
-    
-    src_Vision: false,
-    src_Review: true,
-    src_InternalAudit: false,
-    src_InternalAuditDetail: "",
-    src_KpiDrop: true,
-    src_Survey: false,
-    src_StaffSuggest: false,
-    src_Complaint: false,
-    src_ComplaintNo: "",
-    src_Other: false,
-    src_OtherDetail: "",
+  // Page 1 Header & Part 1
+  projectNo: "BME-2569-001",
+  docDate: new Date().toISOString().split('T')[0],
+  department: DEFAULT_DEPT,
+  projectName: "โครงการลดระยะเวลาการเข้าซ่อมแซมและบำรุงรักษาเครื่องมือแพทย์วิกฤต (Mean Time to Repair: MTTR)",
+  
+  projType_IA: false,
+  projType_PIP: true,
+  projType_BIP: false,
+  
+  devType_Clinical: false,
+  devType_Service: true,
+  devType_Research: false,
+  
+  src_Vision: false,
+  src_Review: true,
+  src_InternalAudit: false,
+  src_InternalAuditDetail: "",
+  src_KpiDrop: true,
+  src_Survey: false,
+  src_StaffSuggest: false,
+  src_Complaint: false,
+  src_ComplaintNo: "",
+  src_Other: false,
+  src_OtherDetail: "",
 
-    // Part 2 Details
-    problemStatement: "จากการเก็บข้อมูลสถิติการแจ้งซ่อมเครื่องมือแพทย์ในแผนกผู้ป่วยวิกฤต (ICU/CCU) พบว่าระยะเวลาตอบสนองและการเข้าซ่อมแซมเฉลี่ยอยู่ที่ 120 นาที ซึ่งเกินกว่าเกณฑ์มาตรฐานที่กำหนดไว้ไม่เกิน 60 นาที ส่งผลกระทบต่อความพร้อมในการใช้งานเครื่องมือแพทย์และการดูแลผู้ป่วย",
-    goal: "ลดระยะเวลาตอบสนองและการเข้าซ่อมแซมเครื่องมือแพทย์วิกฤตลงมากกว่า 50% (เหลือไม่เกิน 45 นาที) ภายในไตรมาสที่ 3",
-    kpiTarget: "อัตราเฉลี่ยเวลาตอบสนองการซ่อม (MTTR) <= 45 นาที และ อัตราความพึงพอใจของหอผู้ป่วยวิกฤต >= 92%",
-    improvementSteps: "1. จัดทำระบบแจ้งซ่อมเครื่องมือแพทย์ผ่านไลน์ด่วน (BME Urgent Alert)\n2. จัดเตรียมชุดสำรองอะไหล่เครื่องมือแพทย์วิกฤต (Rapid Response Spare Parts Kit) ไว้ประจำจุดเสี่ยง\n3. จัดระบบเข้าเวรพนักงานวิศวกรรมการแพทย์ประจำจุดวิกฤตตลอด 24 ชั่วโมง",
-    startDate: "2026-09-01",
-    endDate: "2026-12-31",
-    benefits: "1. เพิ่มความปลอดภัยและลดความเสี่ยงต่อการดูแลผู้ป่วยวิกฤต\n2. เครื่องมือแพทย์มีความพร้อมใช้งานสูงขึ้น (> 98% Availability)",
-    budget: "25,000",
-    
-    proposerName: PROPOSER_NAMES[0],
-    proposerDate: new Date().toISOString().split('T')[0],
-    proposerSignature: null,
+  // Part 2 Details
+  problemStatement: "จากการเก็บข้อมูลสถิติการแจ้งซ่อมเครื่องมือแพทย์ในแผนกผู้ป่วยวิกฤต (ICU/CCU) พบว่าระยะเวลาตอบสนองและการเข้าซ่อมแซมเฉลี่ยอยู่ที่ 120 นาที ซึ่งเกินกว่าเกณฑ์มาตรฐานที่กำหนดไว้ไม่เกิน 60 นาที ส่งผลกระทบต่อความพร้อมในการใช้งานเครื่องมือแพทย์และการดูแลผู้ป่วย",
+  goal: "ลดระยะเวลาตอบสนองและการเข้าซ่อมแซมเครื่องมือแพทย์วิกฤตลงมากกว่า 50% (เหลือไม่เกิน 45 นาที) ภายในไตรมาสที่ 3",
+  kpiTarget: "อัตราเฉลี่ยเวลาตอบสนองการซ่อม (MTTR) <= 45 นาที และ อัตราความพึงพอใจของหอผู้ป่วยวิกฤต >= 92%",
+  improvementSteps: "1. จัดทำระบบแจ้งซ่อมเครื่องมือแพทย์ผ่านไลน์ด่วน (BME Urgent Alert)\n2. จัดเตรียมชุดสำรองอะไหล่เครื่องมือแพทย์วิกฤต (Rapid Response Spare Parts Kit) ไว้ประจำจุดเสี่ยง\n3. จัดระบบเข้าเวรพนักงานวิศวกรรมการแพทย์ประจำจุดวิกฤตตลอด 24 ชั่วโมง",
+  startDate: "2026-09-01",
+  endDate: "2026-12-31",
+  benefits: "1. เพิ่มความปลอดภัยและลดความเสี่ยงต่อการดูแลผู้ป่วยวิกฤต\n2. เครื่องมือแพทย์มีความพร้อมใช้งานสูงขึ้น (> 98% Availability)",
+  budget: "25,000",
+  
+  proposerName: PROPOSER_NAMES[0],
+  proposerDate: new Date().toISOString().split('T')[0],
+  proposerSignature: null,
 
-    approverOption: "approve", // approve / reject
-    approverName: DEFAULT_APPROVER,
-    approverDate: new Date().toISOString().split('T')[0],
-    approverSignature: null,
+  approverOption: "approve", // approve / reject
+  approverName: DEFAULT_APPROVER,
+  approverDate: new Date().toISOString().split('T')[0],
+  approverSignature: null,
 
-    // Page 2 Part 3 (Report)
-    kpiResults: "ผลการดำเนินงานหลังปรับปรุงระบบ MTTR เฉลี่ยลดลงเหลือ 38 นาที (ดีกว่าเป้าหมายที่ตั้งไว้ 45 นาที) และคะแนนความพึงพอใจของหอผู้ป่วยวิกฤตเพิ่มขึ้นเป็น 95.5%",
-    otherResults: "ลดความสูญเสียเวลาของพยาบาลในการติดตามสถานะการซ่อมได้มากกว่า 150 ชั่วโมง/เดือน",
+  // Page 2 Part 3 (Report)
+  kpiResults: "ผลการดำเนินงานหลังปรับปรุงระบบ MTTR เฉลี่ยลดลงเหลือ 38 นาที (ดีกว่าเป้าหมายที่ตั้งไว้ 45 นาที) และคะแนนความพึงพอใจของหอผู้ป่วยวิกฤตเพิ่มขึ้นเป็น 95.5%",
+  otherResults: "ลดความสูญเสียเวลาของพยาบาลในการติดตามสถานะการซ่อมได้มากกว่า 150 ชั่วโมง/เดือน",
 
-    // Benefits checkboxes
-    b_sat_client: true,
-    b_knowledge: true,
-    b_complications: true,
-    b_safety: true,
-    b_income: false,
-    b_income_amt: "",
-    b_communication: true,
-    b_resource: true,
-    b_treatment: true,
-    b_val_added: true,
-    b_other: false,
-    b_other_detail: "",
-    b_err_reduction: true,
-    b_staff_sat: true,
-    b_speed: true,
-    b_cost_reduction: true,
-    b_cost_amt: "45,000",
+  // Benefits checkboxes
+  b_sat_client: true,
+  b_knowledge: true,
+  b_complications: true,
+  b_safety: true,
+  b_income: false,
+  b_income_amt: "",
+  b_communication: true,
+  b_resource: true,
+  b_treatment: true,
+  b_val_added: true,
+  b_other: false,
+  b_other_detail: "",
+  b_err_reduction: true,
+  b_staff_sat: true,
+  b_speed: true,
+  b_cost_reduction: true,
+  b_cost_amt: "45,000",
 
-    // Challenges & Solutions
-    c_data_collect: "ความต่อเนื่องในการบันทึกเวลาของเจ้าหน้าที่พยาบาลขณะเกิดเหตุฉุกเฉิน",
-    c_kpi_collect: "การสกัดข้อมูลเวลาจากระบบสารสนเทศในหอผู้ป่วย",
-    c_solution: "ปรับปรุงปุ่มกดแจ้งซ่อมแบบ Quick Button บนเครื่องและแท็บเล็ตประจำหอผู้ป่วย",
-    c_other: "-",
+  // Challenges & Solutions
+  c_data_collect: "ความต่อเนื่องในการบันทึกเวลาของเจ้าหน้าที่พยาบาลขณะเกิดเหตุฉุกเฉิน",
+  c_kpi_collect: "การสกัดข้อมูลเวลาจากระบบสารสนเทศในหอผู้ป่วย",
+  c_solution: "ปรับปรุงปุ่มกดแจ้งซ่อมแบบ Quick Button บนเครื่องและแท็บเล็ตประจำหอผู้ป่วย",
+  c_other: "-",
 
-    // Recommendations
-    recommendations: "ขยายผลการจัดทำชุดสำรองอะไหล่ด่วนไปยังแผนกห้องผ่าตัด (OR) และแผนกอุบัติเหตุฉุกเฉิน (ER)",
+  // Recommendations
+  recommendations: "ขยายผลการจัดทำชุดสำรองอะไหล่ด่วนไปยังแผนกห้องผ่าตัด (OR) และแผนกอุบัติเหตุฉุกเฉิน (ER)",
 
-    // Part 3 Signatures
-    p3_proposerName: PROPOSER_NAMES[0],
-    p3_proposerDate: new Date().toISOString().split('T')[0],
-    p3_proposerSignature: null,
+  // Part 3 Signatures
+  p3_proposerName: PROPOSER_NAMES[0],
+  p3_proposerDate: new Date().toISOString().split('T')[0],
+  p3_proposerSignature: null,
 
-    // Approver Close Project
-    close_approve: true,
-    close_target_met: true,
-    close_data_reliable: true,
-    close_more_study: false,
-    close_study_detail: "",
-    close_expand: true,
-    close_other: false,
-    close_other_detail: "",
+  // Approver Close Project
+  close_approve: true,
+  close_target_met: true,
+  close_data_reliable: true,
+  close_more_study: false,
+  close_study_detail: "",
+  close_expand: true,
+  close_other: false,
+  close_other_detail: "",
 
-    p3_approverName: DEFAULT_APPROVER,
-    p3_approverDate: new Date().toISOString().split('T')[0],
-    p3_approverSignature: null
+  p3_approverName: DEFAULT_APPROVER,
+  p3_approverDate: new Date().toISOString().split('T')[0],
+  p3_approverSignature: null
   };
 }
 
@@ -159,15 +158,11 @@ function saveDraftNow() {
     photos: (includePhotos && window.getPhotoState) ? window.getPhotoState() : [],
     savedAt: Date.now()
   });
-
   try {
     localStorage.setItem(DRAFT_KEY, JSON.stringify(buildObj(true)));
   } catch (e) {
-    try {
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(buildObj(false)));
-    } catch (e2) {
-      console.warn("LocalStorage quota full");
-    }
+    // Quota exceeded (large photos) — retry without photos
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(buildObj(false))); } catch (e2) { /* give up */ }
   }
 }
 
@@ -184,14 +179,14 @@ function restoreDraft() {
   } catch (e) { /* corrupt draft — ignore */ }
 }
 
-// Highlight selection WITHOUT rebuilding the overlay
+// Highlight selection WITHOUT rebuilding the overlay (keeps native resize grip alive)
 function updateSelectionHighlight() {
   document.querySelectorAll('.page-overlay .field-item, .page-overlay .check-item').forEach(el => {
     el.classList.toggle('selected', el.dataset.field === selectedFieldKey);
   });
 }
 
-// Detect press on the native CSS resize grip
+// Detect press on the native CSS resize grip (bottom-right corner ~20px)
 function isResizeHandleHit(e, div) {
   const rect = div.getBoundingClientRect();
   const x = (e.touches && e.touches.length) ? e.touches[0].clientX : e.clientX;
@@ -199,7 +194,7 @@ function isResizeHandleHit(e, div) {
   return (rect.right - x) < 20 && (rect.bottom - y) < 20;
 }
 
-// Persist manually resized box dimensions
+// Persist manually resized box dimensions (width = % of page, height = px)
 function watchElementResize(div, fieldKey, pageContainer) {
   if (typeof ResizeObserver === 'undefined') return;
   let lastW = null, lastH = null;
@@ -242,9 +237,8 @@ function showToast(msg) {
 
 // Position Nudge Functions
 function makeBlankFormData() {
-  const currentYearBE = new Date().getFullYear() + 543;
   return {
-    projectNo: `BME-${currentYearBE}-${String(Math.floor(Math.random() * 900) + 100)}`,
+    projectNo: "",
     docDate: new Date().toISOString().split('T')[0],
     department: DEFAULT_DEPT,
     projectName: "",
@@ -401,7 +395,7 @@ function updateAdjusterUI() {
   const scInput = document.getElementById('scaleHeightInput');
   if (fsInput) fsInput.value = offset.fontSize || 12.5;
   if (scInput) scInput.value = offset.scaleH || 1.0;
-}
+};
 
 window.resetAllOffsets = function() {
   fieldOffsets = {};
@@ -579,7 +573,7 @@ function initDropdowns() {
   if (document.getElementById('p3_approverName')) document.getElementById('p3_approverName').value = formData.p3_approverName;
 }
 
-// Apply a formData object into all DOM inputs
+// Apply a formData object into all DOM inputs (used when loading saved document)
 function applyFormDataToDOM(fd) {
   if (!fd) return;
   Object.keys(fd).forEach(key => {
@@ -595,7 +589,7 @@ function applyFormDataToDOM(fd) {
   renderOverlay();
 }
 
-// Collect the full current document payload for saving
+// Collect the full current document payload for saving to server
 window.collectDocPayload = function() {
   return {
     id: window.getCurrentDocId ? window.getCurrentDocId() : null,
@@ -754,10 +748,126 @@ function updateSignaturePreviews() {
   });
 }
 
+// ============================================================
+// AI Analysis Helpers — keyword-based intelligent autofill engine
+// ============================================================
+function aiDateFromNow(monthsAhead, firstDay) {
+  const d = new Date();
+  d.setMonth(d.getMonth() + (monthsAhead || 0));
+  if (firstDay) d.setDate(1);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+const BENEFIT_KEYWORD_MAP = [
+  { key: 'b_speed',          words: ['ลดเวลา', 'รวดเร็ว', 'speed', 'mttr', 'รอคอย', 'ตอบสนอง', 'response', 'ลดระยะเวลา', 'turnaround', 'เวลาการซ่อม'] },
+  { key: 'b_safety',         words: ['ปลอดภัย', 'ความเสี่ยง', 'แก๊ส', 'แบตเตอรี่', 'defib', 'กระตุก', 'ไฟฟ้า', 'เฝ้าระวัง', 'อุบัติเหตุ', 'ฉุกเฉิน'] },
+  { key: 'b_err_reduction',  words: ['ผิดพลาด', 'แม่นยำ', 'สอบเทียบ', 'calibration', 'คลาดเคลื่อน', 'ตรวจสอบความถูก', 'มาตรฐาน'] },
+  { key: 'b_cost_reduction', words: ['ต้นทุน', 'ประหยัด', 'ค่าใช้จ่าย', 'ลดค่า', 'cost', 'งบประมาณ', 'อะไหล่'] },
+  { key: 'b_knowledge',      words: ['อบรม', 'ความรู้', 'ทักษะ', 'sop', 'คู่มือ', 'ฝึกอบรม', 'ชำนาญ'] },
+  { key: 'b_communication',  words: ['สื่อสาร', 'ประสานงาน', 'แจ้งเตือน', 'แอป', 'application', 'line', 'qr', 'ดิจิทัล', 'ออนไลน์', 'tracker'] },
+  { key: 'b_resource',       words: ['ทรัพยากร', 'ใช้คุ้มค่า', 'utilization', 'คลัง', 'stock', 'สำรอง', 'หมุนเวียน'] },
+  { key: 'b_treatment',      words: ['ผลการรักษา', 'ผู้ป่วย', 'คลินิก', 'การรักษา', 'ผลลัพธ์ทางการแพทย์'] },
+  { key: 'b_income',         words: ['รายได้', 'income', 'เรียกเก็บ', 'ค่าบริการ'] },
+  { key: 'b_val_added',      words: ['คุณค่า', 'ยกระดับ', 'นวัตกรรม', 'smart', 'เพิ่มประสิทธิภาพ'] },
+  { key: 'b_complications',  words: ['ภาวะแทรกซ้อน', 'การติดเชื้อ', 'แทรกซ้อน'] },
+  { key: 'b_staff_sat',      words: ['เจ้าหน้าที่', 'ลดภาระงาน', 'บุคลากร', 'พยาบาล'] },
+  { key: 'b_sat_client',     words: ['พึงพอใจ', 'ผู้รับบริการ', 'ผู้ใช้บริการ'] }
+];
+
+const ALL_BENEFIT_KEYS = ['b_sat_client', 'b_knowledge', 'b_complications', 'b_safety', 'b_income', 'b_communication', 'b_resource', 'b_treatment', 'b_val_added', 'b_other', 'b_err_reduction', 'b_staff_sat', 'b_speed', 'b_cost_reduction'];
+
+function deriveBenefitsFromText(text) {
+  const t = (text || '').toLowerCase();
+  const flags = {};
+  BENEFIT_KEYWORD_MAP.forEach(item => {
+    if (item.words.some(w => t.includes(w))) flags[item.key] = true;
+  });
+  flags.b_sat_client = true;
+  if (!flags.b_speed && !flags.b_safety && !flags.b_err_reduction && !flags.b_cost_reduction) flags.b_speed = true;
+  if (!flags.b_val_added) flags.b_val_added = true;
+  if (!flags.b_staff_sat) flags.b_staff_sat = true;
+  return flags;
+}
+
+function deriveTypeAndSource(topic, text) {
+  const t = ((topic || '') + ' ' + (text || '')).toLowerCase();
+  const flags = {
+    projType_IA: false,
+    projType_PIP: true,
+    projType_BIP: false,
+    devType_Clinical: false,
+    devType_Service: true,
+    devType_Research: false,
+    src_Vision: /วิสัยทัศน์|นโยบาย|ยุทธศาสตร์/.test(t),
+    src_Review: true,
+    src_InternalAudit: /ตรวจภายใน|audit|ประเมินคุณภาพ/.test(t),
+    src_InternalAuditDetail: '',
+    src_KpiDrop: /kpi|ตกเกณฑ์|ชี้วัด/.test(t),
+    src_Survey: /พึงพอใจ|survey|สำรวจ/.test(t),
+    src_StaffSuggest: /ข้อเสนอแนะ|บุคลากรเสนอ/.test(t),
+    src_Complaint: /ร้องเรียน|complaint|ข้อร้อง/.test(t),
+    src_ComplaintNo: '',
+    src_Other: false,
+    src_OtherDetail: ''
+  };
+  if (/คลินิก|ผู้ป่วย|การรักษา/.test(t)) { flags.devType_Clinical = true; flags.devType_Service = false; }
+  if (/วิจัย|research|mini research/.test(t)) { flags.devType_Research = true; flags.devType_Service = false; }
+  return flags;
+}
+
+// Merge preset/generic text data with derived checkbox flags, dates & defaults
+function buildFullAIData(base, topic) {
+  const data = Object.assign({}, base);
+  const combined = [topic, data.problemStatement, data.goal, data.benefits, data.improvementSteps].join(' ');
+
+  // Reset then derive all checkbox flags (so old selections never leak through)
+  ALL_BENEFIT_KEYS.forEach(k => { data[k] = false; });
+  data.b_other_detail = '';
+  Object.assign(data, deriveTypeAndSource(topic, combined));
+  Object.assign(data, deriveBenefitsFromText(combined));
+
+  // Amounts
+  if (data.b_cost_reduction && !data.b_cost_amt) data.b_cost_amt = '20,000';
+  if (!data.b_income_amt) data.b_income_amt = '';
+
+  // Dates: start = 1st of next month, end = +4 months
+  if (!data.startDate) data.startDate = aiDateFromNow(1, true);
+  if (!data.endDate) data.endDate = aiDateFromNow(4, false);
+
+  // Defaults for report/challenge fields
+  if (!data.budget) data.budget = '15,000';
+  if (!data.otherResults) data.otherResults = 'บุคลากรมีความรู้ความชำนาญเพิ่มขึ้น และมีระบบงานที่เป็นมาตรฐานเดียวกันทั้งแผนก';
+  if (!data.c_data_collect) data.c_data_collect = 'จัดทำแบบฟอร์มบันทึกข้อมูล กำหนดผู้รับผิดชอบเก็บข้อมูลประจำเดือน และสรุปผลทุกสิ้นเดือน';
+  if (!data.c_kpi_collect) data.c_kpi_collect = 'สรุปค่าตัวชี้วัดรายเดือนจากแบบบันทึก ตรวจสอบความถูกต้องก่อนนำเสนอคณะทำงาน';
+  if (!data.c_other) data.c_other = '-';
+  return data;
+}
+
+// Generic template for topics not matching any preset
+function buildGenericAIData(topic) {
+  const data = {
+    projectName: `โครงการพัฒนาและเพิ่มประสิทธิภาพ${topic} แผนกวิศวกรรมการแพทย์`,
+    problemStatement: `จากการทบทวนระบบงานและเก็บข้อมูลสถานภาพการดำเนินงานที่เกี่ยวข้องกับ${topic} พบว่ายังมีจุดที่สามารถปรับปรุงได้ ทั้งด้านระยะเวลาการปฏิบัติงาน ความแม่นยำ และความปลอดภัย ส่งผลต่อคุณภาพการบริการและความพึงพอใจของผู้รับบริการ`,
+    goal: `พัฒนากระบวนการ${topic} ให้มีประสิทธิภาพเพิ่มขึ้นอย่างน้อย 30% ภายในระยะเวลาโครงการ และบรรลุมาตรฐานคุณภาพงานวิศวกรรมการแพทย์`,
+    kpiTarget: `1. อัตราความสำเร็จในการดำเนินงาน ${topic} >= 95%\n2. ระดับความพึงพอใจของผู้ใช้บริการ >= 90%\n3. ลดระยะเวลาการปฏิบัติงาน <= 50% ของค่าเดิม`,
+    improvementSteps: `1. ศึกษาสภาพปัญหาและวิเคราะห์กระบวนการทำงานเดิมของ${topic}\n2. จัดทำมาตรฐานการปฏิบัติงาน (SOP) พร้อมใช้เครื่องมือดิจิทัลสนับสนุน\n3. อบรมบุคลากรและทดลองใช้งานนำร่อง (Pilot) พร้อมประเมินผลและปรับปรุงต่อเนื่อง`,
+    benefits: `1. ยกระดับคุณภาพและความปลอดภัยในการบริหารจัดการ${topic}\n2. ลดระยะเวลาและต้นทุนการปฏิบัติงาน สร้างความพึงพอใจแก่ผู้รับบริการ`,
+    kpiResults: `หลังดำเนินโครงการ ตัวชี้วัด${topic} บรรลุเป้าหมายที่วางไว้ โดยมีค่าเฉลี่ยความสำเร็จ 96% และความพึงพอใจของผู้ใช้บริการเพิ่มขึ้นเป็น 94.5%`,
+    otherResults: `บุคลากรมีความรู้ความชำนาญเพิ่มขึ้น และมีระบบงานที่เป็นมาตรฐานเดียวกันทั้งแผนก`,
+    c_solution: `ประสานงานจัดทำช่องทางสื่อสารด่วนระหว่างทีมวิศวกรรมการแพทย์กับหน่วยงานที่เกี่ยวข้อง พร้อมจัดทำคู่มือปฏิบัติ`,
+    recommendations: `ขยายผลแนวทางการพัฒนา${topic} ไปยังหน่วยงานอื่นที่มีลักษณะงานคล้ายกัน และจัดทำคู่มือเผยแพร่ภายในโรงพยาบาล`
+  };
+  return buildFullAIData(data, topic);
+}
+
 // AI CPI Preset Project Generators
 const AI_PRESETS = [
   {
     title: "ตรวจเช็คและเฝ้าระวังถังแก๊สทางการแพทย์",
+    keywords: ['แก๊ส', 'ถัง', 'gas', 'ออกซิเจน', 'oxygen'],
     data: {
       projectName: "โครงการพัฒนาระบบตรวจเช็คและเฝ้าระวังความพร้อมใช้งานของถังแก๊สทางการแพทย์",
       problemStatement: "จากการสำรวจความพร้อมใช้งานของถังแก๊สทางการแพทย์สำรอง (Oxygen & Medical Air Cylinders) ตามหอผู้ป่วยและห้องผ่าตัด พบว่าปัญหาปริมาณแก๊สแรงดันต่ำโดยไม่ทราบล่วงหน้า และการบันทึกสถานะแรงดันประจำวันไม่สม่ำเสมอ เสี่ยงต่อความปลอดภัยขณะเคลื่อนย้ายผู้ป่วย",
@@ -766,12 +876,18 @@ const AI_PRESETS = [
       improvementSteps: "1. ติดตั้งสติกเกอร์เกจวัดแรงดันพร้อมแถบสีแยกความเสี่ยง (Color-Coded Pressure Gauge)\n2. พัฒนาระบบสแกน QR Code ตรวจสอบและรายงานปริมาณแก๊สผ่านแท็บเล็ต BME Gas Tracker\n3. จัดระบบหมุนเวียนเวรเติมถังแก๊สทางการแพทย์ล่วงหน้าทุกเช้า",
       benefits: "1. มั่นใจได้ 100% ว่าถังแก๊สทางการแพทย์มีความพร้อมใช้งานปลอดภัยตลอดเวลา\n2. ลดความผิดพลาดและลดเวลาในการบันทึกและสรุปรายงานข้อมูลการตรวจเช็คถังแก๊ส",
       kpiResults: "ผลการทดลองใช้งานระบบ BME Gas Tracker ทำให้ความพร้อมใช้งานของถังแก๊สบรรลุ 100% ไม่พบเหตุการณ์แก๊สหมดขณะเคลื่อนย้ายผู้ป่วย",
+      otherResults: "ลดเวลาการบันทึกสถานะแรงดันถังแก๊สของพยาบาลลงกว่า 20 ชั่วโมง/เดือน และข้อมูลมีความต่อเนื่องสมบูรณ์ 100%",
+      c_data_collect: "ใช้ระบบ QR-Check บันทึกแรงดันถังแก๊สรายวันโดยพยาบาลประจำหอผู้ป่วย สรุปเป็นรายงานอัตโนมัติรายเดือน",
+      c_kpi_collect: "สกัดข้อมูลจากระบบ BME Gas Tracker คำนวณอัตราความพร้อมใช้งานและความตรงเวลาของการบันทึกรายเดือน",
       c_solution: "กำหนดพิกัดจุดวางถังแก๊สสำรอง (Gas Station) ชัดเจนในทุกหอผู้ป่วยพร้อมป้ายเตือนระดับแรงดัน",
+      c_other: "-",
+      budget: "12,000",
       recommendations: "ขยายผลระบบ Smart Gas Monitoring ไปยังรถพยาบาลฉุกเฉิน (Ambulance) และแผนก ER"
     }
   },
   {
     title: "ลดระยะเวลาเข้าซ่อมเครื่องมือแพทย์วิกฤต (MTTR)",
+    keywords: ['mttr', 'ซ่อม', 'แจ้งซ่อม', 'repair', 'วิกฤต', 'icu', 'ccu'],
     data: {
       projectName: "โครงการลดระยะเวลาการเข้าซ่อมแซมและบำรุงรักษาเครื่องมือแพทย์วิกฤต (Mean Time to Repair)",
       problemStatement: "จากการสถิติการแจ้งซ่อมเครื่องมือแพทย์ในหอผู้ป่วยวิกฤต (ICU/CCU/OR) พบว่าระยะเวลาตอบสนองการซ่อมแซมเฉลี่ยอยู่ที่ 95 นาที ซึ่งสูงกว่าเป้าหมายมาตรฐาน (ไม่เกิน 45 นาที) ส่งผลกระทบต่อความพร้อมในการดูแลรักษาผู้ป่วยวิกฤต",
@@ -780,12 +896,18 @@ const AI_PRESETS = [
       improvementSteps: "1. จัดทำระบบแจ้งซ่อมด่วนผ่านแอปพลิเคชัน BME Rapid Service\n2. จัดตั้ง Mobile Spare-Parts Cart สำหรับเครื่องมือแพทย์วิกฤตประจำหอผู้ป่วย\n3. จัดอบรมการแก้ไขปัญหาเบื้องต้น (First-Line Troubleshooting) ให้กับพยาบาลประจำหอผู้ป่วย",
       benefits: "1. เพิ่มความปลอดภัยและลดความเสี่ยงต่อการดูแลผู้ป่วยวิกฤต\n2. เครื่องมือแพทย์มีความพร้อมใช้งานสูงขึ้น (> 98% Availability)",
       kpiResults: "ผลการดำเนินงานหลังปรับปรุงระบบ MTTR เฉลี่ยลดลงเหลือ 35 นาที (จากเดิม 95 นาที) และคะแนนความพึงพอใจของหอผู้ป่วยวิกฤตเพิ่มขึ้นเป็น 97.2%",
+      otherResults: "ลดความสูญเสียเวลาของพยาบาลในการติดตามสถานะการซ่อมลงกว่า 150 ชั่วโมง/เดือน และเพิ่มความพร้อมใช้งานเครื่องมือวิกฤตเกิน 98%",
+      c_data_collect: "บันทึกเวลาแจ้งซ่อม-เข้าซ่อม-เสร็จสิ้นผ่านระบบ BME Rapid Service ทุกครั้ง สรุปสถิติรายเดือน",
+      c_kpi_collect: "คำนวณค่า MTTR รายเดือนจากข้อมูลระบบแจ้งซ่อม และเก็บแบบสอบถามความพึงพอใจหอผู้ป่วยวิกฤตทุกไตรมาส",
       c_solution: "จัดทำคลิปวิดีโอแนะนำการใช้งานและการแก้ไขปัญหาเบื้องต้นความยาว 1 นาทีติด QR Code ไว้ที่ตัวเครื่อง",
+      c_other: "-",
+      budget: "25,000",
       recommendations: "ขยายผลระบบ BME Rapid Service ไปยังหอผู้ป่วยสามัญและห้องตรวจฉุกเฉิน (ER)"
     }
   },
   {
     title: "เพิ่มประสิทธิภาพการสอบเทียบ (Calibration) เครื่องช่วยหายใจ",
+    keywords: ['สอบเทียบ', 'calibration', 'เครื่องช่วยหายใจ', 'ventilator', 'แม่นยำ'],
     data: {
       projectName: "โครงการเพิ่มประสิทธิภาพและความแม่นยำในการสอบเทียบเครื่องช่วยหายใจ (Ventilator Calibration)",
       problemStatement: "กระบวนการตรวจสอบและสอบเทียบเครื่องช่วยหายใจเดิมใช้เวลานานและมีขั้นตอนซับซ้อน ทำให้เกิดคิวสะสมในคลังเครื่องมือแพทย์ และเสื่อมประสิทธิภาพตามรอบการใช้งาน",
@@ -794,12 +916,18 @@ const AI_PRESETS = [
       improvementSteps: "1. นำชุดทดสอบอัตโนมัติ Gas Flow Analyzer รุ่นใหม่มาใช้ในการวัดค่า\n2. จัดทำ Standard Operating Procedure (SOP) ดิจิทัลสำหรับวิศวกรการแพทย์\n3. สร้างระบบแจ้งเตือนการสอบเทียบล่วงหน้าอัตโนมัติผ่านโปรแกรมบริหารจัดการเครื่องมือแพทย์",
       benefits: "1. เครื่องช่วยหายใจมีความแม่นยำสูง ได้มาตรฐานความปลอดภัยทางการแพทย์ระดับสากล\n2. ลดระยะเวลาการสอบเทียบ ทำให้มีเครื่องพร้อมสำรองใช้งานเพิ่มขึ้น 25%",
       kpiResults: "อัตราการสอบเทียบตรงตามแผนบรรลุ 100% เต็ม ระยะเวลาสอบเทียบต่อเครื่องลดลงเหลือ 38 นาที",
+      otherResults: "ลดคิวสะสมในคลังเครื่องมือแพทย์ ทำให้มีเครื่องพร้อมสำรองใช้งานเพิ่มขึ้น 25% และลดข้อร้องเรียนเรื่องเครื่องไม่พร้อมใช้เป็นศูนย์",
+      c_data_collect: "บันทึกผลสอบเทียบทุกเครื่องลงระบบ CMMS พร้อมเวลาเริ่ม-สิ้นสุดการสอบเทียบเพื่อคำนวณเวลาเฉลี่ยต่อเครื่อง",
+      c_kpi_collect: "ติดตามอัตราการสอบเทียบตรงตามแผนรายเดือนจากแผนการสอบเทียบ (Calibration Schedule) เทียบกับผลการดำเนินงานจริง",
       c_solution: "ประสานงานกำหนดวันและเวลาหมุนเวียนเครื่องกับหัวหน้าหอผู้ป่วยล่วงหน้าอย่างน้อย 3 วัน",
+      c_other: "-",
+      budget: "30,000",
       recommendations: "นำมาตรฐานการสอบเทียบอัตโนมัติไปประยุกต์ใช้กับเครื่องให้ออกซิเจนอัตราไหลสูง (High Flow)"
     }
   },
   {
     title: "พัฒนาระบบเฝ้าระวังบำรุงรักษาเชิงป้องกัน (PM) เครื่องกระตุกหัวใจ",
+    keywords: ['pm', 'บำรุงรักษา', 'กระตุก', 'defib', 'แบตเตอรี่', 'battery', 'เชิงป้องกัน'],
     data: {
       projectName: "โครงการพัฒนาระบบบำรุงรักษาเชิงป้องกัน (Preventive Maintenance: PM) เครื่องกระตุกหัวใจ (Defibrillator)",
       problemStatement: "เครื่องกระตุกหัวใจเป็นอุปกรณ์ชุบชีวิตฉุกเฉิน ซึ่งพบปัญหาแบตเตอรี่เสื่อมสภาพโดยไม่ทราบล่วงหน้า และอัตราการทำ PM ตามรอบตรงเวลาอยู่ที่เพียง 82%",
@@ -808,7 +936,12 @@ const AI_PRESETS = [
       improvementSteps: "1. ติดตั้งสติกเกอร์ QR-Check สแกนบันทึกสถานะแบตเตอรี่ประจำวันโดยพยาบาล\n2. วิศวกรการแพทย์เข้าตรวจสอบเชิงลึกด้วยเครื่องทดสอบพลังงาน (Defibrillator Analyzer) ทุก 3 เดือน\n3. กำหนดรอบเปลี่ยนแบตเตอรี่เชิงรุก (Proactive Battery Replacement) ทุก 2 ปี",
       benefits: "1. มั่นใจได้ 100% ว่าเครื่องกระตุกหัวใจพร้อมปล่อยพลังงานชุบชีวิตผู้ป่วยได้ทันทีทุกครั้ง\n2. ยืดอายุการใช้งานเครื่องและลดค่าใช้จ่ายการซ่อมใหญ่ลง 30%",
       kpiResults: "ผลการทำ PM ครบถ้วน 100% ไม่พบเหตุการณ์แบตเตอรี่ขัดข้องขณะใช้งานตลอดช่วงติดตามผล 6 เดือน",
+      otherResults: "ยืดอายุการใช้งานแบตเตอรี่เฉลี่ยเพิ่มขึ้น 20% และลดค่าใช้จ่ายซ่อมใหญ่ของเครื่องกระตุกหัวใจลง 30%",
+      c_data_collect: "ให้พยาบาลสแกน QR-Check บันทึกสถานะแบตเตอรี่รายวัน วิศวกรบันทึกผลทดสอบพลังงานทุก 3 เดือน",
+      c_kpi_collect: "สรุปอัตราความครอบคลุมการทำ PM รายเดือนจากแผน PM Master List เทียบกับผลการปฏิบัติจริง",
       c_solution: "จัดทำระบบคลังสำรองแบตเตอรี่พร้อมใช้ (Ready-to-Use Battery Pool) ในแผนกวิศวกรรมการแพทย์",
+      c_other: "-",
+      budget: "35,000",
       recommendations: "เสนอผู้บริหารจัดทำระบบ Smart Battery Monitoring สำหรับเครื่องมือแพทย์ชีวิตทั้งหมด"
     }
   }
@@ -824,7 +957,7 @@ function initAIPrompts() {
       chip.textContent = preset.title;
       chip.addEventListener('click', () => {
         document.getElementById('aiTopicInput').value = preset.title;
-        applyAIPreset(preset.data);
+        applyAIPreset(buildFullAIData(preset.data, preset.title));
       });
       chipContainer.appendChild(chip);
     });
@@ -849,33 +982,23 @@ function initAIPrompts() {
 function runAIGenerator() {
   const inputEl = document.getElementById('aiTopicInput');
   const topic = inputEl ? inputEl.value.trim() : "";
-  
+
   if (!topic) {
     showToast('⚠️ กรุณากรอกหัวข้อหรือคีย์เวิร์ดโครงการที่ต้องการ');
     return;
   }
 
-  if (topic.includes('แก๊ส') || topic.includes('ถัง') || topic.includes('gas') || topic.includes('ออกซิเจน')) {
-    applyAIPreset(AI_PRESETS[0].data);
-    return;
-  }
+  // Match preset by keyword list (Thai or English, case-insensitive)
+  const lower = topic.toLowerCase();
+  const matched = AI_PRESETS.find(p =>
+    (p.keywords || []).some(k => lower.includes(k.toLowerCase()) || topic.includes(k))
+  );
 
-  const matched = AI_PRESETS.find(p => topic.includes(p.title) || p.title.includes(topic));
-  if (matched) {
-    applyAIPreset(matched.data);
-  } else {
-    applyAIPreset({
-      projectName: `โครงการพัฒนาและเพิ่มประสิทธิภาพ ${topic} แผนกวิศวกรรมการแพทย์`,
-      problemStatement: `จากการวิเคราะห์กระบวนการทำงานด้าน ${topic} ในโรงพยาบาล พบว่ายังมีจุดที่สามารถปรับปรุงขั้นตอนการทำงานเพื่อลดระยะเวลา เพิ่มความแม่นยำ และสร้างมาตรฐานความปลอดภัยสูงสุดแก่ผู้รับบริการ`,
-      goal: `พัฒนาขั้นตอนการดำเนินงาน ${topic} ให้มีประสิทธิภาพเพิ่มขึ้นอย่างน้อย 30% และบรรลุเป้าหมายมาตรฐานคุณภาพงานวิศวกรรมการแพทย์`,
-      kpiTarget: `1. อัตราความสำเร็จในการดำเนินการ ${topic} >= 95%\n2. ระดับความพึงพอใจของผู้ใช้บริการ >= 90%`,
-      improvementSteps: `1. ศึกษาสภาพปัญหาและจัดทำกระบวนการทำงานมาตรฐาน (Standard Workflow) สำหรับ ${topic}\n2. ประยุกต์ใช้นวัตกรรมและเทคโนโลยีดิจิทัลเข้ามาช่วยสนับสนุนการทำงาน\n3. จัดอบรมให้ความรู้แก่เจ้าหน้าที่และประเมินผลการทำงานอย่างต่อเนื่อง`,
-      benefits: `1. ยกระดับคุณภาพการบริหารจัดการเครื่องมือแพทย์และงานวิศวกรรมการแพทย์\n2. ลดความเสี่ยงและเพิ่มความปลอดภัยในการบริการทางการแพทย์`,
-      kpiResults: `ผลการทดลองปรับปรุงกระบวนการทำให้ดัชนีชี้วัดความสำเร็จของ ${topic} เพิ่มขึ้นบรรลุเป้าหมาย 96.5%`,
-      c_solution: "สร้างช่องทางการสื่อสารประสานงานด่วนระหว่างทีมวิศวกรและพยาบาลประจำแผนก",
-      recommendations: "สรุปผลการดำเนินงานและจัดทำเป็นคู่มือมาตรฐาน (Standard Operating Procedure) เผยแพร่ในหน่วยงาน"
-    });
-  }
+  const data = matched
+    ? buildFullAIData(matched.data, topic)
+    : buildGenericAIData(topic);
+
+  applyAIPreset(data);
 }
 
 function applyAIPreset(data) {
@@ -907,7 +1030,7 @@ function renderOverlay() {
   ov1.innerHTML = '';
   ov2.innerHTML = '';
 
-  // Helper to add text field item
+  // Helper to add text field item with custom line-height, black text, and interactive Drag & Drop
   function addText(overlay, pageContainer, fieldKey, text, baseLeftPct, baseTopPct, widthPct, fontSize = 12.5, baseLineHeight = 2.3) {
     if (!text) return;
     const offset = fieldOffsets[fieldKey] || { dx: 0, dy: 0, lineGap: 0, fontSize: 12.5, scaleH: 1.0 };
@@ -936,11 +1059,35 @@ function renderOverlay() {
   }
 
   function enableResizeElement(div, fieldKey) {
+    // DON'T create resize handles - they show up in print
+    // Just make div resizable with CSS instead
     div.style.resize = 'both';
     div.style.overflow = 'auto';
   }
 
-  // Helper to add Checkbox mark (✓)
+  function onResize(e) {
+    if (!isResizing || !selectedFieldKey) return;
+    const dx = e.clientX - resizeStartX;
+    const dy = e.clientY - resizeStartY;
+    const container = document.querySelector('.page-container');
+    if (!container) return;
+    
+    const newW = Math.max(60, resizeStartWidth + dx);
+    const newH = Math.max(20, resizeStartHeight + dy);
+    const els = document.querySelectorAll('.field-item.selected, .check-item.selected');
+    els.forEach(el => {
+      el.style.width = newW + 'px';
+      el.style.height = newH + 'px';
+    });
+  }
+
+  function stopResize() {
+    isResizing = false;
+    document.removeEventListener('mousemove', onResize);
+    document.removeEventListener('mouseup', stopResize);
+  }
+
+  // Helper to add Checkbox mark (✓) in exact square center with interactive Drag & Drop
   function addCheck(overlay, pageContainer, fieldKey, isChecked, baseLeftPct, baseTopPct) {
     if (!isChecked) return;
     const offset = fieldOffsets[fieldKey] || { dx: 0, dy: 0 };
@@ -962,7 +1109,7 @@ function renderOverlay() {
     overlay.appendChild(div);
   }
 
-  // Helper to add Signature Image
+  // Helper to add Signature Image with interactive Drag & Drop
   function addSig(overlay, pageContainer, fieldKey, sigUrl, baseLeftPct, baseTopPct) {
     if (!sigUrl) return;
     const offset = fieldOffsets[fieldKey] || { dx: 0, dy: 0 };
@@ -987,6 +1134,7 @@ function renderOverlay() {
   }
 
   // --- PAGE 1 RENDER ---
+  // Top Header Line 1
   addText(ov1, page1Container, 'projectNo', formData.projectNo, 14.5, 15.7, null, 12.5, 1);
   addText(ov1, page1Container, 'docDate', formatDate(formData.docDate), 40.5, 15.7, null, 12.5, 1);
   addText(ov1, page1Container, 'department', formData.department, 73.5, 15.7, null, 12.5, 1);
@@ -1026,7 +1174,7 @@ function renderOverlay() {
   addText(ov1, page1Container, 'startDate', formatDate(formData.startDate), 22.5, 73.3, null, 12, 1);
   addText(ov1, page1Container, 'endDate', formatDate(formData.endDate), 62.0, 73.3, null, 12, 1);
 
-  // Benefits
+  // Benefits (Section 6)
   addText(ov1, page1Container, 'benefits', formData.benefits, 22.0, 75.8, 72, 11.8, 2.3);
 
   // Budget
@@ -1044,6 +1192,7 @@ function renderOverlay() {
   addText(ov1, page1Container, 'approverName', formData.approverName, 58.0, 89.5, null, 12, 1);
 
   // --- PAGE 2 RENDER ---
+  // Header Line Page 2
   addText(ov2, page2Container, 'p2_department', formData.department, 20.0, 17.4, null, 12.5, 1);
   addText(ov2, page2Container, 'p2_docDate', formatDate(formData.docDate), 58.0, 17.4, null, 12.5, 1);
   addText(ov2, page2Container, 'p2_projectNo', formData.projectNo, 83.5, 17.4, null, 12.5, 1);
@@ -1105,6 +1254,7 @@ function renderOverlay() {
   addText(ov2, page2Container, 'p3_approverName', formData.p3_approverName, 42.0, 89.2, null, 12, 1);
   addText(ov2, page2Container, 'p3_approverDate', formatDate(formData.p3_approverDate), 44.0, 91.3, null, 12, 1);
 
+  // Autosave current draft (debounced) so data & positions survive reloads
   window.scheduleDraftSave();
 }
 
@@ -1119,23 +1269,27 @@ function formatDate(dateStr) {
   return `${day}/${month}/${year}`;
 }
 
-// Print event handlers
+// Print event handlers to hide/remove selection handles
 window.addEventListener('beforeprint', function() {
+  // Tag body with the active view so print CSS knows what to output
   const activeView = document.querySelector('.view.active');
   document.body.classList.toggle('printing-form', !!(activeView && activeView.id === 'view-form'));
   document.body.classList.toggle('printing-results', !!(activeView && activeView.id === 'view-results'));
   document.body.classList.toggle('printing-list', !!(activeView && activeView.id === 'view-list'));
 
+  // Remove all resize handles before printing
   document.querySelectorAll('.field-item > div, .check-item > div').forEach(handle => {
     if (handle.style.cursor === 'nwse-resize' || handle.style.backgroundColor === '#0056b3') {
       handle.remove();
     }
   });
+  // Deselect all fields
   selectedFieldKey = null;
   renderOverlay();
 });
 
 window.addEventListener('afterprint', function() {
+  // Restore renders after printing
   setTimeout(() => {
     renderOverlay();
   }, 100);
