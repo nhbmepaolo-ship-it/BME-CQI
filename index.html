@@ -539,9 +539,31 @@
   <!-- Toast Notification element -->
   <div class="toast-notification" id="toast"></div>
 
+  <!-- Vendor Libraries -->
   <script src="assets/vendor/chart.umd.min.js"></script>
   <script src="assets/vendor/jspdf.umd.min.js"></script>
   <script src="assets/vendor/html2canvas.min.js"></script>
+
+  <!-- Firebase SDKs & Config -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAoKbrZbEuA6fRRY-96P3kCnQYcng6iyIk",
+      authDomain: "bme-cqi-db.firebaseapp.com",
+      projectId: "bme-cqi-db",
+      storageBucket: "bme-cqi-db.firebasestorage.app",
+      messagingSenderId: "454726170602",
+      appId: "1:454726170602:web:2cee17cd3cd32dbf966493",
+      measurementId: "G-GW24YSR16M"
+    };
+
+    // เริ่มต้นเชื่อมต่อ Firebase Firestore
+    firebase.initializeApp(firebaseConfig);
+    window.db = firebase.firestore();
+  </script>
+
+  <!-- App Scripts -->
   <script src="app.js"></script>
   <script src="documents.js"></script>
   <script src="results.js"></script>
